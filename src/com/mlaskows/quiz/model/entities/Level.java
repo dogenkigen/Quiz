@@ -34,6 +34,14 @@ public class Level {
 		this.id = id;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Collection<Exercise> getExercises() {
 		return exercises;
 	}
@@ -42,9 +50,20 @@ public class Level {
 		this.exercises = exercises;
 	}
 
+	public int getProgress() {
+		int ec = exercises.size();
+		int pec = 0;
+		for (Exercise exercise : exercises) {
+			if (exercise.isSolved()) {
+				pec++;
+			}
+		}
+		return ((int) (pec / ec)) * 100;
+	}
+
 	@Override
 	public String toString() {
-		return name;
+		return "Level [id=" + id + ", name=" + name + "]";
 	}
 
 }

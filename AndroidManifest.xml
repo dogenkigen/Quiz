@@ -28,6 +28,11 @@
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme" >
         </activity>
+        <activity
+            android:name="com.mlaskows.quiz.LevelsActivity"
+            android:label="@string/title_activity_levels" 
+            android:theme="@style/AppTheme" >
+        </activity>
     </application>
 
 </manifest>

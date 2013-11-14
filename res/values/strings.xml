@@ -10,5 +10,8 @@
     <string name="check">Check more games</string>
     <string name="rate">Rate game</string>
     <string name="title_activity_question">QuestionActivity</string>
+    <string name="title_activity_levels">LevelsActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
