@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:orientation="horizontal"
+    tools:context=".FullscreenActivity" >
+
+    <FrameLayout
+        android:id="@+id/placeholder_left"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_weight="1" >
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="@string/dummy_content"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/buttonStart"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="@drawable/button_main"
+            android:layout_marginTop="@dimen/button_margin"
+            android:text="@string/start" />
+
+
+        <Button
+            android:id="@+id/buttonMoreGames"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="@drawable/button_main"
+            android:layout_marginTop="@dimen/button_margin"
+            android:text="@string/check" />
+
+
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="@drawable/button_main"
+            android:layout_marginTop="@dimen/button_margin"
+            android:text="@string/rate" />
+
+
+        <Button
+            android:id="@+id/buttonQuestion"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:background="@drawable/button_main"
+            android:layout_marginTop="@dimen/button_margin"	
+            android:text="@string/dummy_button" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/placeholder_right"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_weight="1" >
+    </FrameLayout>
+
+</LinearLayout>

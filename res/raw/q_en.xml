@@ -1,0 +1,66 @@
+<quiz>
+    <levels>
+	    <level id="1" name="Level 1">
+		    <exercises>
+			    <exercise>
+			        <question type="TEXT">What is the firs letter int the alphabet?</question>
+			        <hint>Think!</hint>
+			        <answers>
+			            <answer type="TEXT" valid="true">A</answer>
+			            <answer type="TEXT">B</answer>
+			            <answer type="TEXT">C</answer>
+			            <answer type="TEXT">D</answer>
+			        </answers>
+			    </exercise>
+			    <exercise>
+			        <question type="TEXT">Poland.jpg</question>
+			        <hint>Think!</hint>
+			        <answers>
+			            <answer type="TEXT_FIELD" valid="true">Poland</answer>
+			        </answers>
+			    </exercise>
+			    <exercise>
+			        <question type="TEXT">Uzbekistan.jpg</question>
+			        <hint>Think!</hint>
+			        <answers>
+			            <answer type="IMAGE" valid="true">Uzbekistan.jpg</answer>
+			            <answer type="IMAGE">Poland.jpg</answer>
+			            <answer type="IMAGE">Germany.jpg</answer>
+			            <answer type="IMAGE">France.jpg</answer>
+			        </answers>
+			    </exercise>
+		    </exercises>
+		</level>
+		<level id="2" name="Level 2">
+		    <exercises>
+			    <exercise>
+			        <question type="TEXT">What is the firs letter int the alphabet?</question>
+			        <hint>Think!</hint>
+			        <answers>
+			            <answer type="TEXT" valid="true">A</answer>
+			            <answer type="TEXT">B</answer>
+			            <answer type="TEXT">C</answer>
+			            <answer type="TEXT">D</answer>
+			        </answers>
+			    </exercise>
+			    <exercise>
+			        <question type="TEXT">Poland.jpg</question>
+			        <hint>Think!</hint>
+			        <answers>
+			            <answer type="TEXT_FIELD" valid="true">Poland</answer>
+			        </answers>
+			    </exercise>
+			    <exercise>
+			        <question type="TEXT">Uzbekistan.jpg</question>
+			        <hint>Think!</hint>
+			        <answers>
+			            <answer type="IMAGE" valid="true">Uzbekistan.jpg</answer>
+			            <answer type="IMAGE">Poland.jpg</answer>
+			            <answer type="IMAGE">Germany.jpg</answer>
+			            <answer type="IMAGE">France.jpg</answer>
+			        </answers>
+			    </exercise>
+		    </exercises>
+		</level>
+	</levels>
+</quiz>

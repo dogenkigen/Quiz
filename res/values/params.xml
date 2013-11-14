@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ORM configuration max eager level -->
+    <!-- DO NOT TOUCH! -->
+    <integer name="max_eager_level">5</integer>
+</resources>

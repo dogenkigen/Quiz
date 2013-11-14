@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Quiz</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="default_language">en</string>
+    <string name="xml_prefix">q_</string>
+    <string name="start">Start game</string>
+    <string name="check">Check more games</string>
+    <string name="rate">Rate game</string>
+    <string name="title_activity_question">QuestionActivity</string>
+
+</resources>
