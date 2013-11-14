@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Quiz</string>
-    <string name="dummy_button">Dummy Button</string>
+    <string name="exit">Exit</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="default_language">en</string>
     <string name="xml_prefix">q_</string>

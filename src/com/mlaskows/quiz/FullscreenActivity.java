@@ -57,6 +57,7 @@ public class FullscreenActivity extends Activity {
 	}
 
 	private void initButtons() {
+		// More games
 		((Button) findViewById(R.id.buttonMoreGames)).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -66,14 +67,18 @@ public class FullscreenActivity extends Activity {
 			}
 		});
 
-		((Button) findViewById(R.id.buttonQuestion)).setOnClickListener(new OnClickListener() {
+		// Exit app
+		((Button) findViewById(R.id.buttonExit)).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
-				startActivity(intent);
+				finish();
 			}
 		});
+
+		// start q acitvity
+		/*Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
+				startActivity(intent);*/
 
 	}
 
