@@ -57,6 +57,8 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 			holder.setProgressBar((ProgressBar) row.findViewById(R.id.progressBarLevel));
 			holder.setTxtTitle((TextView) row.findViewById(R.id.textLevel));
 			row.setTag(holder);
+			// Set custom background for row
+			row.setBackgroundDrawable((getContext().getResources().getDrawable(R.drawable.button_main)));
 		} else {
 			holder = (LevelHolder) row.getTag();
 		}

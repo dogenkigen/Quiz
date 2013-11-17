@@ -27,9 +27,10 @@
             android:id="@+id/listLevels"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_marginTop="@dimen/button_margin"
             android:layout_weight="1"
-            android:background="@drawable/button_main" >
+            android:listSelector="@android:color/transparent"
+            android:divider="@color/app_background"
+            android:dividerHeight="10sp" >
         </ListView>
     </LinearLayout>
 
