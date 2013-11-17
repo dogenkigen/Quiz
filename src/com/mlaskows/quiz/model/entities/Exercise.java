@@ -16,7 +16,7 @@ public class Exercise {
 
 	public static final String LEVEL_ID_FIELD_NAME = "level_id";
 	public static final String QUESTION_ID_FIELD_NAME = "question_id";
-	
+
 	@DatabaseField(generatedId = true)
 	private int id;
 
@@ -88,7 +88,8 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "ID: " + id + " (" + question.toString() + ")";
+		return "Exercise [id=" + id + ", solved=" + solved + ", hint=" + hint + ", level=" + level + ", question="
+				+ question + ", answers=" + answers + "]";
 	}
 
 }

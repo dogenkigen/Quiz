@@ -48,7 +48,7 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return value;
+		return "Question [id=" + id + ", type=" + type + ", value=" + value + "]";
 	}
 
 }

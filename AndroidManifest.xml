@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mlaskows.quiz.QuestionActivity"
+            android:name="com.mlaskows.quiz.ExerciseActivity"
             android:label="@string/title_activity_question"
             android:theme="@style/AppTheme" >
         </activity>

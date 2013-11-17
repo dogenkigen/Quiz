@@ -4,8 +4,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
@@ -59,6 +62,8 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 			row.setTag(holder);
 			// Set custom background for row
 			row.setBackgroundDrawable((getContext().getResources().getDrawable(R.drawable.button_main)));
+			// Set listener
+			row.setOnClickListener(new OnClickRow(position + 1));
 		} else {
 			holder = (LevelHolder) row.getTag();
 		}
@@ -92,6 +97,39 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 
 		public void setProgressBar(ProgressBar progressBar) {
 			this.progressBar = progressBar;
+		}
+
+	}
+
+	/**
+	 * {@link OnClickListener} binded to level item on
+	 * levels list. Should start {@link ExerciseActivity}.
+	 */
+	private class OnClickRow implements View.OnClickListener {
+
+		/** Bundle to start new {@link ExerciseActivity}. */
+		private Bundle b;
+
+		/**
+		 * 
+		 * @param levelId
+		 *            id of level which question must
+		 *            displayed.
+		 */
+		public OnClickRow(int levelId) {
+			b = new Bundle();
+			b.putInt("level_id", levelId);
+		}
+
+		/* (non-Javadoc)
+		 * @see android.view.View.OnClickListener#onClick(android.view.View)
+		 */
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(getContext(), ExerciseActivity.class);
+			intent.putExtras(b);
+			getContext().startActivity(intent);
+
 		}
 
 	}
