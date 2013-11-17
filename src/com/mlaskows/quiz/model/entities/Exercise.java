@@ -10,6 +10,14 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * This class represents exercise in quiz. It contains
+ * question and answers. It is XML element and DB entity in
+ * one.
+ * 
+ * @author Maciej Laskowski
+ * 
+ */
 @Root
 @DatabaseTable
 public class Exercise {
@@ -17,23 +25,29 @@ public class Exercise {
 	public static final String LEVEL_ID_FIELD_NAME = "level_id";
 	public static final String QUESTION_ID_FIELD_NAME = "question_id";
 
+	/** Exercise id. */
 	@DatabaseField(generatedId = true)
 	private int id;
 
+	/** Determines if exercise is solved or not. */
 	@DatabaseField
 	private boolean solved;
 
+	/** Hint text. */
 	@Element
 	@DatabaseField
 	private String hint;
 
+	/** The level to which exercise belongs. */
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = LEVEL_ID_FIELD_NAME)
 	private Level level;
 
+	/** Question element. */
 	@Element
 	@DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true, columnName = QUESTION_ID_FIELD_NAME)
 	private Question question;
 
+	/** Answers list */
 	@ElementList
 	@ForeignCollectionField
 	private Collection<Answer> answers;

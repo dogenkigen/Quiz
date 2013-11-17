@@ -10,18 +10,27 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+/**
+ * Quiz level. It is XML element and DB entity in one.
+ * 
+ * @author Maciej Laskowski
+ * 
+ */
 @Root
 @DatabaseTable
 public class Level {
 
+	/** Level id. */
 	@Attribute
 	@DatabaseField(id = true)
 	private int id;
 
+	/** Level name. */
 	@Attribute
 	@DatabaseField
 	private String name;
 
+	/** Exercises list. */
 	@ElementList
 	@ForeignCollectionField
 	private Collection<Exercise> exercises;

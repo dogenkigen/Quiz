@@ -57,9 +57,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		this.context = context;
 	}
 
-	/**
-	 * Called when there is no application DB file on
-	 * device.
+	/*
+	 * (non-Javadoc)
+	 * @see com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase,
+	 * com.j256.ormlite.support.ConnectionSource)
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource cs) {
@@ -73,11 +74,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			// first than parents.
 			levelDao = new BaseDaoImpl<Level, Integer>(getConnectionSource(), Level.class) {
 			};
-			exerciseDao = new BaseDaoImpl<Exercise, Integer>(getConnectionSource(),
-					Exercise.class) {
+			exerciseDao = new BaseDaoImpl<Exercise, Integer>(getConnectionSource(), Exercise.class) {
 			};
-			questionDao = new BaseDaoImpl<Question, Integer>(getConnectionSource(),
-					Question.class) {
+			questionDao = new BaseDaoImpl<Question, Integer>(getConnectionSource(), Question.class) {
 			};
 			answerDao = new BaseDaoImpl<Answer, Integer>(getConnectionSource(), Answer.class) {
 			};
@@ -106,8 +105,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	}
 
-	/**
-	 * Called when DATABASE_VERSION changed.
+	/*
+	 * (non-Javadoc)
+	 * @see com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper#onUpgrade(android.database.sqlite.SQLiteDatabase,
+	 * com.j256.ormlite.support.ConnectionSource, int, int)
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource cs, int oldVersion, int newVersion) {

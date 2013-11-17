@@ -5,11 +5,18 @@ import java.util.List;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+/**
+ * Root element of Quiz structure. Main XML element.
+ * 
+ * @author Maciej Laskowski
+ * 
+ */
 @Root
 public class Quiz {
 
+	/** List of levels. */
 	@ElementList
-	List<Level> levels;
+	private List<Level> levels;
 
 	public List<Level> getLevels() {
 		return levels;
@@ -21,7 +28,7 @@ public class Quiz {
 
 	@Override
 	public String toString() {
-		return levels.toString();
+		return "Quiz [levels=" + levels + "]";
 	}
 
 }
