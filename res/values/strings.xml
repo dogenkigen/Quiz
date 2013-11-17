@@ -3,7 +3,6 @@
 
     <string name="app_name">Quiz</string>
     <string name="exit">Exit</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="default_language">en</string>
     <string name="xml_prefix">q_</string>
     <string name="start">Start game</string>
@@ -12,6 +11,8 @@
     <string name="title_activity_question">QuestionActivity</string>
     <string name="title_activity_levels">LevelsActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
+    <string name="question">Question</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+	
 </resources>

@@ -22,25 +22,30 @@
 
 package com.mlaskows.quiz;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.util.Collection;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.j256.ormlite.dao.Dao;
 import com.mlaskows.quiz.model.DatabaseHelper;
 import com.mlaskows.quiz.model.entities.Answer;
 import com.mlaskows.quiz.model.entities.Exercise;
+import com.mlaskows.quiz.model.entities.InputOutputType;
 import com.mlaskows.quiz.model.entities.Level;
 import com.mlaskows.quiz.model.entities.Question;
 
@@ -51,12 +56,14 @@ import com.mlaskows.quiz.model.entities.Question;
  * @author Maciej Laskowski
  * 
  */
-public class ExerciseActivity extends Activity implements AnimationListener {
+public class ExerciseActivity extends Activity {
+	// implements AnimationListener {
 
-	private PopupWindow mPopUp;
-	private RelativeLayout mMainLayout;
+	// private PopupWindow mPopUp;
+	// private RelativeLayout mMainLayout;
 	TextView mTextTip;
 	Animation mAnimFadeIn, mAnimFadeOut;
+	private int levelId;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -68,11 +75,12 @@ public class ExerciseActivity extends Activity implements AnimationListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_exercise);
+		initButtons();
 
 		// Get levelId from Bundle
 		Bundle b = getIntent().getExtras();
-		int levelId = b.getInt("level_id");
-		
+		levelId = b.getInt("level_id");
+
 		Dao<Level, Integer> dbDao = new DatabaseHelper(getApplicationContext()).getLevelDao();
 		try {
 			Level level = dbDao.queryForId(levelId);
@@ -83,69 +91,131 @@ public class ExerciseActivity extends Activity implements AnimationListener {
 					break;
 				}
 			}
-			if (exercise != null) {
-				System.out.println(exercise.getId());
-				// TODO display all
-			} else {
+			if (exercise == null) {
 				// TODO this level is solved. handle this
 				// situation.
 			}
+			displayExercise(exercise);
+
 		} catch (SQLException e) {
 			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 		}
-		
-
-		/*		// Config elements
-				mMainLayout = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_question,
-						null);
-				mAnimFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.enter);
-				mAnimFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.exit);
-				mAnimFadeIn.setAnimationListener(this);
-				mAnimFadeOut.setAnimationListener(this);
-				setContentView(mMainLayout);
-				mTextTip = (TextView) findViewById(R.id.textTip);
-				((Button) findViewById(R.id.buttonTip)).setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						handlePopup();
-					}
-				});*/
 
 	}
 
-	private void handlePopup() {
-		if (mTextTip.getVisibility() == View.INVISIBLE) {
-			// Make fade in elements Visible first
-			mTextTip.setVisibility(View.VISIBLE);
-			// start fade in animation
-			mTextTip.startAnimation(mAnimFadeIn);
-			LayoutParams params = new LayoutParams(mTextTip.getLayoutParams());
-			// stackoverflow.com/questions/4814124/how-to-change-margin-of-textview
-			// http://www.androidhive.info/2013/06/android-working-with-xml-animations/
-			params.setMargins(40, 40, 40, 40);
-			mTextTip.setLayoutParams(params);
-		} else {
-			// start fade out animation
-			mTextTip.startAnimation(mAnimFadeOut);
-			mTextTip.setVisibility(View.INVISIBLE);
+	/**
+	 * Displays {@link Exercise}.
+	 * 
+	 * @param exercise
+	 */
+	private void displayExercise(Exercise exercise) {
+		displayQuestion(exercise.getQuestion());
+		displayAnswers(exercise.getAnswers());
+	}
+
+	/**
+	 * Displays {@link Question}.
+	 * 
+	 * @param question
+	 */
+	private void displayQuestion(Question question) {
+		if (InputOutputType.TEXT.equals(question.getType())) {
+			// Text type question
+			TextView tv = (TextView) findViewById(R.id.textQuestion);
+			tv.setVisibility(View.VISIBLE);
+			tv.setText(question.getValue());
+		} else if (InputOutputType.IMAGE.equals(question.getType())) {
+			// Image type question
+			// TODO provide real path
+			String path = question.getValue();
+			File imgFile = new File(path);
+			if (imgFile.exists()) {
+				Bitmap bm = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+				ImageView iv = (ImageView) findViewById(R.id.imageQuestion);
+				iv.setVisibility(View.VISIBLE);
+				iv.setImageBitmap(bm);
+			} else {
+				throw new RuntimeException("Question image " + path + " not found!");
+			}
 		}
-
 	}
 
-	@Override
-	public void onAnimationStart(Animation animation) {
+	private void displayAnswers(Collection<Answer> answers) {
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void onAnimationEnd(Animation animation) {
+	private boolean validateAnswer() {
 		// TODO Auto-generated method stub
+		return false;
 	}
 
-	@Override
-	public void onAnimationRepeat(Animation animation) {
-		// TODO Auto-generated method stub
+	private void initButtons() {
+		final Bundle b = new Bundle();
+		b.putInt("level_id", levelId);
 
+		// Next exercise
+		((Button) findViewById(R.id.buttonNext)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (!validateAnswer()) {
+					return;
+				}
+				// TODO update exercise as solved.
+				Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
+				intent.putExtras(b);
+				startActivity(intent);
+			}
+
+		});
 	}
+}
+/*				// Config elements
+mMainLayout = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_question,
+null);
+mAnimFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.enter);
+mAnimFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.exit);
+mAnimFadeIn.setAnimationListener(this);
+mAnimFadeOut.setAnimationListener(this);
+setContentView(mMainLayout);
+mTextTip = (TextView) findViewById(R.id.textTip);
+((Button) findViewById(R.id.buttonTip)).setOnClickListener(new OnClickListener() {
+@Override
+public void onClick(View v) {
+handlePopup();
+}
+});
 
 }
+
+private void handlePopup() {
+if (mTextTip.getVisibility() == View.INVISIBLE) {
+// Make fade in elements Visible first
+mTextTip.setVisibility(View.VISIBLE);
+// start fade in animation
+mTextTip.startAnimation(mAnimFadeIn);
+LayoutParams params = new LayoutParams(mTextTip.getLayoutParams());
+// stackoverflow.com/questions/4814124/how-to-change-margin-of-textview
+// http://www.androidhive.info/2013/06/android-working-with-xml-animations/
+params.setMargins(40, 40, 40, 40);
+mTextTip.setLayoutParams(params);
+} else {
+// start fade out animation
+mTextTip.startAnimation(mAnimFadeOut);
+mTextTip.setVisibility(View.INVISIBLE);
+}
+
+}
+
+@Override
+public void onAnimationStart(Animation animation) {
+}
+
+@Override
+public void onAnimationEnd(Animation animation) {
+}
+
+@Override
+public void onAnimationRepeat(Animation animation) {
+
+}*/
