@@ -6,13 +6,16 @@
 
     <TextView
         android:id="@+id/textQuestion"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:gravity="center"
         android:text="@string/question"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="@dimen/question_font_size"
+        android:layout_marginTop="50dp"
         android:visibility="gone" />
+<!--         android:textAppearance="?android:attr/textAppearanceLarge" -->
 
     <ImageView
         android:id="@+id/imageQuestion"
@@ -27,16 +30,24 @@
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="@dimen/exercise_button_font_size"
+        android:layout_marginLeft="@dimen/exercise_buttons_margin"
+        android:layout_marginBottom="@dimen/exercise_buttons_margin"
+        android:background="@drawable/button_main"
         android:text="@string/back" />
 
     <Button
         android:id="@+id/buttonNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/exercise_button_font_size"
+        android:layout_marginRight="@dimen/exercise_buttons_margin"
+        android:layout_marginBottom="@dimen/exercise_buttons_margin"
+        android:background="@drawable/button_main"
         android:text="@string/next" />
 
 </RelativeLayout>
