@@ -62,6 +62,7 @@ public class ExerciseActivity extends Activity {
 	TextView mTextTip;
 	Animation mAnimFadeIn, mAnimFadeOut;
 	private int levelId;
+	private Exercise exercise;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -82,7 +83,12 @@ public class ExerciseActivity extends Activity {
 		Dao<Level, Integer> dbDao = new DatabaseHelper(getApplicationContext()).getLevelDao();
 		try {
 			Level level = dbDao.queryForId(levelId);
-			Exercise exercise = null;
+			if (level == null) {
+				// TODO game is over handle situation
+				// move this code (where?)
+				return;
+			}
+			exercise = null;
 			for (Exercise e : level.getExercises()) {
 				if (!e.isSolved()) {
 					exercise = e;
@@ -146,18 +152,17 @@ public class ExerciseActivity extends Activity {
 	}
 
 	private void initButtons() {
-		final Bundle b = new Bundle();
-		b.putInt("level_id", levelId);
-
 		// Next exercise
 		((Button) findViewById(R.id.buttonNext)).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				if (!validateAnswer()) {
-					return;
+					// return;
 				}
 				// TODO update exercise as solved.
+				final Bundle b = new Bundle();
+				b.putInt("level_id", levelId);
 				Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
 				intent.putExtras(b);
 				startActivity(intent);
