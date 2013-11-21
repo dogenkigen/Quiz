@@ -3,7 +3,7 @@
 	    <level id="1" name="Level 1">
 		    <exercises>
 			    <exercise>
-			        <question type="TEXT">What is the firs letter int the alphabet?</question>
+			        <question type="IMAGE">uzbekistan</question>
 			        <hint>Think!</hint>
 			        <answers>
 			            <answer type="TEXT" valid="true">A</answer>
@@ -13,20 +13,20 @@
 			        </answers>
 			    </exercise>
 			    <exercise>
-			        <question type="TEXT">Poland.jpg</question>
+			        <question type="IMAGE">poland</question>
 			        <hint>Think!</hint>
 			        <answers>
-			            <answer type="TEXT_FIELD" valid="true">Poland</answer>
+			            <answer type="TEXT_FIELD" valid="true">poland</answer>
 			        </answers>
 			    </exercise>
 			    <exercise>
-			        <question type="TEXT">Uzbekistan.jpg</question>
+			        <question type="IMAGE">uzbekistan</question>
 			        <hint>Think!</hint>
 			        <answers>
-			            <answer type="IMAGE" valid="true">Uzbekistan.jpg</answer>
-			            <answer type="IMAGE">Poland.jpg</answer>
-			            <answer type="IMAGE">Germany.jpg</answer>
-			            <answer type="IMAGE">France.jpg</answer>
+			            <answer type="IMAGE" valid="true">uzbekistan</answer>
+			            <answer type="IMAGE">poland</answer>
+			            <answer type="IMAGE">germany</answer>
+			            <answer type="IMAGE">france</answer>
 			        </answers>
 			    </exercise>
 		    </exercises>

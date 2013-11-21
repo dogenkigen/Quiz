@@ -170,6 +170,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		return levelDao;
 	}
 
+	/**
+	 * Loads XML with quiz and returns {@link Quiz} object.
+	 * 
+	 * @return quiz object
+	 * @throws Exception
+	 *             when deserialization fails
+	 */
 	private Quiz loadXml() throws Exception {
 		// Get resources
 		Resources resources = context.getResources();

@@ -10,19 +10,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/question_margin_top"
         android:gravity="center"
         android:text="@string/question"
         android:textSize="@dimen/question_font_size"
-        android:layout_marginTop="50dp"
         android:visibility="gone" />
-<!--         android:textAppearance="?android:attr/textAppearanceLarge" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceLarge" -->
 
     <ImageView
         android:id="@+id/imageQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/question_margin_top"
         android:src="@android:drawable/alert_dark_frame"
         android:visibility="gone" />
 
@@ -32,11 +32,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:textSize="@dimen/exercise_button_font_size"
-        android:layout_marginLeft="@dimen/exercise_buttons_margin"
         android:layout_marginBottom="@dimen/exercise_buttons_margin"
+        android:layout_marginLeft="@dimen/exercise_buttons_margin"
         android:background="@drawable/button_main"
-        android:text="@string/back" />
+        android:text="@string/back"
+        android:textSize="@dimen/exercise_button_font_size" />
 
     <Button
         android:id="@+id/buttonNext"
@@ -44,10 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:textSize="@dimen/exercise_button_font_size"
-        android:layout_marginRight="@dimen/exercise_buttons_margin"
         android:layout_marginBottom="@dimen/exercise_buttons_margin"
+        android:layout_marginRight="@dimen/exercise_buttons_margin"
         android:background="@drawable/button_main"
-        android:text="@string/next" />
+        android:text="@string/next"
+        android:textSize="@dimen/exercise_button_font_size" />
 
 </RelativeLayout>

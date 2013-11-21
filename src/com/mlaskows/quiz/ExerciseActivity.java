@@ -22,14 +22,12 @@
 
 package com.mlaskows.quiz;
 
-import java.io.File;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.Collection;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -93,7 +91,7 @@ public class ExerciseActivity extends Activity {
 			}
 			if (exercise == null) {
 				// TODO this level is solved. handle this
-				// situation.
+				// situation. Show score?
 			}
 			displayExercise(exercise);
 
@@ -126,16 +124,14 @@ public class ExerciseActivity extends Activity {
 			tv.setText(question.getValue());
 		} else if (InputOutputType.IMAGE.equals(question.getType())) {
 			// Image type question
-			// TODO provide real path
-			String path = question.getValue();
-			File imgFile = new File(path);
-			if (imgFile.exists()) {
-				Bitmap bm = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-				ImageView iv = (ImageView) findViewById(R.id.imageQuestion);
-				iv.setVisibility(View.VISIBLE);
-				iv.setImageBitmap(bm);
-			} else {
-				throw new RuntimeException("Question image " + path + " not found!");
+			ImageView iv = (ImageView) findViewById(R.id.imageQuestion);
+			iv.setVisibility(View.VISIBLE);
+			try {
+				Field field = R.drawable.class.getField(question.getValue());
+				iv.setImageResource(field.getInt(null));
+			} catch (Exception e) {
+				// Pass this exception
+				throw new RuntimeException(e);
 			}
 		}
 	}
