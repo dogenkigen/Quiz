@@ -14,5 +14,7 @@
     <string name="question">Question</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
+    <string name="tip">Tip</string>
+    <string name="question_image">Question image</string>
 	
 </resources>

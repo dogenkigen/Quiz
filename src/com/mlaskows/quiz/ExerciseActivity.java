@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,8 +37,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.j256.ormlite.dao.Dao;
 import com.mlaskows.quiz.model.DatabaseHelper;
@@ -167,7 +170,20 @@ public class ExerciseActivity extends Activity {
 				intent.putExtras(b);
 				startActivity(intent);
 			}
+		});
+		// TODO add back
 
+		// Display tip
+		((ImageButton) findViewById(R.id.buttonTip)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Context context = getApplicationContext();
+				CharSequence text = exercise.getTip();
+				int duration = Toast.LENGTH_LONG;
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+			}
 		});
 	}
 }

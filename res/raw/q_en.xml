@@ -4,7 +4,7 @@
 		    <exercises>
 			    <exercise>
 			        <question type="IMAGE">uzbekistan</question>
-			        <hint>Think!</hint>
+			        <tip>Think!</tip>
 			        <answers>
 			            <answer type="TEXT" valid="true">A</answer>
 			            <answer type="TEXT">B</answer>
@@ -14,14 +14,14 @@
 			    </exercise>
 			    <exercise>
 			        <question type="IMAGE">poland</question>
-			        <hint>Think!</hint>
+			        <tip>Think!</tip>
 			        <answers>
 			            <answer type="TEXT_FIELD" valid="true">poland</answer>
 			        </answers>
 			    </exercise>
 			    <exercise>
 			        <question type="IMAGE">uzbekistan</question>
-			        <hint>Think!</hint>
+			        <tip>Think!</tip>
 			        <answers>
 			            <answer type="IMAGE" valid="true">uzbekistan</answer>
 			            <answer type="IMAGE">poland</answer>
@@ -35,7 +35,7 @@
 		    <exercises>
 			    <exercise>
 			        <question type="TEXT">What is the firs letter int the alphabet?</question>
-			        <hint>Think!</hint>
+			        <tip>Think!</tip>
 			        <answers>
 			            <answer type="TEXT" valid="true">A</answer>
 			            <answer type="TEXT">B</answer>
@@ -45,14 +45,14 @@
 			    </exercise>
 			    <exercise>
 			        <question type="TEXT">Poland.jpg</question>
-			        <hint>Think!</hint>
+			        <tip>Think!</tip>
 			        <answers>
 			            <answer type="TEXT_FIELD" valid="true">Poland</answer>
 			        </answers>
 			    </exercise>
 			    <exercise>
 			        <question type="TEXT">Uzbekistan.jpg</question>
-			        <hint>Think!</hint>
+			        <tip>Think!</tip>
 			        <answers>
 			            <answer type="IMAGE" valid="true">Uzbekistan.jpg</answer>
 			            <answer type="IMAGE">Poland.jpg</answer>

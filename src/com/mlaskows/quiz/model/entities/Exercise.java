@@ -58,7 +58,7 @@ public class Exercise {
 	/** Hint text. */
 	@Element
 	@DatabaseField
-	private String hint;
+	private String tip;
 
 	/** The level to which exercise belongs. */
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = LEVEL_ID_FIELD_NAME)
@@ -90,12 +90,12 @@ public class Exercise {
 		this.solved = solved;
 	}
 
-	public String getHint() {
-		return hint;
+	public String getTip() {
+		return tip;
 	}
 
-	public void setHint(String hint) {
-		this.hint = hint;
+	public void setTip(String tip) {
+		this.tip = tip;
 	}
 
 	public Level getLevel() {
@@ -124,7 +124,7 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", solved=" + solved + ", hint=" + hint + ", level=" + level + ", question="
+		return "Exercise [id=" + id + ", solved=" + solved + ", hint=" + tip + ", level=" + level + ", question="
 				+ question + ", answers=" + answers + "]";
 	}
 
