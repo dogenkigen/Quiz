@@ -22,9 +22,6 @@
 
 package com.mlaskows.quiz;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,16 +32,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.j256.ormlite.dao.Dao;
-import com.mlaskows.quiz.model.DatabaseHelper;
-import com.mlaskows.quiz.model.entities.Answer;
-import com.mlaskows.quiz.model.entities.Exercise;
-import com.mlaskows.quiz.model.entities.Level;
+/**
+ * Main application activity.
+ * 
+ * @author Maciej Laskowski
+ * 
+ */
+public class MainActivity extends Activity {
 
-//http://stackoverflow.com/questions/27581/overriding-equals-and-hashcode-in-java
-public class FullscreenActivity extends Activity {
 
-
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,31 +52,11 @@ public class FullscreenActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_fullscreen);
 		initButtons();
-		Dao<Level, Integer> dbDao = new DatabaseHelper(getApplicationContext()).getLevelDao();
-		try {
-			List<Level> levels = dbDao.queryForAll();
-			for (Level level : levels) {
-				System.out.println(level);
-				for (Exercise exercise : level.getExercises()) {
-					System.out.println(exercise);
-					System.out.println(exercise.getQuestion());
-					for (Answer answer : exercise.getAnswers()) {
-						System.out.println(answer);
-					}
-				}
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-	}
-
+	/**
+	 * Initialize buttons.
+	 */
 	private void initButtons() {
 		// Start game
 		((Button) findViewById(R.id.buttonStart)).setOnClickListener(new OnClickListener() {
@@ -99,7 +78,7 @@ public class FullscreenActivity extends Activity {
 			}
 		});
 
-		// Exit app
+		// Exit application
 		((Button) findViewById(R.id.buttonExit)).setOnClickListener(new OnClickListener() {
 
 			@Override

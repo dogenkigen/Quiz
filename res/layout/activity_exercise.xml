@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/navigation_buttons_margin"
-        android:layout_marginTop="@dimen/navigation_buttons_margin"
+        android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
+        android:layout_marginTop="@dimen/exercise_navigation_buttons_margin"
         android:contentDescription="@string/tip"
         android:src="@drawable/lightbulb64" />
     <!-- downloaded from http://simpleicon.com/light-bulb-10.html -->
@@ -22,10 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/question_margin_top"
+        android:layout_marginTop="@dimen/exercise_question_margin_top"
         android:gravity="center"
         android:text="@string/question"
-        android:textSize="@dimen/question_font_size"
+        android:textSize="@dimen/exercise_question_font_size"
         android:visibility="gone" />
 
     <ImageView
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/question_margin_top"
+        android:layout_marginTop="@dimen/exercise_question_margin_top"
         android:src="@android:drawable/alert_dark_frame"
         android:visibility="gone"
         android:contentDescription="@string/question_image" />
@@ -44,11 +44,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/navigation_buttons_margin"
-        android:layout_marginLeft="@dimen/navigation_buttons_margin"
+        android:layout_marginBottom="@dimen/exercise_navigation_buttons_margin"
+        android:layout_marginLeft="@dimen/exercise_navigation_buttons_margin"
         android:background="@drawable/button_main"
         android:text="@string/back"
-        android:textSize="@dimen/navigation_button_font_size" />
+        android:textSize="@dimen/exercise_navigation_button_font_size" />
 
     <Button
         android:id="@+id/buttonNext"
@@ -56,10 +56,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/navigation_buttons_margin"
-        android:layout_marginRight="@dimen/navigation_buttons_margin"
+        android:layout_marginBottom="@dimen/exercise_navigation_buttons_margin"
+        android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
         android:background="@drawable/button_main"
         android:text="@string/next"
-        android:textSize="@dimen/navigation_button_font_size" />
+        android:textSize="@dimen/exercise_navigation_button_font_size" />
 
 </RelativeLayout>

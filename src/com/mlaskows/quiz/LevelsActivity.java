@@ -28,7 +28,6 @@ import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
@@ -67,15 +66,6 @@ public class LevelsActivity extends Activity {
 		} catch (SQLException e) {
 			Log.e(LevelsActivity.class.getSimpleName(), e.getMessage());
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.levels, menu);
-		return true;
 	}
 
 }

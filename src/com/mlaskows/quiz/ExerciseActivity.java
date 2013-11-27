@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -58,13 +57,11 @@ import com.mlaskows.quiz.model.entities.Question;
  * 
  */
 public class ExerciseActivity extends Activity {
-	// implements AnimationListener {
 
-	// private PopupWindow mPopUp;
-	// private RelativeLayout mMainLayout;
-	TextView mTextTip;
-	Animation mAnimFadeIn, mAnimFadeOut;
+	/** Id of exercise's level. */
 	private int levelId;
+
+	/** Displayed exercise. */
 	private Exercise exercise;
 
 	/* (non-Javadoc)
@@ -145,6 +142,12 @@ public class ExerciseActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Displays {@link Answer}s.
+	 * 
+	 * @param answers
+	 *            collection of answers to display
+	 */
 	private void displayAnswers(Collection<Answer> answers) {
 		// TODO Auto-generated method stub
 	}
@@ -154,6 +157,9 @@ public class ExerciseActivity extends Activity {
 		return false;
 	}
 
+	/**
+	 * Initialize buttons.
+	 */
 	private void initButtons() {
 		// Next exercise
 		((Button) findViewById(R.id.buttonNext)).setOnClickListener(new OnClickListener() {
@@ -187,52 +193,3 @@ public class ExerciseActivity extends Activity {
 		});
 	}
 }
-/*				// Config elements
-mMainLayout = (RelativeLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_question,
-null);
-mAnimFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.enter);
-mAnimFadeOut = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.exit);
-mAnimFadeIn.setAnimationListener(this);
-mAnimFadeOut.setAnimationListener(this);
-setContentView(mMainLayout);
-mTextTip = (TextView) findViewById(R.id.textTip);
-((Button) findViewById(R.id.buttonTip)).setOnClickListener(new OnClickListener() {
-@Override
-public void onClick(View v) {
-handlePopup();
-}
-});
-
-}
-
-private void handlePopup() {
-if (mTextTip.getVisibility() == View.INVISIBLE) {
-// Make fade in elements Visible first
-mTextTip.setVisibility(View.VISIBLE);
-// start fade in animation
-mTextTip.startAnimation(mAnimFadeIn);
-LayoutParams params = new LayoutParams(mTextTip.getLayoutParams());
-// stackoverflow.com/questions/4814124/how-to-change-margin-of-textview
-// http://www.androidhive.info/2013/06/android-working-with-xml-animations/
-params.setMargins(40, 40, 40, 40);
-mTextTip.setLayoutParams(params);
-} else {
-// start fade out animation
-mTextTip.startAnimation(mAnimFadeOut);
-mTextTip.setVisibility(View.INVISIBLE);
-}
-
-}
-
-@Override
-public void onAnimationStart(Animation animation) {
-}
-
-@Override
-public void onAnimationEnd(Animation animation) {
-}
-
-@Override
-public void onAnimationRepeat(Animation animation) {
-
-}*/

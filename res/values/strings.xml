@@ -5,9 +5,10 @@
     <string name="exit">Exit</string>
     <string name="default_language">en</string>
     <string name="xml_prefix">q_</string>
-    <string name="start">Start game</string>
-    <string name="check">Check more games</string>
-    <string name="rate">Rate game</string>
+    <string name="start_game">Start game</string>
+    <string name="check_more_games">Check more games</string>
+    <string name="check_more_games_url">http://www.google.com</string>
+    <string name="rate_game">Rate game</string>
     <string name="title_activity_question">QuestionActivity</string>
     <string name="title_activity_levels">LevelsActivity</string>
     <string name="action_settings">Settings</string>
