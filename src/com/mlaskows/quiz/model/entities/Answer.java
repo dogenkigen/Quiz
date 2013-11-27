@@ -46,11 +46,6 @@ public class Answer {
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	/** Type of answer. */
-	@Attribute(required = true)
-	@DatabaseField(canBeNull = false)
-	private InputOutputType type;
-
 	/** Answer value. */
 	@Text
 	@DatabaseField(canBeNull = false)
@@ -71,14 +66,6 @@ public class Answer {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public InputOutputType getType() {
-		return type;
-	}
-
-	public void setType(InputOutputType type) {
-		this.type = type;
 	}
 
 	public String getValue() {
@@ -107,8 +94,7 @@ public class Answer {
 
 	@Override
 	public String toString() {
-		return "Answer [id=" + id + ", type=" + type + ", value=" + value + ", valid=" + valid + ", exercise="
-				+ exercise + "]";
+		return "Answer [id=" + id + ", value=" + value + ", valid=" + valid + ", exercise=" + exercise + "]";
 	}
 
 }

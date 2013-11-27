@@ -24,7 +24,9 @@ package com.mlaskows.quiz;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
@@ -111,24 +113,32 @@ public class ExerciseActivity extends Activity {
 	 * Displays {@link Exercise}.
 	 * 
 	 * @param exercise
+	 *            element do display
 	 */
 	private void displayExercise(Exercise exercise) {
-		displayQuestion(exercise.getQuestion());
-		displayAnswers(exercise.getAnswers());
+		displayQuestion(exercise.getQuestion(), exercise.getQuestionType());
+		try {
+			displayAnswers(exercise.getAnswers(), exercise.getAnswerType());
+		} catch (Exception e) {
+			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
+		}
 	}
 
 	/**
 	 * Displays {@link Question}.
 	 * 
 	 * @param question
+	 *            element to display
+	 * @param type
+	 *            type of question
 	 */
-	private void displayQuestion(Question question) {
-		if (InputOutputType.TEXT.equals(question.getType())) {
+	private void displayQuestion(Question question, InputOutputType type) {
+		if (InputOutputType.TEXT.equals(type)) {
 			// Text type question
 			TextView tv = (TextView) findViewById(R.id.textQuestion);
 			tv.setVisibility(View.VISIBLE);
 			tv.setText(question.getValue());
-		} else if (InputOutputType.IMAGE.equals(question.getType())) {
+		} else if (InputOutputType.IMAGE.equals(type)) {
 			// Image type question
 			ImageView iv = (ImageView) findViewById(R.id.imageQuestion);
 			iv.setVisibility(View.VISIBLE);
@@ -147,9 +157,41 @@ public class ExerciseActivity extends Activity {
 	 * 
 	 * @param answers
 	 *            collection of answers to display
+	 * @param type
+	 *            type of answers
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
 	 */
-	private void displayAnswers(Collection<Answer> answers) {
-		// TODO Auto-generated method stub
+	private void displayAnswers(Collection<Answer> answers, InputOutputType type) throws NoSuchFieldException,
+			IllegalArgumentException, IllegalAccessException {
+		View view = null;
+		List<Answer> answeList = new ArrayList<Answer>(answers);
+		switch (type) {
+		case IMAGE:
+			view = findViewById(R.id.tableAnswerImageB);
+			for (int i = 0; i < 4; i++) {
+				Field field = R.id.class.getField("imgButtonAns" + i);
+				ImageButton ib = (ImageButton) findViewById(field.getInt(null));
+				field = R.drawable.class.getField(answeList.get(i).getValue());
+				ib.setImageResource(field.getInt(null));
+			}
+			break;
+		case TEXT:
+			view = findViewById(R.id.tableAnswerTextB);
+			for (int i = 0; i < 4; i++) {
+				Field field = R.id.class.getField("txtButtonAns" + i);
+				Button ib = (Button) findViewById(field.getInt(null));
+				ib.setText(answeList.get(i).getValue());
+			}
+			break;
+		case TEXT_FIELD:
+			view = findViewById(R.id.inputAnswer);
+			break;
+		default:
+			break;
+		}
+		view.setVisibility(View.VISIBLE);
 	}
 
 	private boolean validateAnswer() {
@@ -180,7 +222,7 @@ public class ExerciseActivity extends Activity {
 		// TODO add back
 
 		// Display tip
-		((ImageButton) findViewById(R.id.buttonTip)).setOnClickListener(new OnClickListener() {
+		((ImageButton) findViewById(R.id.imgButtonTip)).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

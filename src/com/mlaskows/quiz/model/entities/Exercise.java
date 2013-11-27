@@ -24,6 +24,7 @@ package com.mlaskows.quiz.model.entities;
 
 import java.util.Collection;
 
+import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
@@ -64,10 +65,23 @@ public class Exercise {
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = LEVEL_ID_FIELD_NAME)
 	private Level level;
 
+	/**
+	 * Question type (it can be {@link InputOutputType.TEXT}
+	 * or {@link InputOutputType.IMAGE}.
+	 */
+	@Attribute(required = true)
+	@DatabaseField(canBeNull = false)
+	private InputOutputType questionType;
+
 	/** Question element. */
 	@Element
 	@DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true, columnName = QUESTION_ID_FIELD_NAME)
 	private Question question;
+
+	/** Type of answer. */
+	@Attribute(required = true)
+	@DatabaseField(canBeNull = false)
+	private InputOutputType answerType;
 
 	/** Answers list */
 	@ElementList
@@ -106,12 +120,28 @@ public class Exercise {
 		this.level = level;
 	}
 
+	public InputOutputType getQuestionType() {
+		return questionType;
+	}
+
+	public void setQuestionType(InputOutputType questionType) {
+		this.questionType = questionType;
+	}
+
 	public Question getQuestion() {
 		return question;
 	}
 
 	public void setQuestion(Question question) {
 		this.question = question;
+	}
+
+	public InputOutputType getAnswerType() {
+		return answerType;
+	}
+
+	public void setAnswerType(InputOutputType answerType) {
+		this.answerType = answerType;
 	}
 
 	public Collection<Answer> getAnswers() {
@@ -124,8 +154,8 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", solved=" + solved + ", hint=" + tip + ", level=" + level + ", question="
-				+ question + ", answers=" + answers + "]";
+		return "Exercise [id=" + id + ", solved=" + solved + ", tip=" + tip + ", level=" + level + ", questionType="
+				+ questionType + ", question=" + question + ", answerType=" + answerType + ", answers=" + answers + "]";
 	}
 
 }

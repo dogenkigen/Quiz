@@ -22,7 +22,6 @@
 
 package com.mlaskows.quiz.model.entities;
 
-import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Text;
 
@@ -44,14 +43,6 @@ public class Question {
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	/**
-	 * Question type (it can be {@link InputOutputType.TEXT}
-	 * or {@link InputOutputType.IMAGE}.
-	 */
-	@Attribute(required = true)
-	@DatabaseField(canBeNull = false)
-	private InputOutputType type;
-
 	/** Question value. */
 	@Text(required = true)
 	@DatabaseField(canBeNull = false)
@@ -65,14 +56,6 @@ public class Question {
 		this.id = id;
 	}
 
-	public InputOutputType getType() {
-		return type;
-	}
-
-	public void setType(InputOutputType type) {
-		this.type = type;
-	}
-
 	public String getValue() {
 		return value;
 	}
@@ -83,7 +66,7 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", type=" + type + ", value=" + value + "]";
+		return "Question [id=" + id + ", value=" + value + "]";
 	}
 
 }

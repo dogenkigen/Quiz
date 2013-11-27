@@ -2,62 +2,62 @@
     <levels>
 	    <level id="1" name="Level 1">
 		    <exercises>
-			    <exercise>
-			        <question type="IMAGE">uzbekistan</question>
+			    <exercise questionType="IMAGE" answerType="TEXT">
+			        <question>uzbekistan</question>
 			        <tip>Think!</tip>
 			        <answers>
-			            <answer type="TEXT" valid="true">A</answer>
-			            <answer type="TEXT">B</answer>
-			            <answer type="TEXT">C</answer>
-			            <answer type="TEXT">D</answer>
+			            <answer valid="true">A</answer>
+			            <answer>B</answer>
+			            <answer>C</answer>
+			            <answer>D</answer>
 			        </answers>
 			    </exercise>
-			    <exercise>
-			        <question type="IMAGE">poland</question>
+			    <exercise questionType="IMAGE" answerType="TEXT_FIELD">
+			        <question>poland</question>
 			        <tip>Think!</tip>
 			        <answers>
-			            <answer type="TEXT_FIELD" valid="true">poland</answer>
+			            <answer valid="true">poland</answer>
 			        </answers>
 			    </exercise>
-			    <exercise>
-			        <question type="IMAGE">uzbekistan</question>
+			    <exercise questionType="IMAGE" answerType="IMAGE">
+			        <question>uzbekistan</question>
 			        <tip>Think!</tip>
 			        <answers>
-			            <answer type="IMAGE" valid="true">uzbekistan</answer>
-			            <answer type="IMAGE">poland</answer>
-			            <answer type="IMAGE">germany</answer>
-			            <answer type="IMAGE">france</answer>
+			            <answer valid="true">uzbekistan</answer>
+			            <answer>poland</answer>
+			            <answer>germany</answer>
+			            <answer>france</answer>
 			        </answers>
 			    </exercise>
 		    </exercises>
 		</level>
 		<level id="2" name="Level 2">
 		    <exercises>
-			    <exercise>
-			        <question type="TEXT">What is the firs letter int the alphabet?</question>
+			    <exercise questionType="TEXT" answerType="TEXT">
+			        <question>What is the firs letter int the alphabet?</question>
 			        <tip>Think!</tip>
 			        <answers>
-			            <answer type="TEXT" valid="true">A</answer>
-			            <answer type="TEXT">B</answer>
-			            <answer type="TEXT">C</answer>
-			            <answer type="TEXT">D</answer>
+			            <answer valid="true">A</answer>
+			            <answer>B</answer>
+			            <answer>C</answer>
+			            <answer>D</answer>
 			        </answers>
 			    </exercise>
-			    <exercise>
-			        <question type="TEXT">Poland.jpg</question>
+  				<exercise questionType="IMAGE" answerType="TEXT_FIELD">
+			        <question>poland</question>
 			        <tip>Think!</tip>
 			        <answers>
-			            <answer type="TEXT_FIELD" valid="true">Poland</answer>
+			            <answer valid="true">poland</answer>
 			        </answers>
 			    </exercise>
-			    <exercise>
-			        <question type="TEXT">Uzbekistan.jpg</question>
+			    <exercise questionType="IMAGE" answerType="IMAGE">
+			        <question>uzbekistan</question>
 			        <tip>Think!</tip>
 			        <answers>
-			            <answer type="IMAGE" valid="true">Uzbekistan.jpg</answer>
-			            <answer type="IMAGE">Poland.jpg</answer>
-			            <answer type="IMAGE">Germany.jpg</answer>
-			            <answer type="IMAGE">France.jpg</answer>
+			            <answer valid="true">uzbekistan</answer>
+			            <answer>poland</answer>
+			            <answer>germany</answer>
+			            <answer>france</answer>
 			        </answers>
 			    </exercise>
 		    </exercises>

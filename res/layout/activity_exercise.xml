@@ -4,39 +4,122 @@
     android:layout_height="match_parent"
     tools:context=".ExerciseActivity" >
 
-    <ImageButton
-        android:id="@+id/buttonTip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
-        android:layout_marginTop="@dimen/exercise_navigation_buttons_margin"
-        android:contentDescription="@string/tip"
-        android:src="@drawable/lightbulb64" />
-    <!-- downloaded from http://simpleicon.com/light-bulb-10.html -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/textQuestion"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/exercise_question_margin_top"
-        android:gravity="center"
-        android:text="@string/question"
-        android:textSize="@dimen/exercise_question_font_size"
-        android:visibility="gone" />
+        <ImageButton
+            android:id="@+id/imgButtonTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
+            android:layout_marginTop="@dimen/exercise_navigation_buttons_margin"
+            android:contentDescription="@string/tip"
+            android:src="@drawable/lightbulb64" />
+        <!-- downloaded from http://simpleicon.com/light-bulb-10.html -->
 
-    <ImageView
-        android:id="@+id/imageQuestion"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textQuestion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/exercise_question_margin_top"
+            android:gravity="center"
+            android:text="@string/question"
+            android:textSize="@dimen/exercise_question_font_size"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/imageQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/exercise_question_margin_top"
+            android:contentDescription="@string/question_image"
+            android:src="@android:drawable/alert_dark_frame"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <TableLayout
+        android:id="@+id/tableAnswerImageB"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/exercise_question_margin_top"
-        android:src="@android:drawable/alert_dark_frame"
-        android:visibility="gone"
-        android:contentDescription="@string/question_image" />
+        android:layout_centerVertical="true"
+        android:stretchColumns="*"
+        android:visibility="gone" >
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/imgButtonAns0"
+                android:contentDescription="@string/answer"
+                android:src="@android:drawable/alert_dark_frame" />
+
+            <ImageButton
+                android:id="@+id/imgButtonAns1"
+                android:contentDescription="@string/answer"
+                android:src="@android:drawable/alert_dark_frame" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/imgButtonAns2"
+                android:contentDescription="@string/answer"
+                android:src="@android:drawable/alert_dark_frame" />
+
+            <ImageButton
+                android:id="@+id/imgButtonAns3"
+                android:contentDescription="@string/answer"
+                android:src="@android:drawable/alert_dark_frame" />
+        </TableRow>
+    </TableLayout>
+
+    <TableLayout
+        android:id="@+id/tableAnswerTextB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:stretchColumns="*"
+        android:visibility="gone" >
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/txtButtonAns0"
+                android:background="@drawable/button_main"
+                android:text="@string/answer" />
+
+            <Button
+                android:id="@+id/txtButtonAns1"
+                android:background="@drawable/button_main"
+                android:text="@string/answer" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/txtButtonAns2"
+                android:background="@drawable/button_main"
+                android:text="@string/answer" />
+
+            <Button
+                android:id="@+id/txtButtonAns3"
+                android:background="@drawable/button_main"
+                android:text="@string/answer" />
+        </TableRow>
+    </TableLayout>
 
     <Button
         android:id="@+id/buttonBack"
@@ -61,5 +144,17 @@
         android:background="@drawable/button_main"
         android:text="@string/next"
         android:textSize="@dimen/exercise_navigation_button_font_size" />
+
+    <EditText
+        android:id="@+id/inputAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:ems="15"
+        android:visibility="gone" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
