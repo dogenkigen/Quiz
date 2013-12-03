@@ -33,6 +33,7 @@ import android.view.WindowManager;
 import android.widget.ListView;
 
 import com.j256.ormlite.dao.Dao;
+import com.mlaskows.quiz.adapters.LevelsAdapter;
 import com.mlaskows.quiz.model.DatabaseHelper;
 import com.mlaskows.quiz.model.entities.Level;
 
