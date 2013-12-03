@@ -1,6 +1,7 @@
 <quiz>
     <levels>
 	    <level id="1" name="Level 1">
+	        <scoring usingTip="-10" unsuccessfulAttempt="-10">100</scoring>
 		    <exercises>
 			    <exercise questionType="IMAGE" answerType="TEXT">
 			        <question>uzbekistan</question>
@@ -32,6 +33,7 @@
 		    </exercises>
 		</level>
 		<level id="2" name="Level 2">
+		    <scoring usingTip="-10" unsuccessfulAttempt="-10">100</scoring>
 		    <exercises>
 			    <exercise questionType="TEXT" answerType="TEXT">
 			        <question>What is the firs letter int the alphabet?</question>

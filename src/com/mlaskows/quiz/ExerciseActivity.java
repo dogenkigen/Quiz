@@ -47,9 +47,9 @@ import com.j256.ormlite.dao.Dao;
 import com.mlaskows.quiz.model.DatabaseHelper;
 import com.mlaskows.quiz.model.entities.Answer;
 import com.mlaskows.quiz.model.entities.Exercise;
-import com.mlaskows.quiz.model.entities.InputOutputType;
 import com.mlaskows.quiz.model.entities.Level;
 import com.mlaskows.quiz.model.entities.Question;
+import com.mlaskows.quiz.model.enums.InputOutputType;
 
 /**
  * This Activity displays exercise with {@link Question} and
@@ -82,15 +82,14 @@ public class ExerciseActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		levelId = b.getInt("level_id");
 
-		Dao<Level, Integer> dbDao = new DatabaseHelper(getApplicationContext()).getLevelDao();
+		Dao<Level, Integer> lvlDao = new DatabaseHelper(getApplicationContext()).getLevelDao();
 		try {
-			Level level = dbDao.queryForId(levelId);
+			Level level = lvlDao.queryForId(levelId);
 			if (level == null) {
 				// TODO game is over handle situation
 				// move this code (where?)
 				return;
 			}
-			exercise = null;
 			for (Exercise e : level.getExercises()) {
 				if (!e.isSolved()) {
 					exercise = e;

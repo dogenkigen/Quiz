@@ -25,6 +25,7 @@ package com.mlaskows.quiz.model.entities;
 import java.util.Collection;
 
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -42,6 +43,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable
 public class Level {
 
+	private static final String SCORING_ID_FIELD_NAME = "scoring_id";
+
 	/** Level id. */
 	@Attribute
 	@DatabaseField(id = true)
@@ -51,6 +54,11 @@ public class Level {
 	@Attribute
 	@DatabaseField
 	private String name;
+
+	/** Scoring element. */
+	@Element
+	@DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true, columnName = SCORING_ID_FIELD_NAME)
+	private Scoring scoring;
 
 	/** Exercises list. */
 	@ElementList
@@ -71,6 +79,14 @@ public class Level {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Scoring getScoring() {
+		return scoring;
+	}
+
+	public void setScoring(Scoring scoring) {
+		this.scoring = scoring;
 	}
 
 	public Collection<Exercise> getExercises() {
@@ -94,7 +110,7 @@ public class Level {
 
 	@Override
 	public String toString() {
-		return "Level [id=" + id + ", name=" + name + "]";
+		return "Level [id=" + id + ", name=" + name + ", scoring=" + scoring + ", exercises=" + exercises + "]";
 	}
 
 }

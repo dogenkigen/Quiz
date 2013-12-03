@@ -32,6 +32,7 @@ import org.simpleframework.xml.Root;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.mlaskows.quiz.model.enums.InputOutputType;
 
 /**
  * This class represents exercise in quiz. It contains
@@ -154,8 +155,8 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", solved=" + solved + ", tip=" + tip + ", level=" + level + ", questionType="
-				+ questionType + ", question=" + question + ", answerType=" + answerType + ", answers=" + answers + "]";
+		return "Exercise [id=" + id + ", solved=" + solved + ", tip=" + tip + ", questionType=" + questionType
+				+ ", question=" + question + ", answerType=" + answerType + ", answers=" + answers + "]";
 	}
 
 }

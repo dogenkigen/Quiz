@@ -48,31 +48,44 @@ import com.mlaskows.quiz.model.entities.Exercise;
 import com.mlaskows.quiz.model.entities.Level;
 import com.mlaskows.quiz.model.entities.Question;
 import com.mlaskows.quiz.model.entities.Quiz;
+import com.mlaskows.quiz.model.entities.Scoring;
 
-// To enable ORMLite logs execute 'setprop log.tag.ORMLite DEBUG' on device
 /**
+ * Creates database in first application run. Also can
+ * return DAO. To enable ORMLite logs execute 'setprop
+ * log.tag.ORMLite DEBUG' on device
  * 
  * @author Maciej Laskowski
  * 
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-	// name of the database file for application
+	/** Name of the database file for application */
 	private static final String DATABASE_NAME = "quizes.sqlite";
 
-	// any time changes are made to database objects, may
-	// have to increase the
-	// database version
+	/**
+	 * Any time changes are made to database objects, may
+	 * have to increase the database version.
+	 */
 	private static final int DATABASE_VERSION = 1;
 
-	// Aplication context
+	/** Application context. */
 	Context context;
 
-	// the DAO objects to access the DB
+	/** Level DAO */
 	private Dao<Level, Integer> levelDao;
+
+	/** Exercise DAO */
 	private Dao<Exercise, Integer> exerciseDao;
+
+	/** Question DAO */
 	private Dao<Question, Integer> questionDao;
+
+	/** Answer DAO */
 	private Dao<Answer, Integer> answerDao;
+
+	/** Scoring DAO */
+	private Dao<Scoring, Integer> scoringDao;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -92,6 +105,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, Exercise.class);
 			TableUtils.createTable(cs, Question.class);
 			TableUtils.createTable(cs, Answer.class);
+			TableUtils.createTable(cs, Scoring.class);
 			// Load content from XML to database. Children
 			// first than parents.
 			levelDao = new BaseDaoImpl<Level, Integer>(getConnectionSource(), Level.class) {
@@ -101,6 +115,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			questionDao = new BaseDaoImpl<Question, Integer>(getConnectionSource(), Question.class) {
 			};
 			answerDao = new BaseDaoImpl<Answer, Integer>(getConnectionSource(), Answer.class) {
+			};
+			scoringDao = new BaseDaoImpl<Scoring, Integer>(getConnectionSource(), Scoring.class) {
 			};
 			Quiz quiz = loadXml();
 			for (Level level : quiz.getLevels()) {
@@ -114,6 +130,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 						answerDao.create(answer);
 					}
 				}
+				Scoring scoring = level.getScoring();
+				scoring.setLevel(level);
+				scoringDao.create(scoring);
 				levelDao.create(level);
 			}
 		} catch (SQLException e) {

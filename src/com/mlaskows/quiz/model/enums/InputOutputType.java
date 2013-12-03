@@ -20,7 +20,10 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.entities;
+package com.mlaskows.quiz.model.enums;
+
+import com.mlaskows.quiz.model.entities.Answer;
+import com.mlaskows.quiz.model.entities.Question;
 
 /**
  * Type of {@link Question} or {@link Answer}.
