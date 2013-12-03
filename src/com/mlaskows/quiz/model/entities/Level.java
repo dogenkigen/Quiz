@@ -52,7 +52,7 @@ public class Level {
 
 	/** Level name. */
 	@Attribute
-	@DatabaseField
+	@DatabaseField(canBeNull = false)
 	private String name;
 
 	/** Scoring element. */
@@ -64,6 +64,10 @@ public class Level {
 	@ElementList
 	@ForeignCollectionField
 	private Collection<Exercise> exercises;
+
+	/** Level score. */
+	@DatabaseField
+	private int score;
 
 	public int getId() {
 		return id;
@@ -95,6 +99,14 @@ public class Level {
 
 	public void setExercises(Collection<Exercise> exercises) {
 		this.exercises = exercises;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 	public int getProgress() {

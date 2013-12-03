@@ -26,15 +26,19 @@ import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -65,6 +69,9 @@ public class ExerciseActivity extends Activity {
 
 	/** Displayed exercise. */
 	private Exercise exercise;
+
+	/** Map of answer views. */
+	private Map<String, View> answerViews = new HashMap<String, View>();
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -174,14 +181,18 @@ public class ExerciseActivity extends Activity {
 				ImageButton ib = (ImageButton) findViewById(field.getInt(null));
 				field = R.drawable.class.getField(answeList.get(i).getValue());
 				ib.setImageResource(field.getInt(null));
+				ib.setOnTouchListener(new AnswerListener());
+				answerViews.put(answeList.get(i).getValue(), ib);
 			}
 			break;
 		case TEXT:
 			view = findViewById(R.id.tableAnswerTextB);
 			for (int i = 0; i < 4; i++) {
 				Field field = R.id.class.getField("txtButtonAns" + i);
-				Button ib = (Button) findViewById(field.getInt(null));
-				ib.setText(answeList.get(i).getValue());
+				Button b = (Button) findViewById(field.getInt(null));
+				b.setText(answeList.get(i).getValue());
+				b.setOnTouchListener(new AnswerListener());
+				answerViews.put(answeList.get(i).getValue(), b);
 			}
 			break;
 		case TEXT_FIELD:
@@ -194,7 +205,11 @@ public class ExerciseActivity extends Activity {
 	}
 
 	private boolean validateAnswer() {
-		// TODO Auto-generated method stub
+		if (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType())) {
+			// TODO handle text field answer
+		} else {
+			// TODO handle button answers
+		}
 		return false;
 	}
 
@@ -232,5 +247,25 @@ public class ExerciseActivity extends Activity {
 				toast.show();
 			}
 		});
+	}
+
+	/**
+	 * OnTouchListener for answers.
+	 */
+	class AnswerListener implements OnTouchListener {
+
+		@Override
+		public boolean onTouch(View view, MotionEvent event) {
+			for (View v : ExerciseActivity.this.answerViews.values()) {
+				// If some answer is already pressed,
+				// release it.
+				if (v.isPressed()) {
+					v.setPressed(false);
+				}
+			}
+			view.setPressed(true);
+			return true;
+		}
+
 	}
 }
