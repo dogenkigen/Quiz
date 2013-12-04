@@ -70,8 +70,17 @@ public class ExerciseActivity extends Activity {
 	/** Displayed exercise. */
 	private Exercise exercise;
 
-	/** Map of answer views. */
-	private Map<String, View> answerViews = new HashMap<String, View>();
+	/** Map of answer views and answer values. */
+	private Map<View, String> answerViews = new HashMap<View, String>();
+
+	/** Database helper. */
+	private DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+
+	/** DAO for Level. */
+	Dao<Level, Integer> lvlDao = dbHelper.getLevelDao();
+
+	/** DAO for Exrcise. */
+	Dao<Exercise, Integer> exerciseDao = dbHelper.getExerciseDao();
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -89,7 +98,6 @@ public class ExerciseActivity extends Activity {
 		Bundle b = getIntent().getExtras();
 		levelId = b.getInt("level_id");
 
-		Dao<Level, Integer> lvlDao = new DatabaseHelper(getApplicationContext()).getLevelDao();
 		try {
 			Level level = lvlDao.queryForId(levelId);
 			if (level == null) {
@@ -178,21 +186,21 @@ public class ExerciseActivity extends Activity {
 			view = findViewById(R.id.tableAnswerImageB);
 			for (int i = 0; i < 4; i++) {
 				Field field = R.id.class.getField("imgButtonAns" + i);
-				ImageButton ib = (ImageButton) findViewById(field.getInt(null));
+				ImageButton imageButton = (ImageButton) findViewById(field.getInt(null));
 				field = R.drawable.class.getField(answeList.get(i).getValue());
-				ib.setImageResource(field.getInt(null));
-				ib.setOnTouchListener(new AnswerListener());
-				answerViews.put(answeList.get(i).getValue(), ib);
+				imageButton.setImageResource(field.getInt(null));
+				imageButton.setOnTouchListener(new AnswerListener());
+				answerViews.put(imageButton, answeList.get(i).getValue());
 			}
 			break;
 		case TEXT:
 			view = findViewById(R.id.tableAnswerTextB);
 			for (int i = 0; i < 4; i++) {
 				Field field = R.id.class.getField("txtButtonAns" + i);
-				Button b = (Button) findViewById(field.getInt(null));
-				b.setText(answeList.get(i).getValue());
-				b.setOnTouchListener(new AnswerListener());
-				answerViews.put(answeList.get(i).getValue(), b);
+				Button button = (Button) findViewById(field.getInt(null));
+				button.setText(answeList.get(i).getValue());
+				button.setOnTouchListener(new AnswerListener());
+				answerViews.put(button, answeList.get(i).getValue());
 			}
 			break;
 		case TEXT_FIELD:
@@ -204,11 +212,26 @@ public class ExerciseActivity extends Activity {
 		view.setVisibility(View.VISIBLE);
 	}
 
+	/**
+	 * Checks if selected/typed answer is valid.
+	 * 
+	 * @return <i>true</i> if selected/typed answer is
+	 *         valid.
+	 */
 	private boolean validateAnswer() {
 		if (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType())) {
 			// TODO handle text field answer
 		} else {
-			// TODO handle button answers
+			for (View v : answerViews.keySet()) {
+				if (v.isPressed()) {
+					String ansString = answerViews.get(v);
+					for (Answer answer : exercise.getAnswers()) {
+						if (answer.getValue().equals(ansString)) {
+							return true;
+						}
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -223,13 +246,21 @@ public class ExerciseActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if (!validateAnswer()) {
-					// return;
+					exercise.setSolved(true);
+					try {
+						exerciseDao.update(exercise);
+						// TODO update score
+					} catch (SQLException e) {
+						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
+					}
+				} else {
+					// TODO wrong answer -- points
 				}
 				// TODO update exercise as solved.
-				final Bundle b = new Bundle();
-				b.putInt("level_id", levelId);
+				final Bundle bundle = new Bundle();
+				bundle.putInt("level_id", levelId);
 				Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
-				intent.putExtras(b);
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		});
@@ -256,7 +287,7 @@ public class ExerciseActivity extends Activity {
 
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
-			for (View v : ExerciseActivity.this.answerViews.values()) {
+			for (View v : ExerciseActivity.this.answerViews.keySet()) {
 				// If some answer is already pressed,
 				// release it.
 				if (v.isPressed()) {

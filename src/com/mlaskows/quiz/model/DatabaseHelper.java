@@ -175,7 +175,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	/**
 	 * Return {@link Level} DAO to access DB.
 	 * 
-	 * @return download DAO
+	 * @return Level DAO
 	 */
 	public Dao<Level, Integer> getLevelDao() {
 		if (levelDao == null) {
@@ -187,6 +187,23 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			}
 		}
 		return levelDao;
+	}
+
+	/**
+	 * Return {@link Exercise} DAO to access DB.
+	 * 
+	 * @return Exercise DAO
+	 */
+	public Dao<Exercise, Integer> getExerciseDao() {
+		if (exerciseDao == null) {
+			try {
+				exerciseDao = new BaseDaoImpl<Exercise, Integer>(getConnectionSource(), Exercise.class) {
+				};
+			} catch (java.sql.SQLException e) {
+				Log.e(DatabaseHelper.class.getSimpleName(), "Cannot create DAO!", e);
+			}
+		}
+		return exerciseDao;
 	}
 
 	/**
