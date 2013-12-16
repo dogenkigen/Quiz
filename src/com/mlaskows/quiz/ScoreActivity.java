@@ -23,23 +23,18 @@
 package com.mlaskows.quiz;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.TextView;
 
 /**
- * Main application activity.
+ * This Activity displays level score.
  * 
  * @author Maciej Laskowski
  * 
  */
-public class MainActivity extends Activity {
-
+public class ScoreActivity extends Activity {
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -47,47 +42,17 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		// Set full screen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_fullscreen);
-		initButtons();
-	}
+		setContentView(R.layout.activity_score);
 
-	/**
-	 * Initialize buttons.
-	 */
-	private void initButtons() {
-		// Start game
-		((Button) findViewById(R.id.buttonStart)).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
-				startActivity(intent);
-			}
-		});
-
-		// More games
-		((Button) findViewById(R.id.buttonMoreGames)).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri
-						.parse(getString(R.string.check_more_games_url)));
-				startActivity(browserIntent);
-			}
-		});
-
-		// Exit application
-		((Button) findViewById(R.id.buttonExit)).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-
+		// FIXME
+		// Display score.
+		Bundle b = getIntent().getExtras();
+		int score = b.getInt("score");
+		((TextView) findViewById(R.id.scoreText)).setText(score);
 	}
 
 }

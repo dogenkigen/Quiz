@@ -30,8 +30,12 @@
         </activity>
         <activity
             android:name="com.mlaskows.quiz.LevelsActivity"
-            android:label="@string/title_activity_levels" 
+            android:label="@string/title_activity_levels"
             android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.mlaskows.quiz.ScoreActivity"
+            android:label="@string/title_activity_score" >
         </activity>
     </application>
 

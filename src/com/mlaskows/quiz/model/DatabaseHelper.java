@@ -207,6 +207,23 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 
 	/**
+	 * Return {@link Scoring} DAO to access DB.
+	 * 
+	 * @return Scoring DAO
+	 */
+	public Dao<Scoring, Integer> getScoringDao() {
+		if (scoringDao == null) {
+			try {
+				scoringDao = new BaseDaoImpl<Scoring, Integer>(getConnectionSource(), Scoring.class) {
+				};
+			} catch (java.sql.SQLException e) {
+				Log.e(DatabaseHelper.class.getSimpleName(), "Cannot create DAO!", e);
+			}
+		}
+		return scoringDao;
+	}
+
+	/**
 	 * Loads XML with quiz and returns {@link Quiz} object.
 	 * 
 	 * @return quiz object

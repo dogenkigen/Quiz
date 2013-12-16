@@ -18,5 +18,7 @@
     <string name="tip">Tip</string>
     <string name="answer">Answer</string>
     <string name="question_image">Question image</string>
-	
+    <string name="title_activity_score">ScoreActivity</string>
+    <string name="wrong_answer">Wrong answer!</string>
+
 </resources>

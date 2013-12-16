@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +41,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,6 +53,7 @@ import com.mlaskows.quiz.model.entities.Answer;
 import com.mlaskows.quiz.model.entities.Exercise;
 import com.mlaskows.quiz.model.entities.Level;
 import com.mlaskows.quiz.model.entities.Question;
+import com.mlaskows.quiz.model.entities.Scoring;
 import com.mlaskows.quiz.model.enums.InputOutputType;
 
 /**
@@ -64,29 +65,39 @@ import com.mlaskows.quiz.model.enums.InputOutputType;
  */
 public class ExerciseActivity extends Activity {
 
-	/** Id of exercise's level. */
-	private int levelId;
+	/** Exercise's level. */
+	private Level level;
 
 	/** Displayed exercise. */
 	private Exercise exercise;
+
+	/** Points gained for solving exercise. */
+	private int points;
 
 	/** Map of answer views and answer values. */
 	private Map<View, String> answerViews = new HashMap<View, String>();
 
 	/** Database helper. */
-	private DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+	private DatabaseHelper dbHelper;
 
 	/** DAO for Level. */
-	Dao<Level, Integer> lvlDao = dbHelper.getLevelDao();
+	Dao<Level, Integer> lvlDao;
 
-	/** DAO for Exrcise. */
-	Dao<Exercise, Integer> exerciseDao = dbHelper.getExerciseDao();
+	/** DAO for Exercise. */
+	Dao<Exercise, Integer> exerciseDao;
+
+	/** DAO for Scoring. */
+	Dao<Scoring, Integer> scoringDao;
+
+	/** Skip exercise flag. */
+	private static final String SKIP_EXERCISE = "skip_exercise";
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		initVariables();
 		super.onCreate(savedInstanceState);
 		// Set full screen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -96,24 +107,32 @@ public class ExerciseActivity extends Activity {
 
 		// Get levelId from Bundle
 		Bundle b = getIntent().getExtras();
-		levelId = b.getInt("level_id");
+		int levelId = b.getInt("level_id");
+		boolean skipExercise = b.getBoolean(SKIP_EXERCISE);
 
 		try {
-			Level level = lvlDao.queryForId(levelId);
-			if (level == null) {
-				// TODO game is over handle situation
-				// move this code (where?)
-				return;
-			}
+			level = lvlDao.queryForId(levelId);
+			points = level.getScoring().getValue();
 			for (Exercise e : level.getExercises()) {
 				if (!e.isSolved()) {
+					if (skipExercise) {
+						/* If Activity was started from another
+						 * exercise which remained unsolved,
+						 * then it should be skipped.*/
+						continue;
+					}
 					exercise = e;
 					break;
 				}
 			}
 			if (exercise == null) {
-				// TODO this level is solved. handle this
-				// situation. Show score?
+				// This level is solved. Show score.
+				Bundle bundle = new Bundle();
+				bundle.putInt("score", level.getScore());
+				Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
+				intent.putExtras(bundle);
+				startActivity(intent);
+				return;
 			}
 			displayExercise(exercise);
 
@@ -121,6 +140,16 @@ public class ExerciseActivity extends Activity {
 			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 		}
 
+	}
+
+	/**
+	 * Initialize variables.
+	 */
+	private void initVariables() {
+		dbHelper = new DatabaseHelper(getApplicationContext());
+		lvlDao = dbHelper.getLevelDao();
+		exerciseDao = dbHelper.getExerciseDao();
+		scoringDao = dbHelper.getScoringDao();
 	}
 
 	/**
@@ -219,21 +248,36 @@ public class ExerciseActivity extends Activity {
 	 *         valid.
 	 */
 	private boolean validateAnswer() {
+		String ansString = null;
 		if (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType())) {
-			// TODO handle text field answer
+			ansString = ((EditText) findViewById(R.id.inputAnswer)).getText().toString();
 		} else {
-			for (View v : answerViews.keySet()) {
-				if (v.isPressed()) {
-					String ansString = answerViews.get(v);
-					for (Answer answer : exercise.getAnswers()) {
-						if (answer.getValue().equals(ansString)) {
-							return true;
-						}
-					}
-				}
+			View pressedButton = getPressedButton();
+			if (getPressedButton() == null) {
+				return false;
+			}
+			ansString = answerViews.get(pressedButton);
+		}
+		for (Answer answer : exercise.getAnswers()) {
+			if (answer.isValid() && answer.getValue().equals(ansString)) {
+				return true;
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Returns pressed button View
+	 * 
+	 * @return pressed button View
+	 */
+	private View getPressedButton() {
+		for (View v : answerViews.keySet()) {
+			if (v.isPressed()) {
+				return v;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -245,37 +289,68 @@ public class ExerciseActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				if (!validateAnswer()) {
-					exercise.setSolved(true);
+				final Bundle bundle = new Bundle();
+				if (validateAnswer()) {
+					// Correct answer
 					try {
+						exercise.setSolved(true);
 						exerciseDao.update(exercise);
-						// TODO update score
+						level.setScore(points);
+						lvlDao.update(level);
+					} catch (SQLException e) {
+						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
+					}
+				} else if (getPressedButton() == null) {
+					// TODO check input field
+					// No answer
+					try {
+						// Update scoring to remember wrong
+						// answers
+						Scoring scoring = level.getScoring();
+						scoring.setValue(scoring.getValue() - (points - scoring.getValue()));
+						scoringDao.update(scoring);
+						bundle.putBoolean(SKIP_EXERCISE, true);
 					} catch (SQLException e) {
 						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 					}
 				} else {
-					// TODO wrong answer -- points
+					// Wrong answer
+					Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wrong_answer),
+							Toast.LENGTH_SHORT);
+					toast.show();
+					points = points - level.getScoring().getUnsuccessfulAttempt();
+					return;
 				}
-				// TODO update exercise as solved.
-				final Bundle bundle = new Bundle();
-				bundle.putInt("level_id", levelId);
+				bundle.putInt("level_id", level.getId());
 				Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		});
-		// TODO add back
+
+		// Back
+		((Button) findViewById(R.id.buttonBack)).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		// Display tip
 		((ImageButton) findViewById(R.id.imgButtonTip)).setOnClickListener(new OnClickListener() {
 
+			private boolean pressed;
+
 			@Override
 			public void onClick(View v) {
-				Context context = getApplicationContext();
-				CharSequence text = exercise.getTip();
-				int duration = Toast.LENGTH_LONG;
-				Toast toast = Toast.makeText(context, text, duration);
+				Toast toast = Toast.makeText(getApplicationContext(), exercise.getTip(), Toast.LENGTH_LONG);
 				toast.show();
+				if (!pressed) {
+					points = points - level.getScoring().getUsingTip();
+					pressed = true;
+				}
 			}
 		});
 	}
@@ -284,19 +359,15 @@ public class ExerciseActivity extends Activity {
 	 * OnTouchListener for answers.
 	 */
 	class AnswerListener implements OnTouchListener {
-
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
-			for (View v : ExerciseActivity.this.answerViews.keySet()) {
-				// If some answer is already pressed,
-				// release it.
-				if (v.isPressed()) {
-					v.setPressed(false);
-				}
+			// If some answer is already pressed,
+			// release it.
+			if (getPressedButton() != null) {
+				getPressedButton().setPressed(false);
 			}
 			view.setPressed(true);
 			return true;
 		}
-
 	}
 }
