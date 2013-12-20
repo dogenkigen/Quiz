@@ -162,7 +162,7 @@
         android:ems="15"
         android:visibility="gone" >
 
-        <requestFocus />
+        <!-- <requestFocus /> -->
     </EditText>
 
 </RelativeLayout>
