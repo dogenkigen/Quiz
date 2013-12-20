@@ -38,8 +38,6 @@ import android.widget.TextView;
 
 import com.mlaskows.quiz.ExerciseActivity;
 import com.mlaskows.quiz.R;
-import com.mlaskows.quiz.R.drawable;
-import com.mlaskows.quiz.R.id;
 import com.mlaskows.quiz.model.entities.Level;
 
 /**
@@ -74,6 +72,7 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 	/* (non-Javadoc)
 	 * @see android.widget.ArrayAdapter#getView(int, android.view.View, android.view.ViewGroup)
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;

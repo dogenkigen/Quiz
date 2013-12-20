@@ -119,6 +119,7 @@ public class ExerciseActivity extends Activity {
 						/* If Activity was started from another
 						 * exercise which remained unsolved,
 						 * then it should be skipped.*/
+						skipExercise = false;
 						continue;
 					}
 					exercise = e;
@@ -300,9 +301,12 @@ public class ExerciseActivity extends Activity {
 					} catch (SQLException e) {
 						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 					}
-				} else if (getPressedButton() == null) {
-					// TODO check input field
+				} else if ((InputOutputType.TEXT.equals(exercise.getAnswerType()) || InputOutputType.IMAGE
+						.equals(exercise.getAnswerType()) && getPressedButton() == null)
+						|| (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType()) && ""
+								.equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString()))) {
 					// No answer
+
 					try {
 						// Update scoring to remember wrong
 						// answers
@@ -333,8 +337,7 @@ public class ExerciseActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
-				startActivity(intent);
+				openLevelsActivity();
 			}
 		});
 
@@ -360,6 +363,13 @@ public class ExerciseActivity extends Activity {
 	 */
 	@Override
 	public void onBackPressed() {
+		openLevelsActivity();
+	}
+
+	/**
+	 * Opens {@link LevelsActivity} screen.
+	 */
+	private void openLevelsActivity() {
 		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);

@@ -1,7 +1,7 @@
 <resources>
-
     <color name="black_overlay">#66000000</color>
     <color name="app_background">#FFFFFF</color>
     <color name="button_image_pressed">#d1d6da</color>
-
+    <color name="button_normal">#9cba3f</color><!-- #ABABAB -->
+    <color name="button_pressed">#c1dc6e</color><!-- #d1d6da -->
 </resources>

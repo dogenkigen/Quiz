@@ -14,11 +14,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
-            android:layout_marginTop="@dimen/exercise_navigation_buttons_margin"
+            android:layout_marginRight="@dimen/exercise_tip_button"
+            android:layout_marginTop="@dimen/exercise_tip_button"
+            android:background="@drawable/button_image"
             android:contentDescription="@string/tip"
-            android:src="@drawable/lightbulb64" />
-        <!-- downloaded from http://simpleicon.com/light-bulb-10.html -->
+            android:src="@drawable/tip" />
 
         <TextView
             android:id="@+id/textQuestion"
@@ -59,13 +59,13 @@
                 android:id="@+id/imgButtonAns0"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns1"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image" />
         </TableRow>
 
         <TableRow
@@ -76,13 +76,13 @@
                 android:id="@+id/imgButtonAns2"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns3"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image" />
         </TableRow>
     </TableLayout>
 
@@ -101,11 +101,13 @@
             <Button
                 android:id="@+id/txtButtonAns0"
                 android:background="@drawable/button_main"
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
                 android:text="@string/answer" />
 
             <Button
                 android:id="@+id/txtButtonAns1"
                 android:background="@drawable/button_main"
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
                 android:text="@string/answer" />
         </TableRow>
 
@@ -116,11 +118,13 @@
             <Button
                 android:id="@+id/txtButtonAns2"
                 android:background="@drawable/button_main"
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
                 android:text="@string/answer" />
 
             <Button
                 android:id="@+id/txtButtonAns3"
                 android:background="@drawable/button_main"
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
                 android:text="@string/answer" />
         </TableRow>
     </TableLayout>
@@ -135,7 +139,7 @@
         android:layout_marginLeft="@dimen/exercise_navigation_buttons_margin"
         android:background="@drawable/button_main"
         android:text="@string/back"
-        android:textSize="@dimen/exercise_navigation_button_font_size" />
+        />
 
     <Button
         android:id="@+id/buttonNext"
@@ -147,7 +151,7 @@
         android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
         android:background="@drawable/button_main"
         android:text="@string/next"
-        android:textSize="@dimen/exercise_navigation_button_font_size" />
+         />
 
     <EditText
         android:id="@+id/inputAnswer"

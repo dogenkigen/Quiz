@@ -3,8 +3,6 @@
 
     <item android:drawable="@drawable/button_pressed" android:state_focused="true" android:state_pressed="true"/>
     <item android:drawable="@drawable/button_pressed" android:state_focused="false" android:state_pressed="true"/>
-    <!-- <item android:state_focused="true" android:drawable="@drawable/btn_bg_selected"/> -->
     <item android:drawable="@drawable/button_normal" android:state_focused="false" android:state_pressed="false"/>
-    <!-- <item android:state_focused="false" android:state_pressed="false" android:drawable="@android:color/transparent"/> -->
 
 </selector>
