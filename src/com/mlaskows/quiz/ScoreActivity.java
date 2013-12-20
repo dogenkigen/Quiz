@@ -23,6 +23,7 @@
 package com.mlaskows.quiz;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -48,11 +49,21 @@ public class ScoreActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_score);
 
-		// FIXME
 		// Display score.
 		Bundle b = getIntent().getExtras();
 		int score = b.getInt("score");
-		((TextView) findViewById(R.id.scoreText)).setText(score);
+		TextView tv = (TextView) findViewById(R.id.scoreText);
+		tv.setText(tv.getText() + "\n" + score);
+	}
+
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 
 }

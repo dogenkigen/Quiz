@@ -355,6 +355,16 @@ public class ExerciseActivity extends Activity {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+
 	/**
 	 * OnTouchListener for answers.
 	 */

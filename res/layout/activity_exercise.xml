@@ -43,7 +43,7 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <TableLayout
+<TableLayout
         android:id="@+id/tableAnswerImageB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,12 +58,14 @@
             <ImageButton
                 android:id="@+id/imgButtonAns0"
                 android:contentDescription="@string/answer"
-                android:src="@android:drawable/alert_dark_frame" />
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_image_answer" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns1"
                 android:contentDescription="@string/answer"
-                android:src="@android:drawable/alert_dark_frame" />
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_image_answer" />
         </TableRow>
 
         <TableRow
@@ -73,12 +75,14 @@
             <ImageButton
                 android:id="@+id/imgButtonAns2"
                 android:contentDescription="@string/answer"
-                android:src="@android:drawable/alert_dark_frame" />
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_image_answer" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns3"
                 android:contentDescription="@string/answer"
-                android:src="@android:drawable/alert_dark_frame" />
+                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_image_answer" />
         </TableRow>
     </TableLayout>
 

@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -58,10 +59,8 @@ public class LevelsActivity extends Activity {
 		Dao<Level, Integer> dbDao = new DatabaseHelper(getApplicationContext()).getLevelDao();
 		try {
 			List<Level> levels = dbDao.queryForAll();
-			// Create ListView with DownloadsAdapter
 			LevelsAdapter adapter = new LevelsAdapter(this, R.layout.list_item_row, levels);
 			ListView listView = (ListView) findViewById(R.id.listLevels);
-			// listView.setOnItemClickListener(mMessageClickedHandler);
 			listView.setAdapter(adapter);
 
 		} catch (SQLException e) {
@@ -69,4 +68,13 @@ public class LevelsActivity extends Activity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
 }

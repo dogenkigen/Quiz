@@ -6,7 +6,9 @@
     <dimen name="exercise_question_font_size">36sp</dimen>
     <dimen name="exercise_question_margin_top">100dp</dimen>
     <dimen name="exercise_navigation_buttons_margin">50dp</dimen>
+    <dimen name="exercise_answer_buttons_margin">15dp</dimen>
     <dimen name="exercise_navigation_button_font_size">24sp</dimen>
+    <dimen name="score_font_size">34sp</dimen>
     <dimen name="exercise_tip_button_margin">30dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 

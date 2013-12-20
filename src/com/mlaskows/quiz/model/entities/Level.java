@@ -117,7 +117,7 @@ public class Level {
 				pec++;
 			}
 		}
-		return ((int) (pec / ec)) * 100;
+		return (int) (((double) pec / (double) ec) * 100);
 	}
 
 	@Override
