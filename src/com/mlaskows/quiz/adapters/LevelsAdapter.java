@@ -136,6 +136,7 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		private Bundle b;
 
 		/**
+		 * OnClickRow constructor.
 		 * 
 		 * @param levelId
 		 *            id of level which question must

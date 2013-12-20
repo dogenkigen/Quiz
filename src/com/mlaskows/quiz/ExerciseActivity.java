@@ -81,13 +81,13 @@ public class ExerciseActivity extends Activity {
 	private DatabaseHelper dbHelper;
 
 	/** DAO for Level. */
-	Dao<Level, Integer> lvlDao;
+	private Dao<Level, Integer> lvlDao;
 
 	/** DAO for Exercise. */
-	Dao<Exercise, Integer> exerciseDao;
+	private Dao<Exercise, Integer> exerciseDao;
 
 	/** DAO for Scoring. */
-	Dao<Scoring, Integer> scoringDao;
+	private Dao<Scoring, Integer> scoringDao;
 
 	/** Skip exercise flag. */
 	private static final String SKIP_EXERCISE = "skip_exercise";
@@ -237,7 +237,7 @@ public class ExerciseActivity extends Activity {
 			view = findViewById(R.id.inputAnswer);
 			break;
 		default:
-			break;
+			return;
 		}
 		view.setVisibility(View.VISIBLE);
 	}
