@@ -369,8 +369,16 @@ public class ExerciseActivity extends Activity {
 	class AnswerListener implements OnTouchListener {
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
-			// If some answer is already pressed,
-			// release it.
+			/* If pressed button is already pressed, release it
+			 * and exit.
+			 */
+			if (event.getAction() == MotionEvent.ACTION_DOWN && view.equals(getPressedButton())) {
+				view.setPressed(false);
+				return true;
+			} else if (event.getAction() == MotionEvent.ACTION_UP && getPressedButton() == null) {
+				return true;
+			}
+			/* If some answer is already pressed, release it.*/
 			if (getPressedButton() != null) {
 				getPressedButton().setPressed(false);
 			}
