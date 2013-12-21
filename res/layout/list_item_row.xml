@@ -10,8 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:gravity="center"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageLevelLock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:contentDescription="@string/lock"
+        android:src="@drawable/closed" />
 
     <ProgressBar
         android:id="@+id/progressBarLevel"

@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -48,8 +49,13 @@ import com.mlaskows.quiz.model.entities.Level;
  */
 public class LevelsAdapter extends ArrayAdapter<Level> {
 
+	/** Application context. */
 	private Context context;
+
+	/** List of levels. */
 	private List<Level> levels;
+
+	/** Resource id. */
 	private int resource;
 
 	/**
@@ -78,17 +84,28 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		View row = convertView;
 		LevelHolder holder = null;
 
+		// Determine if level should be locked.
+		boolean unlocked = false;
+		if (position < 1) {
+			unlocked = true;
+		} else {
+			if (levels.get(position - 1).getProgress() == 100) {
+				unlocked = true;
+			}
+		}
+
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 			row = inflater.inflate(resource, parent, false);
 			holder = new LevelHolder();
 			holder.setProgressBar((ProgressBar) row.findViewById(R.id.progressBarLevel));
 			holder.setTxtTitle((TextView) row.findViewById(R.id.textLevel));
+			holder.setLocked((ImageView) row.findViewById(R.id.imageLevelLock));
 			row.setTag(holder);
 			// Set custom background for row
 			row.setBackgroundDrawable((getContext().getResources().getDrawable(R.drawable.button_main)));
 			// Set listener
-			row.setOnClickListener(new OnClickRow(position + 1));
+			row.setOnClickListener(new OnClickRow(position + 1, unlocked));
 		} else {
 			holder = (LevelHolder) row.getTag();
 		}
@@ -96,6 +113,9 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		// Set level info
 		Level level = levels.get(position);
 		holder.getTxtTitle().setText(level.getName());
+		if (unlocked) {
+			holder.getLocked().setImageResource(R.drawable.open);
+		}
 		holder.getProgressBar().setProgress(level.getProgress());
 
 		return row;
@@ -105,8 +125,15 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 	 * Holder for {@link Level} element
 	 */
 	private static class LevelHolder {
+
+		/** Level title. */
 		private TextView txtTitle;
+
+		/** Level progress bar. */
 		private ProgressBar progressBar;
+
+		/** Locked icon. */
+		private ImageView locked;
 
 		public TextView getTxtTitle() {
 			return txtTitle;
@@ -114,6 +141,14 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 
 		public void setTxtTitle(TextView txtTitle) {
 			this.txtTitle = txtTitle;
+		}
+
+		public ImageView getLocked() {
+			return locked;
+		}
+
+		public void setLocked(ImageView locked) {
+			this.locked = locked;
 		}
 
 		public ProgressBar getProgressBar() {
@@ -135,16 +170,22 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		/** Bundle to start new {@link ExerciseActivity}. */
 		private Bundle b;
 
+		/** Determines if level is unlocked. */
+		private boolean unlocked;
+
 		/**
 		 * OnClickRow constructor.
 		 * 
 		 * @param levelId
 		 *            id of level which question must
 		 *            displayed.
+		 * @param unlocked
+		 *            is level unlocked
 		 */
-		public OnClickRow(int levelId) {
+		public OnClickRow(int levelId, boolean unlocked) {
 			b = new Bundle();
 			b.putInt("level_id", levelId);
+			this.unlocked = unlocked;
 		}
 
 		/* (non-Javadoc)
@@ -152,10 +193,11 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		 */
 		@Override
 		public void onClick(View v) {
-			Intent intent = new Intent(getContext(), ExerciseActivity.class);
-			intent.putExtras(b);
-			getContext().startActivity(intent);
-
+			if (unlocked) {
+				Intent intent = new Intent(getContext(), ExerciseActivity.class);
+				intent.putExtras(b);
+				getContext().startActivity(intent);
+			}
 		}
 
 	}
