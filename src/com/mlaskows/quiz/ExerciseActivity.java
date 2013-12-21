@@ -89,8 +89,14 @@ public class ExerciseActivity extends Activity {
 	/** DAO for Scoring. */
 	private Dao<Scoring, Integer> scoringDao;
 
-	/** Skip exercise flag. */
-	private static final String PREVIOUS_EXERCISE = "skip_exercise";
+	/** Previous exercise id flag. */
+	private static final String PREVIOUS_EXERCISE_ID = "previous_exercise_id";
+
+	/** Level id flag. */
+	private static final String LEVEL_ID = "level_id";
+
+	/** Back pressed flag. */
+	private static final String BACK_PRESSED = "back_pressed";
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -107,13 +113,14 @@ public class ExerciseActivity extends Activity {
 
 		// Get levelId from Bundle
 		Bundle b = getIntent().getExtras();
-		int levelId = b.getInt("level_id");
-		int previousExercise = b.getInt(PREVIOUS_EXERCISE);
+		int levelId = b.getInt(LEVEL_ID);
+		int previousExerciseId = b.getInt(PREVIOUS_EXERCISE_ID);
+		boolean backPressed = b.getBoolean(BACK_PRESSED);
 
 		try {
 			level = lvlDao.queryForId(levelId);
 			points = level.getScoring().getValue();
-			exercise = level.getNextUnsolvedInCycle(previousExercise);
+			exercise = level.getUnsolvedInCycle(previousExerciseId, !backPressed);
 			if (exercise == null) {
 				// This level is solved. Show score.
 				Bundle bundle = new Bundle();
@@ -289,8 +296,8 @@ public class ExerciseActivity extends Activity {
 					} catch (SQLException e) {
 						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 					}
-				} else if ((InputOutputType.TEXT.equals(exercise.getAnswerType()) || InputOutputType.IMAGE
-						.equals(exercise.getAnswerType()) && getPressedButton() == null)
+				} else if (((InputOutputType.TEXT.equals(exercise.getAnswerType()) || InputOutputType.IMAGE
+						.equals(exercise.getAnswerType())) && getPressedButton() == null)
 						|| (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType()) && ""
 								.equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString()))) {
 					// No answer
@@ -301,7 +308,7 @@ public class ExerciseActivity extends Activity {
 						Scoring scoring = level.getScoring();
 						scoring.setValue(scoring.getValue() - (points - scoring.getValue()));
 						scoringDao.update(scoring);
-						bundle.putInt(PREVIOUS_EXERCISE, exercise.getId());
+						bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
 					} catch (SQLException e) {
 						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 					}
@@ -313,10 +320,7 @@ public class ExerciseActivity extends Activity {
 					points = points - level.getScoring().getUnsuccessfulAttempt();
 					return;
 				}
-				bundle.putInt("level_id", level.getId());
-				Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
-				intent.putExtras(bundle);
-				startActivity(intent);
+				openExerciseActivity(bundle);
 			}
 		});
 
@@ -325,22 +329,26 @@ public class ExerciseActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				openLevelsActivity();
+				Bundle bundle = new Bundle();
+				bundle.putBoolean(BACK_PRESSED, true);
+				bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
+				openExerciseActivity(bundle);
 			}
+
 		});
 
 		// Display tip
 		((ImageButton) findViewById(R.id.imgButtonTip)).setOnClickListener(new OnClickListener() {
 
-			private boolean pressed;
+			private boolean tipPressed;
 
 			@Override
 			public void onClick(View v) {
 				Toast toast = Toast.makeText(getApplicationContext(), exercise.getTip(), Toast.LENGTH_LONG);
 				toast.show();
-				if (!pressed) {
+				if (!tipPressed) {
 					points = points - level.getScoring().getUsingTip();
-					pressed = true;
+					tipPressed = true;
 				}
 			}
 		});
@@ -360,6 +368,16 @@ public class ExerciseActivity extends Activity {
 	private void openLevelsActivity() {
 		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+
+	private void openExerciseActivity(Bundle bundle) {
+		if (bundle == null) {
+			bundle = new Bundle();
+		}
+		bundle.putInt(LEVEL_ID, level.getId());
+		Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
+		intent.putExtras(bundle);
 		startActivity(intent);
 	}
 

@@ -22,8 +22,10 @@
 
 package com.mlaskows.quiz.model.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
@@ -31,6 +33,7 @@ import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
 import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -117,17 +120,25 @@ public class Level {
 	 * 
 	 * @param id
 	 *            previous exercise id
+	 * @param forward
+	 *            search forward if true, backward if false
 	 * @return next unsolved exercise
 	 */
-	public Exercise getNextUnsolvedInCycle(int id) {
+	public Exercise getUnsolvedInCycle(int id, boolean forward) {
 		if (getExercises() == null || getExercises().isEmpty()) {
 			return null;
 		}
-		Iterator<Exercise> ie = Iterators.cycle(getExercises());
+		List<Exercise> exercises = null;
+		if (forward) {
+			exercises = new ArrayList<Exercise>(getExercises());
+		} else {
+			exercises = Lists.reverse(new ArrayList<Exercise>(getExercises()));
+		}
+		Iterator<Exercise> ie = Iterators.cycle(exercises);
 		int count = 0;
 		boolean isAfterSpecified = false;
 		// Iterate over cycle.
-		while(count <= getExercises().size() + id) {
+		while (count <= exercises.size() + id) {
 			Exercise e = ie.next();
 			/* Search for next unsolved exercise only if
 			 * specified by method parameter was reached
