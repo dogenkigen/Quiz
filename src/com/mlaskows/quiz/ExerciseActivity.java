@@ -71,9 +71,6 @@ public class ExerciseActivity extends Activity {
 	/** Displayed exercise. */
 	private Exercise exercise;
 
-	/** Points gained for solving exercise. */
-	private int points;
-
 	/** Map of answer views and answer values. */
 	private Map<View, String> answerViews = new HashMap<View, String>();
 
@@ -88,6 +85,9 @@ public class ExerciseActivity extends Activity {
 
 	/** DAO for Scoring. */
 	private Dao<Scoring, Integer> scoringDao;
+
+	/** Level scoring. */
+	private Scoring scoring;
 
 	/** Previous exercise id flag. */
 	private static final String PREVIOUS_EXERCISE_ID = "previous_exercise_id";
@@ -119,7 +119,6 @@ public class ExerciseActivity extends Activity {
 
 		try {
 			level = lvlDao.queryForId(levelId);
-			points = level.getScoring().getValue();
 			exercise = level.getUnsolvedInCycle(previousExerciseId, !backPressed);
 			if (exercise == null) {
 				// This level is solved. Show score.
@@ -130,6 +129,7 @@ public class ExerciseActivity extends Activity {
 				startActivity(intent);
 				return;
 			}
+			scoring = level.getScoring();
 			displayExercise(exercise);
 
 		} catch (SQLException e) {
@@ -291,7 +291,7 @@ public class ExerciseActivity extends Activity {
 					try {
 						exercise.setSolved(true);
 						exerciseDao.update(exercise);
-						level.setScore(points);
+						level.setScore(scoring.getValue());
 						lvlDao.update(level);
 					} catch (SQLException e) {
 						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
@@ -301,23 +301,13 @@ public class ExerciseActivity extends Activity {
 						|| (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType()) && ""
 								.equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString()))) {
 					// No answer
-
-					try {
-						// Update scoring to remember wrong
-						// answers
-						Scoring scoring = level.getScoring();
-						scoring.setValue(scoring.getValue() - (points - scoring.getValue()));
-						scoringDao.update(scoring);
-						bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
-					} catch (SQLException e) {
-						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
-					}
+					bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
 				} else {
 					// Wrong answer
+					updateScoring(scoring.getUnsuccessfulAttempt());
 					Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wrong_answer),
 							Toast.LENGTH_SHORT);
 					toast.show();
-					points = points - level.getScoring().getUnsuccessfulAttempt();
 					return;
 				}
 				openExerciseActivity(bundle);
@@ -347,10 +337,11 @@ public class ExerciseActivity extends Activity {
 				Toast toast = Toast.makeText(getApplicationContext(), exercise.getTip(), Toast.LENGTH_LONG);
 				toast.show();
 				if (!tipPressed) {
-					points = points - level.getScoring().getUsingTip();
+					updateScoring(scoring.getUsingTip());
 					tipPressed = true;
 				}
 			}
+
 		});
 	}
 
@@ -360,6 +351,21 @@ public class ExerciseActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		openLevelsActivity();
+	}
+
+	/**
+	 * Updates scoring for specified value.
+	 * 
+	 * @param value
+	 *            points added to scoring
+	 */
+	private void updateScoring(int value) {
+		try {
+			scoring.setValue(scoring.getValue() + (value));
+			scoringDao.update(scoring);
+		} catch (SQLException e) {
+			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
+		}
 	}
 
 	/**
