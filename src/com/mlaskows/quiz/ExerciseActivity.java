@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.app.Activity;
@@ -255,8 +256,14 @@ public class ExerciseActivity extends Activity {
 			ansString = answerViews.get(pressedButton);
 		}
 		for (Answer answer : exercise.getAnswers()) {
-			if (answer.isValid() && answer.getValue().equals(ansString)) {
-				return true;
+			if (answer.isValid()) {
+				String dbAns = answer.getValue().toLowerCase(Locale.getDefault());
+				String userAns = ansString.toLowerCase(Locale.getDefault());
+				if (dbAns.equals(userAns)) {
+					return true;
+				} else {
+					break;
+				}
 			}
 		}
 		return false;
@@ -285,7 +292,7 @@ public class ExerciseActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				final Bundle bundle = new Bundle();
+
 				if (validateAnswer()) {
 					// Correct answer
 					try {
@@ -296,20 +303,24 @@ public class ExerciseActivity extends Activity {
 					} catch (SQLException e) {
 						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 					}
-				} else if (((InputOutputType.TEXT.equals(exercise.getAnswerType()) || InputOutputType.IMAGE
-						.equals(exercise.getAnswerType())) && getPressedButton() == null)
-						|| (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType()) && ""
-								.equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString()))) {
-					// No answer
-					bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
-				} else {
-					// Wrong answer
+				} else if (!(((InputOutputType.TEXT.equals(exercise.getAnswerType()) || InputOutputType.IMAGE
+						.equals(exercise.getAnswerType())) && getPressedButton() == null) || (InputOutputType.TEXT_FIELD
+						.equals(exercise.getAnswerType()) && "".equals(((EditText) findViewById(R.id.inputAnswer))
+						.getText().toString())))) {
+					/*
+					 * Above if statement is evaluated, when answer
+					 * validation returned false. This statement 
+					 * checks if there is "no answer" situation. 
+					 * If not, wrong answer was given.
+					 */
 					updateScoring(scoring.getUnsuccessfulAttempt());
 					Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wrong_answer),
 							Toast.LENGTH_SHORT);
 					toast.show();
 					return;
 				}
+				final Bundle bundle = new Bundle();
+				bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
 				openExerciseActivity(bundle);
 			}
 		});
@@ -377,6 +388,12 @@ public class ExerciseActivity extends Activity {
 		startActivity(intent);
 	}
 
+	/**
+	 * Opens {@link ExerciseActivity} screen.
+	 * 
+	 * @param bundle
+	 *            parameters for new Activity
+	 */
 	private void openExerciseActivity(Bundle bundle) {
 		if (bundle == null) {
 			bundle = new Bundle();
