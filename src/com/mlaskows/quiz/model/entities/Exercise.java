@@ -62,6 +62,10 @@ public class Exercise {
 	@DatabaseField
 	private String tip;
 
+	/** Determines if tip was used for this exercise. */
+	@DatabaseField
+	private boolean tipUsed;
+
 	/** The level to which exercise belongs. */
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = LEVEL_ID_FIELD_NAME)
 	private Level level;
@@ -113,6 +117,14 @@ public class Exercise {
 		this.tip = tip;
 	}
 
+	public boolean isTipUsed() {
+		return tipUsed;
+	}
+
+	public void setTipUsed(boolean tipUsed) {
+		this.tipUsed = tipUsed;
+	}
+
 	public Level getLevel() {
 		return level;
 	}
@@ -155,8 +167,9 @@ public class Exercise {
 
 	@Override
 	public String toString() {
-		return "Exercise [id=" + id + ", solved=" + solved + ", tip=" + tip + ", questionType=" + questionType
-				+ ", question=" + question + ", answerType=" + answerType + ", answers=" + answers + "]";
+		return "Exercise [id=" + id + ", solved=" + solved + ", tip=" + tip + ", tipUsed=" + tipUsed
+				+ ", questionType=" + questionType + ", question=" + question + ", answerType=" + answerType
+				+ ", answers=" + answers + "]";
 	}
 
 }

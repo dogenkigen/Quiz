@@ -297,7 +297,7 @@ public class ExerciseActivity extends Activity {
 					// Correct answer
 					try {
 						exercise.setSolved(true);
-						exerciseDao.update(exercise);
+						updateExercise(exercise);
 						level.setScore(scoring.getValue());
 						lvlDao.update(level);
 					} catch (SQLException e) {
@@ -341,15 +341,14 @@ public class ExerciseActivity extends Activity {
 		// Display tip
 		((ImageButton) findViewById(R.id.imgButtonTip)).setOnClickListener(new OnClickListener() {
 
-			private boolean tipPressed;
-
 			@Override
 			public void onClick(View v) {
 				Toast toast = Toast.makeText(getApplicationContext(), exercise.getTip(), Toast.LENGTH_LONG);
 				toast.show();
-				if (!tipPressed) {
+				if (!exercise.isTipUsed()) {
 					updateScoring(scoring.getUsingTip());
-					tipPressed = true;
+					exercise.setTipUsed(true);
+					updateExercise(exercise);
 				}
 			}
 
@@ -374,6 +373,20 @@ public class ExerciseActivity extends Activity {
 		try {
 			scoring.setValue(scoring.getValue() + (value));
 			scoringDao.update(scoring);
+		} catch (SQLException e) {
+			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
+		}
+	}
+
+	/**
+	 * Updates specified exercise.
+	 * 
+	 * @param exercise
+	 *            element to update
+	 */
+	private void updateExercise(Exercise exercise) {
+		try {
+			exerciseDao.update(exercise);
 		} catch (SQLException e) {
 			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 		}
