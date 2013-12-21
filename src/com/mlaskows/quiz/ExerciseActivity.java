@@ -90,7 +90,7 @@ public class ExerciseActivity extends Activity {
 	private Dao<Scoring, Integer> scoringDao;
 
 	/** Skip exercise flag. */
-	private static final String SKIP_EXERCISE = "skip_exercise";
+	private static final String PREVIOUS_EXERCISE = "skip_exercise";
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -108,24 +108,12 @@ public class ExerciseActivity extends Activity {
 		// Get levelId from Bundle
 		Bundle b = getIntent().getExtras();
 		int levelId = b.getInt("level_id");
-		boolean skipExercise = b.getBoolean(SKIP_EXERCISE);
+		int previousExercise = b.getInt(PREVIOUS_EXERCISE);
 
 		try {
 			level = lvlDao.queryForId(levelId);
 			points = level.getScoring().getValue();
-			for (Exercise e : level.getExercises()) {
-				if (!e.isSolved()) {
-					if (skipExercise) {
-						/* If Activity was started from another
-						 * exercise which remained unsolved,
-						 * then it should be skipped.*/
-						skipExercise = false;
-						continue;
-					}
-					exercise = e;
-					break;
-				}
-			}
+			exercise = level.getNextUnsolvedInCycle(previousExercise);
 			if (exercise == null) {
 				// This level is solved. Show score.
 				Bundle bundle = new Bundle();
@@ -313,7 +301,7 @@ public class ExerciseActivity extends Activity {
 						Scoring scoring = level.getScoring();
 						scoring.setValue(scoring.getValue() - (points - scoring.getValue()));
 						scoringDao.update(scoring);
-						bundle.putBoolean(SKIP_EXERCISE, true);
+						bundle.putInt(PREVIOUS_EXERCISE, exercise.getId());
 					} catch (SQLException e) {
 						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 					}

@@ -23,12 +23,14 @@
 package com.mlaskows.quiz.model.entities;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
+import com.google.common.collect.Iterators;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -109,6 +111,47 @@ public class Level {
 		this.score = score;
 	}
 
+	/**
+	 * Returns next unsolved exercise in cycle for specified
+	 * id.
+	 * 
+	 * @param id
+	 *            previous exercise id
+	 * @return next unsolved exercise
+	 */
+	public Exercise getNextUnsolvedInCycle(int id) {
+		if (getExercises() == null || getExercises().isEmpty()) {
+			return null;
+		}
+		Iterator<Exercise> ie = Iterators.cycle(getExercises());
+		int count = 0;
+		boolean isAfterSpecified = false;
+		// Iterate over cycle.
+		while(count <= getExercises().size() + id) {
+			Exercise e = ie.next();
+			/* Search for next unsolved exercise only if
+			 * specified by method parameter was reached
+			 * or if parameter equals 0.
+			 */
+			if ((isAfterSpecified || id == 0) && !e.isSolved()) {
+				return e;
+			}
+			/* Exercise specified by method parameter is 
+			 * reached. Now next exercise can be searched. 
+			 */
+			if (id == e.getId()) {
+				isAfterSpecified = true;
+			}
+			count++;
+		}
+		return null;
+	}
+
+	/**
+	 * Calculates progress.
+	 * 
+	 * @return level progress
+	 */
 	public int getProgress() {
 		int ec = exercises.size();
 		int pec = 0;
