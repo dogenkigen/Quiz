@@ -32,6 +32,7 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
 import roboguice.RoboGuice;
+import roboguice.inject.InjectResource;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.SQLException;
@@ -101,6 +102,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	@Inject
 	private ScoringDao scoringDao;
 
+	/** Application name. */
+	@InjectResource(R.string.app_name)
+	private String applicationName;
+
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.context = context;
@@ -145,12 +150,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				levelDao.create(level);
 			}
 		} catch (SQLException e) {
-			Log.e(DATABASE_NAME, "Can't create database!", e);
+			Log.e(applicationName, "Can't create database!", e);
 			throw new RuntimeException(e);
 		} catch (java.sql.SQLException e) {
-			Log.e(DATABASE_NAME, "Error while creating DB!", e);
+			Log.e(applicationName, "Error while creating DB!", e);
 		} catch (Exception e) {
-			Log.e(DatabaseHelper.class.getSimpleName(), "Cannot load XML to DB!", e);
+			Log.e(applicationName, "Cannot load XML to DB!", e);
 		}
 
 	}
@@ -175,7 +180,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				db.execSQL(sql);
 			}
 		} catch (SQLException e) {
-			Log.e(DATABASE_NAME, "Exception during DB upgrade!", e);
+			Log.e(applicationName, "Exception during DB upgrade!", e);
 			throw new RuntimeException(e);
 		}
 

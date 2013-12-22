@@ -22,13 +22,11 @@
 
 package com.mlaskows.quiz.activity;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import roboguice.activity.RoboActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ListView;
@@ -61,15 +59,10 @@ public class LevelsActivity extends RoboActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_levels);
-		try {
-			List<Level> levels = lvlDao.queryForAll();
-			LevelsAdapter adapter = new LevelsAdapter(this, R.layout.list_item_row, levels);
-			ListView listView = (ListView) findViewById(R.id.listLevels);
-			listView.setAdapter(adapter);
-
-		} catch (SQLException e) {
-			Log.e(LevelsActivity.class.getSimpleName(), e.getMessage());
-		}
+		List<Level> levels = lvlDao.queryForAll();
+		LevelsAdapter adapter = new LevelsAdapter(this, R.layout.list_item_row, levels);
+		ListView listView = (ListView) findViewById(R.id.listLevels);
+		listView.setAdapter(adapter);
 	}
 
 	/* (non-Javadoc)

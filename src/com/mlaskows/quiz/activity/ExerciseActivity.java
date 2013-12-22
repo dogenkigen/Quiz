@@ -23,7 +23,6 @@
 package com.mlaskows.quiz.activity;
 
 import java.lang.reflect.Field;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,6 +31,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.os.Bundle;
@@ -106,6 +106,14 @@ public class ExerciseActivity extends RoboActivity {
 	@InjectView(R.id.imgButtonTip)
 	private ImageButton imgButtonTip;
 
+	/** Application name. */
+	@InjectResource(R.string.app_name)
+	private String applicationName;
+
+	/** Error string. */
+	@InjectResource(R.string.error)
+	private String errorString;
+
 	/** Previous exercise id flag. */
 	private static final String PREVIOUS_EXERCISE_ID = "previous_exercise_id";
 
@@ -133,24 +141,19 @@ public class ExerciseActivity extends RoboActivity {
 		int previousExerciseId = b.getInt(PREVIOUS_EXERCISE_ID);
 		boolean backPressed = b.getBoolean(BACK_PRESSED);
 
-		try {
-			level = lvlDao.queryForId(levelId);
-			exercise = level.getUnsolvedInCycle(previousExerciseId, !backPressed);
-			if (exercise == null) {
-				// This level is solved. Show score.
-				Bundle bundle = new Bundle();
-				bundle.putInt("score", level.getScore());
-				Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
-				intent.putExtras(bundle);
-				startActivity(intent);
-				return;
-			}
-			scoring = level.getScoring();
-			displayExercise(exercise);
-
-		} catch (SQLException e) {
-			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
+		level = lvlDao.queryForId(levelId);
+		exercise = level.getUnsolvedInCycle(previousExerciseId, !backPressed);
+		if (exercise == null) {
+			// This level is solved. Show score.
+			Bundle bundle = new Bundle();
+			bundle.putInt("score", level.getScore());
+			Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
+			intent.putExtras(bundle);
+			startActivity(intent);
+			return;
 		}
+		scoring = level.getScoring();
+		displayExercise(exercise);
 
 	}
 
@@ -165,7 +168,7 @@ public class ExerciseActivity extends RoboActivity {
 		try {
 			displayAnswers(exercise.getAnswers(), exercise.getAnswerType());
 		} catch (Exception e) {
-			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
+			Log.e(applicationName, errorString, e);
 		}
 	}
 
@@ -300,14 +303,11 @@ public class ExerciseActivity extends RoboActivity {
 
 				if (validateAnswer()) {
 					// Correct answer
-					try {
-						exercise.setSolved(true);
-						updateExercise(exercise);
-						level.setScore(scoring.getValue());
-						lvlDao.update(level);
-					} catch (SQLException e) {
-						Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
-					}
+					exercise.setSolved(true);
+					exerciseDao.update(exercise);
+					level.setScore(scoring.getValue());
+					lvlDao.update(level);
+
 				} else if (!(((InputOutputType.TEXT.equals(exercise.getAnswerType()) || InputOutputType.IMAGE
 						.equals(exercise.getAnswerType())) && getPressedButton() == null) || (InputOutputType.TEXT_FIELD
 						.equals(exercise.getAnswerType()) && "".equals(((EditText) findViewById(R.id.inputAnswer))
@@ -318,7 +318,8 @@ public class ExerciseActivity extends RoboActivity {
 					 * checks if there is "no answer" situation. 
 					 * If not, wrong answer was given.
 					 */
-					updateScoring(scoring.getUnsuccessfulAttempt());
+					scoring.setValue(scoring.getValue() + scoring.getUnsuccessfulAttempt());
+					scoringDao.update(scoring);
 					Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wrong_answer),
 							Toast.LENGTH_SHORT);
 					toast.show();
@@ -351,9 +352,10 @@ public class ExerciseActivity extends RoboActivity {
 				Toast toast = Toast.makeText(getApplicationContext(), exercise.getTip(), Toast.LENGTH_LONG);
 				toast.show();
 				if (!exercise.isTipUsed()) {
-					updateScoring(scoring.getUsingTip());
+					scoring.setValue(scoring.getValue() + scoring.getUsingTip());
+					scoringDao.update(scoring);
 					exercise.setTipUsed(true);
-					updateExercise(exercise);
+					exerciseDao.update(exercise);
 				}
 			}
 
@@ -366,35 +368,6 @@ public class ExerciseActivity extends RoboActivity {
 	@Override
 	public void onBackPressed() {
 		openLevelsActivity();
-	}
-
-	/**
-	 * Updates scoring for specified value.
-	 * 
-	 * @param value
-	 *            points added to scoring
-	 */
-	private void updateScoring(int value) {
-		try {
-			scoring.setValue(scoring.getValue() + (value));
-			scoringDao.update(scoring);
-		} catch (SQLException e) {
-			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
-		}
-	}
-
-	/**
-	 * Updates specified exercise.
-	 * 
-	 * @param exercise
-	 *            element to update
-	 */
-	private void updateExercise(Exercise exercise) {
-		try {
-			exerciseDao.update(exercise);
-		} catch (SQLException e) {
-			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
-		}
 	}
 
 	/**

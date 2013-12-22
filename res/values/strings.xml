@@ -3,6 +3,7 @@
 
     <string name="app_name">Quiz</string>
     <string name="exit">Exit</string>
+    <string name="error">ERROR</string>
     <string name="default_language">en</string>
     <string name="xml_prefix">q_</string>
     <string name="start_game">Start game</string>
