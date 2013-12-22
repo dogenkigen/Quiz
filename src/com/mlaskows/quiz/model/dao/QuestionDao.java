@@ -20,37 +20,41 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.entities;
+package com.mlaskows.quiz.model.dao;
 
-import java.util.List;
+import java.sql.SQLException;
 
-import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.Root;
+import com.google.inject.Singleton;
+import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.DatabaseTableConfig;
+import com.mlaskows.quiz.model.DatabaseHelper;
+import com.mlaskows.quiz.model.entity.Question;
 
 /**
- * Root element of Quiz structure. Main XML element.
+ * Data Access Object for entity {@link Question}.
  * 
  * @author Maciej Laskowski
  * 
  */
-@Root
-public class Quiz {
+@Singleton
+public class QuestionDao extends BaseDaoImpl<Question, Integer> {
 
-	/** List of levels. */
-	@ElementList
-	private List<Level> levels;
-
-	public List<Level> getLevels() {
-		return levels;
+	public QuestionDao() throws SQLException {
+		super(DatabaseHelper.getConnectionSrc(), Question.class);
 	}
 
-	public void setLevels(List<Level> levels) {
-		this.levels = levels;
+	public QuestionDao(Class<Question> dataClass) throws SQLException {
+		super(dataClass);
 	}
 
-	@Override
-	public String toString() {
-		return "Quiz [levels=" + levels + "]";
+	public QuestionDao(ConnectionSource connectionSource, Class<Question> dataClass) throws SQLException {
+		super(connectionSource, dataClass);
+	}
+
+	public QuestionDao(ConnectionSource connectionSource, DatabaseTableConfig<Question> tableConfig)
+			throws SQLException {
+		super(connectionSource, tableConfig);
 	}
 
 }

@@ -31,24 +31,30 @@ import java.util.Locale;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
+import roboguice.RoboGuice;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.google.inject.Inject;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.mlaskows.quiz.QuizApplication;
 import com.mlaskows.quiz.R;
-import com.mlaskows.quiz.model.entities.Answer;
-import com.mlaskows.quiz.model.entities.Exercise;
-import com.mlaskows.quiz.model.entities.Level;
-import com.mlaskows.quiz.model.entities.Question;
-import com.mlaskows.quiz.model.entities.Quiz;
-import com.mlaskows.quiz.model.entities.Scoring;
+import com.mlaskows.quiz.model.dao.AnswerDao;
+import com.mlaskows.quiz.model.dao.ExerciseDao;
+import com.mlaskows.quiz.model.dao.LevelDao;
+import com.mlaskows.quiz.model.dao.QuestionDao;
+import com.mlaskows.quiz.model.dao.ScoringDao;
+import com.mlaskows.quiz.model.entity.Answer;
+import com.mlaskows.quiz.model.entity.Exercise;
+import com.mlaskows.quiz.model.entity.Level;
+import com.mlaskows.quiz.model.entity.Question;
+import com.mlaskows.quiz.model.entity.Quiz;
+import com.mlaskows.quiz.model.entity.Scoring;
 
 /**
  * Creates database in first application run. Also can
@@ -69,23 +75,31 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 */
 	private static final int DATABASE_VERSION = 1;
 
+	/** Instance. */
+	private static DatabaseHelper instance = new DatabaseHelper(QuizApplication.getContext());
+
 	/** Application context. */
-	Context context;
+	private Context context;
 
 	/** Level DAO */
-	private Dao<Level, Integer> levelDao;
+	@Inject
+	private LevelDao levelDao;
 
 	/** Exercise DAO */
-	private Dao<Exercise, Integer> exerciseDao;
+	@Inject
+	private ExerciseDao exerciseDao;
 
 	/** Question DAO */
-	private Dao<Question, Integer> questionDao;
+	@Inject
+	private QuestionDao questionDao;
 
 	/** Answer DAO */
-	private Dao<Answer, Integer> answerDao;
+	@Inject
+	private AnswerDao answerDao;
 
 	/** Scoring DAO */
-	private Dao<Scoring, Integer> scoringDao;
+	@Inject
+	private ScoringDao scoringDao;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -106,18 +120,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, Question.class);
 			TableUtils.createTable(cs, Answer.class);
 			TableUtils.createTable(cs, Scoring.class);
-			// Load content from XML to database. Children
-			// first than parents.
-			levelDao = new BaseDaoImpl<Level, Integer>(getConnectionSource(), Level.class) {
-			};
-			exerciseDao = new BaseDaoImpl<Exercise, Integer>(getConnectionSource(), Exercise.class) {
-			};
-			questionDao = new BaseDaoImpl<Question, Integer>(getConnectionSource(), Question.class) {
-			};
-			answerDao = new BaseDaoImpl<Answer, Integer>(getConnectionSource(), Answer.class) {
-			};
-			scoringDao = new BaseDaoImpl<Scoring, Integer>(getConnectionSource(), Scoring.class) {
-			};
+			// Inject manually since only RoboActivity can
+			// do it by itself.
+			RoboGuice.injectMembers(context, this);
+
+			/* Load content from XML to database.
+			 * Children first than parents. 
+			 */
 			Quiz quiz = loadXml();
 			for (Level level : quiz.getLevels()) {
 				for (Exercise exercise : level.getExercises()) {
@@ -173,54 +182,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	}
 
 	/**
-	 * Return {@link Level} DAO to access DB.
+	 * Returns {@link ConnectionSource} object.
 	 * 
-	 * @return Level DAO
+	 * @return {@link ConnectionSource} object
 	 */
-	public Dao<Level, Integer> getLevelDao() {
-		if (levelDao == null) {
-			try {
-				levelDao = new BaseDaoImpl<Level, Integer>(getConnectionSource(), Level.class) {
-				};
-			} catch (java.sql.SQLException e) {
-				Log.e(DatabaseHelper.class.getSimpleName(), "Cannot create DAO!", e);
-			}
-		}
-		return levelDao;
-	}
-
-	/**
-	 * Return {@link Exercise} DAO to access DB.
-	 * 
-	 * @return Exercise DAO
-	 */
-	public Dao<Exercise, Integer> getExerciseDao() {
-		if (exerciseDao == null) {
-			try {
-				exerciseDao = new BaseDaoImpl<Exercise, Integer>(getConnectionSource(), Exercise.class) {
-				};
-			} catch (java.sql.SQLException e) {
-				Log.e(DatabaseHelper.class.getSimpleName(), "Cannot create DAO!", e);
-			}
-		}
-		return exerciseDao;
-	}
-
-	/**
-	 * Return {@link Scoring} DAO to access DB.
-	 * 
-	 * @return Scoring DAO
-	 */
-	public Dao<Scoring, Integer> getScoringDao() {
-		if (scoringDao == null) {
-			try {
-				scoringDao = new BaseDaoImpl<Scoring, Integer>(getConnectionSource(), Scoring.class) {
-				};
-			} catch (java.sql.SQLException e) {
-				Log.e(DatabaseHelper.class.getSimpleName(), "Cannot create DAO!", e);
-			}
-		}
-		return scoringDao;
+	public static ConnectionSource getConnectionSrc() {
+		return instance.getConnectionSource();
 	}
 
 	/**

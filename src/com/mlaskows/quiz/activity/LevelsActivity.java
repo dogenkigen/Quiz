@@ -20,26 +20,36 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz;
+package com.mlaskows.quiz.activity;
 
-import android.app.Activity;
+import java.sql.SQLException;
+import java.util.List;
+
+import roboguice.activity.RoboActivity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ListView;
+
+import com.google.inject.Inject;
+import com.mlaskows.quiz.R;
+import com.mlaskows.quiz.adapter.LevelsAdapter;
+import com.mlaskows.quiz.model.dao.LevelDao;
+import com.mlaskows.quiz.model.entity.Level;
 
 /**
- * Main application activity.
+ * Activity with levels list.
  * 
  * @author Maciej Laskowski
  * 
  */
-public class MainActivity extends Activity {
+public class LevelsActivity extends RoboActivity {
 
+	/** DAO for Level. */
+	@Inject
+	private LevelDao lvlDao;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -50,44 +60,16 @@ public class MainActivity extends Activity {
 		// Set full screen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_main);
-		initButtons();
-	}
+		setContentView(R.layout.activity_levels);
+		try {
+			List<Level> levels = lvlDao.queryForAll();
+			LevelsAdapter adapter = new LevelsAdapter(this, R.layout.list_item_row, levels);
+			ListView listView = (ListView) findViewById(R.id.listLevels);
+			listView.setAdapter(adapter);
 
-	/**
-	 * Initialize buttons.
-	 */
-	private void initButtons() {
-		// Start game
-		((Button) findViewById(R.id.buttonStart)).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
-				startActivity(intent);
-			}
-		});
-
-		// More games
-		((Button) findViewById(R.id.buttonMoreGames)).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri
-						.parse(getString(R.string.check_more_games_url)));
-				startActivity(browserIntent);
-			}
-		});
-
-		// Exit application
-		((Button) findViewById(R.id.buttonExit)).setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-
+		} catch (SQLException e) {
+			Log.e(LevelsActivity.class.getSimpleName(), e.getMessage());
+		}
 	}
 
 	/* (non-Javadoc)
@@ -95,7 +77,8 @@ public class MainActivity extends Activity {
 	 */
 	@Override
 	public void onBackPressed() {
-		finish();
+		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
-
 }

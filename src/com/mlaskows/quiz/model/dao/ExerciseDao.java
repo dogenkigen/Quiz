@@ -20,31 +20,41 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.enums;
+package com.mlaskows.quiz.model.dao;
 
-import com.mlaskows.quiz.model.entity.Answer;
-import com.mlaskows.quiz.model.entity.Question;
+import java.sql.SQLException;
+
+import com.google.inject.Singleton;
+import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.DatabaseTableConfig;
+import com.mlaskows.quiz.model.DatabaseHelper;
+import com.mlaskows.quiz.model.entity.Exercise;
 
 /**
- * Type of {@link Question} or {@link Answer}.
+ * Data Access Object for entity {@link Exercise}.
  * 
  * @author Maciej Laskowski
  * 
  */
-public enum InputOutputType {
+@Singleton
+public class ExerciseDao extends BaseDaoImpl<Exercise, Integer> {
 
-	/**
-	 * Displayed text.
-	 */
-	TEXT,
+	public ExerciseDao() throws SQLException {
+		super(DatabaseHelper.getConnectionSrc(), Exercise.class);
+	}
 
-	/**
-	 * Input text field. For {@link Answer} only.
-	 */
-	TEXT_FIELD,
+	public ExerciseDao(Class<Exercise> dataClass) throws SQLException {
+		super(dataClass);
+	}
 
-	/**
-	 * Image.
-	 */
-	IMAGE
+	public ExerciseDao(ConnectionSource connectionSource, Class<Exercise> dataClass) throws SQLException {
+		super(connectionSource, dataClass);
+	}
+
+	public ExerciseDao(ConnectionSource connectionSource, DatabaseTableConfig<Exercise> tableConfig)
+			throws SQLException {
+		super(connectionSource, tableConfig);
+	}
+
 }

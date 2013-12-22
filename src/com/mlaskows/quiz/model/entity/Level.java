@@ -20,7 +20,7 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.entities;
+package com.mlaskows.quiz.model.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,6 +37,7 @@ import com.google.common.collect.Lists;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.mlaskows.quiz.model.dao.LevelDao;
 
 /**
  * Quiz level. It is XML element and DB entity in one.
@@ -45,7 +46,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * 
  */
 @Root
-@DatabaseTable
+@DatabaseTable(daoClass = LevelDao.class)
 public class Level {
 
 	private static final String SCORING_ID_FIELD_NAME = "scoring_id";

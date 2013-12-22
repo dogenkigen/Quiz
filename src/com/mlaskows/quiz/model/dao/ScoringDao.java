@@ -20,31 +20,40 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.enums;
+package com.mlaskows.quiz.model.dao;
 
-import com.mlaskows.quiz.model.entity.Answer;
-import com.mlaskows.quiz.model.entity.Question;
+import java.sql.SQLException;
+
+import com.google.inject.Singleton;
+import com.j256.ormlite.dao.BaseDaoImpl;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.DatabaseTableConfig;
+import com.mlaskows.quiz.model.DatabaseHelper;
+import com.mlaskows.quiz.model.entity.Scoring;
 
 /**
- * Type of {@link Question} or {@link Answer}.
+ * Data Access Object for entity {@link Scoring}.
  * 
  * @author Maciej Laskowski
  * 
  */
-public enum InputOutputType {
+@Singleton
+public class ScoringDao extends BaseDaoImpl<Scoring, Integer> {
 
-	/**
-	 * Displayed text.
-	 */
-	TEXT,
+	public ScoringDao() throws SQLException {
+		super(DatabaseHelper.getConnectionSrc(), Scoring.class);
+	}
 
-	/**
-	 * Input text field. For {@link Answer} only.
-	 */
-	TEXT_FIELD,
+	public ScoringDao(Class<Scoring> dataClass) throws SQLException {
+		super(dataClass);
+	}
 
-	/**
-	 * Image.
-	 */
-	IMAGE
+	public ScoringDao(ConnectionSource connectionSource, Class<Scoring> dataClass) throws SQLException {
+		super(connectionSource, dataClass);
+	}
+
+	public ScoringDao(ConnectionSource connectionSource, DatabaseTableConfig<Scoring> tableConfig) throws SQLException {
+		super(connectionSource, tableConfig);
+	}
+
 }

@@ -20,7 +20,7 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.adapters;
+package com.mlaskows.quiz.adapter;
 
 import java.util.List;
 
@@ -37,9 +37,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mlaskows.quiz.ExerciseActivity;
 import com.mlaskows.quiz.R;
-import com.mlaskows.quiz.model.entities.Level;
+import com.mlaskows.quiz.activity.ExerciseActivity;
+import com.mlaskows.quiz.model.entity.Level;
 
 /**
  * Levels list adapter.

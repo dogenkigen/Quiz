@@ -20,50 +20,34 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.entities;
+package com.mlaskows.quiz.model.entity;
 
-import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Text;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.mlaskows.quiz.model.dao.QuestionDao;
 
 /**
- * Class represents scoring for {@link Level}. It is XML
- * element and DB entity in one.
+ * This class represents question. It is XML element and DB
+ * entity in one.
  * 
  * @author Maciej Laskowski
  * 
  */
 @Root
-@DatabaseTable
-public class Scoring {
+@DatabaseTable(daoClass = QuestionDao.class)
+public class Question {
 
-	public static final String LEVEL_ID_FIELD_NAME = "level_id";
-
-	/** Scoring id. */
+	/** Question id. */
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	/** Points granted for correct answer. */
+	/** Question value. */
 	@Text(required = true)
 	@DatabaseField(canBeNull = false)
-	private int value;
-
-	/** Points subtracted after using a tip. */
-	@Attribute
-	@DatabaseField
-	private int usingTip;
-
-	/** Points subtracted after unsuccessful attempt */
-	@Attribute
-	@DatabaseField
-	private int unsuccessfulAttempt;
-
-	/** The level to which exercise belongs. */
-	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = LEVEL_ID_FIELD_NAME)
-	private Level level;
+	private String value;
 
 	public int getId() {
 		return id;
@@ -73,42 +57,17 @@ public class Scoring {
 		this.id = id;
 	}
 
-	public int getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(String value) {
 		this.value = value;
-	}
-
-	public int getUsingTip() {
-		return usingTip;
-	}
-
-	public void setUsingTip(int usingTip) {
-		this.usingTip = usingTip;
-	}
-
-	public int getUnsuccessfulAttempt() {
-		return unsuccessfulAttempt;
-	}
-
-	public void setUnsuccessfulAttempt(int unsuccessfulAttempt) {
-		this.unsuccessfulAttempt = unsuccessfulAttempt;
-	}
-
-	public Level getLevel() {
-		return level;
-	}
-
-	public void setLevel(Level level) {
-		this.level = level;
 	}
 
 	@Override
 	public String toString() {
-		return "Scoring [id=" + id + ", value=" + value + ", usingTip=" + usingTip + ", unsuccessfulAttempt="
-				+ unsuccessfulAttempt + "]";
+		return "Question [id=" + id + ", value=" + value + "]";
 	}
 
 }

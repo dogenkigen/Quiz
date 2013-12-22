@@ -20,31 +20,37 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.enums;
+package com.mlaskows.quiz.model.entity;
 
-import com.mlaskows.quiz.model.entity.Answer;
-import com.mlaskows.quiz.model.entity.Question;
+import java.util.List;
+
+import org.simpleframework.xml.ElementList;
+import org.simpleframework.xml.Root;
 
 /**
- * Type of {@link Question} or {@link Answer}.
+ * Root element of Quiz structure. Main XML element.
  * 
  * @author Maciej Laskowski
  * 
  */
-public enum InputOutputType {
+@Root
+public class Quiz {
 
-	/**
-	 * Displayed text.
-	 */
-	TEXT,
+	/** List of levels. */
+	@ElementList
+	private List<Level> levels;
 
-	/**
-	 * Input text field. For {@link Answer} only.
-	 */
-	TEXT_FIELD,
+	public List<Level> getLevels() {
+		return levels;
+	}
 
-	/**
-	 * Image.
-	 */
-	IMAGE
+	public void setLevels(List<Level> levels) {
+		this.levels = levels;
+	}
+
+	@Override
+	public String toString() {
+		return "Quiz [levels=" + levels + "]";
+	}
+
 }

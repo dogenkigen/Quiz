@@ -20,7 +20,7 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz.model.entities;
+package com.mlaskows.quiz.model.entity;
 
 import java.util.Collection;
 
@@ -32,6 +32,7 @@ import org.simpleframework.xml.Root;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.mlaskows.quiz.model.dao.ExerciseDao;
 import com.mlaskows.quiz.model.enums.InputOutputType;
 
 /**
@@ -43,7 +44,7 @@ import com.mlaskows.quiz.model.enums.InputOutputType;
  * 
  */
 @Root
-@DatabaseTable
+@DatabaseTable(daoClass = ExerciseDao.class)
 public class Exercise {
 
 	public static final String LEVEL_ID_FIELD_NAME = "level_id";

@@ -20,7 +20,7 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz;
+package com.mlaskows.quiz.activity;
 
 import java.lang.reflect.Field;
 import java.sql.SQLException;
@@ -31,7 +31,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import android.app.Activity;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,13 +49,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.j256.ormlite.dao.Dao;
-import com.mlaskows.quiz.model.DatabaseHelper;
-import com.mlaskows.quiz.model.entities.Answer;
-import com.mlaskows.quiz.model.entities.Exercise;
-import com.mlaskows.quiz.model.entities.Level;
-import com.mlaskows.quiz.model.entities.Question;
-import com.mlaskows.quiz.model.entities.Scoring;
+import com.google.inject.Inject;
+import com.mlaskows.quiz.R;
+import com.mlaskows.quiz.model.dao.ExerciseDao;
+import com.mlaskows.quiz.model.dao.LevelDao;
+import com.mlaskows.quiz.model.dao.ScoringDao;
+import com.mlaskows.quiz.model.entity.Answer;
+import com.mlaskows.quiz.model.entity.Exercise;
+import com.mlaskows.quiz.model.entity.Level;
+import com.mlaskows.quiz.model.entity.Question;
+import com.mlaskows.quiz.model.entity.Scoring;
 import com.mlaskows.quiz.model.enums.InputOutputType;
 
 /**
@@ -64,31 +68,43 @@ import com.mlaskows.quiz.model.enums.InputOutputType;
  * @author Maciej Laskowski
  * 
  */
-public class ExerciseActivity extends Activity {
+public class ExerciseActivity extends RoboActivity {
 
 	/** Exercise's level. */
 	private Level level;
 
+	/** DAO for Level. */
+	@Inject
+	private LevelDao lvlDao;
+
 	/** Displayed exercise. */
 	private Exercise exercise;
+
+	/** DAO for Exercise. */
+	@Inject
+	private ExerciseDao exerciseDao;
+
+	/** Level scoring. */
+	private Scoring scoring;
+
+	/** DAO for Scoring. */
+	@Inject
+	private ScoringDao scoringDao;
 
 	/** Map of answer views and answer values. */
 	private Map<View, String> answerViews = new HashMap<View, String>();
 
-	/** Database helper. */
-	private DatabaseHelper dbHelper;
+	/** Next button. */
+	@InjectView(R.id.buttonNext)
+	private Button buttonNext;
 
-	/** DAO for Level. */
-	private Dao<Level, Integer> lvlDao;
+	/** Back button. */
+	@InjectView(R.id.buttonBack)
+	private Button buttonBack;
 
-	/** DAO for Exercise. */
-	private Dao<Exercise, Integer> exerciseDao;
-
-	/** DAO for Scoring. */
-	private Dao<Scoring, Integer> scoringDao;
-
-	/** Level scoring. */
-	private Scoring scoring;
+	/** Tip button */
+	@InjectView(R.id.imgButtonTip)
+	private ImageButton imgButtonTip;
 
 	/** Previous exercise id flag. */
 	private static final String PREVIOUS_EXERCISE_ID = "previous_exercise_id";
@@ -104,7 +120,6 @@ public class ExerciseActivity extends Activity {
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		initVariables();
 		super.onCreate(savedInstanceState);
 		// Set full screen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -137,16 +152,6 @@ public class ExerciseActivity extends Activity {
 			Log.e(ExerciseActivity.class.getSimpleName(), e.getMessage());
 		}
 
-	}
-
-	/**
-	 * Initialize variables.
-	 */
-	private void initVariables() {
-		dbHelper = new DatabaseHelper(getApplicationContext());
-		lvlDao = dbHelper.getLevelDao();
-		exerciseDao = dbHelper.getExerciseDao();
-		scoringDao = dbHelper.getScoringDao();
 	}
 
 	/**
@@ -288,7 +293,7 @@ public class ExerciseActivity extends Activity {
 	 */
 	private void initButtons() {
 		// Next exercise
-		((Button) findViewById(R.id.buttonNext)).setOnClickListener(new OnClickListener() {
+		buttonNext.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -326,7 +331,7 @@ public class ExerciseActivity extends Activity {
 		});
 
 		// Back
-		((Button) findViewById(R.id.buttonBack)).setOnClickListener(new OnClickListener() {
+		buttonBack.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -339,7 +344,7 @@ public class ExerciseActivity extends Activity {
 		});
 
 		// Display tip
-		((ImageButton) findViewById(R.id.imgButtonTip)).setOnClickListener(new OnClickListener() {
+		imgButtonTip.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

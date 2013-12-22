@@ -20,14 +20,16 @@
  * or have any questions.
  */
 
-package com.mlaskows.quiz;
+package com.mlaskows.quiz.activity;
 
-import android.app.Activity;
+import roboguice.activity.RoboActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.mlaskows.quiz.R;
 
 /**
  * This Activity displays level score.
@@ -35,7 +37,7 @@ import android.widget.TextView;
  * @author Maciej Laskowski
  * 
  */
-public class ScoreActivity extends Activity {
+public class ScoreActivity extends RoboActivity {
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
