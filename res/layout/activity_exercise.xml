@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/exercise_question_margin_top"
+            android:layout_marginTop="@dimen/exercise_question_text_margin_top"
             android:gravity="center"
             android:text="@string/question"
             android:textSize="@dimen/exercise_question_font_size"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/exercise_question_margin_top"
+            android:layout_marginTop="@dimen/exercise_question_image_margin_top"
             android:contentDescription="@string/question_image"
             android:src="@android:drawable/alert_dark_frame"
             android:visibility="gone" />

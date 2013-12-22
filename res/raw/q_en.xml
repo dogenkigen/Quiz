@@ -1,65 +1,97 @@
 <quiz>
     <levels>
-	    <level id="1" name="Level 1">
+	    <level id="1" name="Europe">
 	        <scoring usingTip="-10" unsuccessfulAttempt="-10">100</scoring>
 		    <exercises>
 			    <exercise questionType="IMAGE" answerType="TEXT">
-			        <question>uzbekistan</question>
-			        <tip>Think!</tip>
-			        <answers>
-			            <answer valid="true">A</answer>
-			            <answer>B</answer>
-			            <answer>C</answer>
-			            <answer>D</answer>
-			        </answers>
-			    </exercise>
-			    <exercise questionType="IMAGE" answerType="TEXT_FIELD">
 			        <question>poland</question>
-			        <tip>Think!</tip>
+			        <tip>Country in central Europe...</tip>
 			        <answers>
-			            <answer valid="true">poland</answer>
+			            <answer valid="true">Poland</answer>
+			            <answer>England</answer>
+			            <answer>Germany</answer>
+			            <answer>Russia</answer>
 			        </answers>
 			    </exercise>
-			    <exercise questionType="IMAGE" answerType="IMAGE">
-			        <question>uzbekistan</question>
+			    <exercise questionType="TEXT" answerType="TEXT_FIELD">
+			        <question>What is the name of Luxembourg capital?</question>
 			        <tip>Think!</tip>
 			        <answers>
-			            <answer valid="true">uzbekistan</answer>
+			            <answer valid="true">luxembourg</answer>
+			        </answers>
+			    </exercise>
+			    <exercise questionType="TEXT" answerType="IMAGE">
+			        <question>Point German flag.</question>
+			        <tip>Three colors...</tip>
+			        <answers>
+			            <answer>spain</answer>
 			            <answer>poland</answer>
-			            <answer>germany</answer>
+			            <answer valid="true">germany</answer>
 			            <answer>france</answer>
 			        </answers>
 			    </exercise>
 		    </exercises>
 		</level>
-		<level id="2" name="Level 2">
-		    <scoring usingTip="-10" unsuccessfulAttempt="-10">100</scoring>
+		<level id="2" name="Asia">
+		    <scoring usingTip="-20" unsuccessfulAttempt="-20">200</scoring>
 		    <exercises>
-			    <exercise questionType="TEXT" answerType="TEXT">
-			        <question>What is the firs letter int the alphabet?</question>
-			        <tip>Think!</tip>
+			    <exercise questionType="IMAGE" answerType="TEXT_FIELD">
+			        <question>india</question>
+			        <tip>The second-most populous country in thw world.</tip>
 			        <answers>
-			            <answer valid="true">A</answer>
-			            <answer>B</answer>
-			            <answer>C</answer>
-			            <answer>D</answer>
+			            <answer valid="true">india</answer>
 			        </answers>
 			    </exercise>
-  				<exercise questionType="IMAGE" answerType="TEXT_FIELD">
-			        <question>poland</question>
-			        <tip>Think!</tip>
+  				<exercise questionType="TEXT" answerType="TEXT">
+			        <question>What is the name of China capital</question>
+			        <tip>Name starts on B.</tip>
 			        <answers>
-			            <answer valid="true">poland</answer>
+			            <answer>Tokio</answer>
+			            <answer>Bombai</answer>
+			            <answer valid="true">Beijing</answer>
+			            <answer>Moscow</answer>
 			        </answers>
 			    </exercise>
-			    <exercise questionType="IMAGE" answerType="IMAGE">
-			        <question>uzbekistan</question>
-			        <tip>Think!</tip>
+			    <exercise questionType="TEXT" answerType="IMAGE">
+			        <question>Point Uzbekistan flag.</question>
+			        <tip>It contains blue color.</tip>
 			        <answers>
 			            <answer valid="true">uzbekistan</answer>
-			            <answer>poland</answer>
-			            <answer>germany</answer>
-			            <answer>france</answer>
+			            <answer>china</answer>
+			            <answer>japan</answer>
+			            <answer>india</answer>
+			        </answers>
+			    </exercise>
+		    </exercises>
+		</level>
+		<level id="3" name="Africa">
+		    <scoring usingTip="-30" unsuccessfulAttempt="-30">300</scoring>
+		    <exercises>
+			    <exercise questionType="IMAGE" answerType="TEXT_FIELD">
+			        <question>somalia</question>
+			        <tip>This country has no government.</tip>
+			        <answers>
+			            <answer valid="true">somalia</answer>
+			        </answers>
+			    </exercise>
+  				<exercise questionType="TEXT" answerType="TEXT">
+			        <question>What is the name of Egypt capital</question>
+			        <tip>Name starts on C.</tip>
+			        <answers>
+			            <answer>Johanesburg</answer>
+			            <answer>Capetown</answer>
+			            <answer valid="true">Cairo</answer>
+			            <answer>Lagos</answer>
+			        </answers>
+			    </exercise>
+			    <exercise questionType="TEXT" answerType="IMAGE">
+			        <question>Point RPA flag.</question>
+			        <tip>It contains blue color.</tip>
+			        <answers>
+			            <answer>somalia</answer>
+			            <answer>egypt</answer>
+			            <answer valid="true">rpa</answer>
+			            <answer>burkina_faso</answer>
 			        </answers>
 			    </exercise>
 		    </exercises>
