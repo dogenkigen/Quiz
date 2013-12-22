@@ -16,7 +16,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/exercise_tip_button"
             android:layout_marginTop="@dimen/exercise_tip_button"
-            android:background="@drawable/button_image"
+            android:background="@drawable/button_image_tip"
             android:contentDescription="@string/tip"
             android:src="@drawable/tip" />
 
@@ -59,13 +59,13 @@
                 android:id="@+id/imgButtonAns0"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image" />
+                android:background="@drawable/button_image_answer" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns1"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image" />
+                android:background="@drawable/button_image_answer" />
         </TableRow>
 
         <TableRow
@@ -76,13 +76,13 @@
                 android:id="@+id/imgButtonAns2"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image" />
+                android:background="@drawable/button_image_answer" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns3"
                 android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image" />
+                android:background="@drawable/button_image_answer" />
         </TableRow>
     </TableLayout>
 
