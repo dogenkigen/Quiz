@@ -14,6 +14,12 @@ import com.mlaskows.quiz.R;
 import com.mlaskows.quiz.model.DatabaseHelper;
 import com.mlaskows.quiz.model.entity.Level;
 
+/**
+ * Data Access Object for entity {@link Level}.
+ * 
+ * @author Maciej Laskowski
+ * 
+ */
 @Singleton
 public class LevelDao extends BaseDaoImpl<Level, Integer> {
 
