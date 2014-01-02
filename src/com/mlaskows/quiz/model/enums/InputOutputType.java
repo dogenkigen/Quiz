@@ -34,7 +34,7 @@ import com.mlaskows.quiz.model.entity.Question;
 public enum InputOutputType {
 
 	/**
-	 * Displayed text.
+	 * Input/Output text type.
 	 */
 	TEXT,
 
@@ -44,7 +44,7 @@ public enum InputOutputType {
 	TEXT_FIELD,
 
 	/**
-	 * Image.
+	 * Input/Output image type.
 	 */
 	IMAGE
 }
