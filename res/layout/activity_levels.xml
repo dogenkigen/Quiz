@@ -10,24 +10,24 @@
 
     <FrameLayout
         android:id="@+id/placeholder_left"
-        android:layout_width="fill_parent"
+		android:layout_width="0px"
         android:layout_height="1dip"
         android:layout_weight="1" >
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
         android:orientation="vertical" >
 
         <ListView
             android:id="@+id/listLevels"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            
             android:listSelector="@android:color/transparent"
             android:divider="@android:color/transparent"
             android:dividerHeight="10sp" >
@@ -36,7 +36,7 @@
 
     <FrameLayout
         android:id="@+id/placeholder_right"
-        android:layout_width="fill_parent"
+        android:layout_width="0px"
         android:layout_height="1dip"
         android:layout_weight="1" >
     </FrameLayout>

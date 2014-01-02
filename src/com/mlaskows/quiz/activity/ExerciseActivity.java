@@ -34,8 +34,11 @@ import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,6 +63,7 @@ import com.mlaskows.quiz.model.entity.Level;
 import com.mlaskows.quiz.model.entity.Question;
 import com.mlaskows.quiz.model.entity.Scoring;
 import com.mlaskows.quiz.model.enums.InputOutputType;
+import com.mlaskows.quiz.utility.ImageUtility;
 
 /**
  * This Activity displays exercise with {@link Question} and
@@ -106,6 +110,9 @@ public class ExerciseActivity extends RoboActivity {
 	@InjectView(R.id.imgButtonTip)
 	private ImageButton imgButtonTip;
 
+	/** Device display. */
+	private Display display;
+
 	/** Application name. */
 	@InjectResource(R.string.app_name)
 	private String applicationName;
@@ -133,6 +140,7 @@ public class ExerciseActivity extends RoboActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_exercise);
+		display = getWindowManager().getDefaultDisplay();
 		initButtons();
 
 		// Get levelId from Bundle
@@ -180,6 +188,7 @@ public class ExerciseActivity extends RoboActivity {
 	 * @param type
 	 *            type of question
 	 */
+	@SuppressWarnings("deprecation")
 	private void displayQuestion(Question question, InputOutputType type) {
 		if (InputOutputType.TEXT.equals(type)) {
 			// Text type question
@@ -192,7 +201,11 @@ public class ExerciseActivity extends RoboActivity {
 			iv.setVisibility(View.VISIBLE);
 			try {
 				Field field = R.drawable.class.getField(question.getValue());
-				iv.setImageResource(field.getInt(null));
+				Drawable drawable = getResources().getDrawable(field.getInt(null));
+				TypedValue typedValue = new TypedValue();
+				getResources().getValue(R.dimen.exercise_question_image_scale_factor, typedValue, true);
+				iv.setImageDrawable(ImageUtility.resizeDrawable(drawable, display.getHeight() * display.getWidth()
+						* typedValue.getFloat()));
 			} catch (Exception e) {
 				// Pass this exception
 				throw new RuntimeException(e);
@@ -222,7 +235,11 @@ public class ExerciseActivity extends RoboActivity {
 				Field field = R.id.class.getField("imgButtonAns" + i);
 				ImageButton imageButton = (ImageButton) findViewById(field.getInt(null));
 				field = R.drawable.class.getField(answeList.get(i).getValue());
-				imageButton.setImageResource(field.getInt(null));
+				Drawable drawable = getResources().getDrawable(field.getInt(null));
+				TypedValue typedValue = new TypedValue();
+				getResources().getValue(R.dimen.exercise_answer_image_scale_factor, typedValue, true);
+				imageButton.setImageDrawable(ImageUtility.resizeDrawable(drawable,
+						display.getHeight() * display.getWidth() * typedValue.getFloat()));
 				imageButton.setOnTouchListener(new AnswerListener());
 				answerViews.put(imageButton, answeList.get(i).getValue());
 			}

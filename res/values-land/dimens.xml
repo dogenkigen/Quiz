@@ -1,4 +1,5 @@
 <resources>
 	<dimen name="exercise_question_image_margin_top">30dp</dimen>
 	<dimen name="exercise_question_text_margin_top">45dp</dimen>
+	<dimen name="exercise_answer_buttons_table_margin">80dp</dimen>
 </resources>

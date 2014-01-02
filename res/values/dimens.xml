@@ -10,8 +10,12 @@
     <dimen name="exercise_navigation_buttons_margin">50dp</dimen>
     <dimen name="exercise_tip_button">30dp</dimen>
     <dimen name="exercise_answer_buttons_margin">15dp</dimen>
+    <dimen name="exercise_answer_buttons_table_margin">0dp</dimen>
     <dimen name="score_font_size">34sp</dimen>
     <dimen name="exercise_tip_button_margin">30dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <item name="exercise_question_image_scale_factor" format="float" type="dimen">0.0000017</item>
+    <item name="exercise_answer_image_scale_factor" format="float" type="dimen">0.0000017</item>
+    
 </resources>
