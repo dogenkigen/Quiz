@@ -23,28 +23,28 @@
 package com.mlaskows.quiz.model.enums;
 
 import com.mlaskows.quiz.model.entity.Answer;
-import com.mlaskows.quiz.model.entity.Question;
 
 /**
- * Type of {@link Question} or {@link Answer}.
+ * Type of {@link Answer}.
  * 
  * @author Maciej Laskowski
  * 
  */
-public enum InputOutputType {
+public enum AnswerType {
 
 	/**
-	 * Input/Output text type.
+	 * Text type.
 	 */
 	TEXT,
 
 	/**
-	 * Input text field. For {@link Answer} only.
+	 * Image type.
 	 */
-	TEXT_FIELD,
+	IMAGE,
 
 	/**
-	 * Input/Output image type.
+	 * Input text field.
 	 */
-	IMAGE
+	TEXT_FIELD
+
 }

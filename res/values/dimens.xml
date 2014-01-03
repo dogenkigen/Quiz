@@ -5,8 +5,9 @@
     <dimen name="button_radius">10dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="exercise_question_font_size">36sp</dimen>
-    <dimen name="exercise_question_image_margin_top">100dp</dimen>
-    <dimen name="exercise_question_text_margin_top">150dp</dimen>
+    <dimen name="exercise_question_margin_top">100dp</dimen>
+    <!-- <dimen name="exercise_question_text_margin_top">150dp</dimen> -->
+    <dimen name="exercise_question_image_margin_top">60dp</dimen>
     <dimen name="exercise_navigation_buttons_margin">50dp</dimen>
     <dimen name="exercise_tip_button">30dp</dimen>
     <dimen name="exercise_answer_buttons_margin">15dp</dimen>

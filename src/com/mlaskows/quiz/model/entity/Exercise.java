@@ -33,7 +33,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.mlaskows.quiz.model.dao.ExerciseDao;
-import com.mlaskows.quiz.model.enums.InputOutputType;
+import com.mlaskows.quiz.model.enums.AnswerType;
+import com.mlaskows.quiz.model.enums.QuestionType;
 
 /**
  * This class represents exercise in quiz. It contains
@@ -71,13 +72,10 @@ public class Exercise {
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = LEVEL_ID_FIELD_NAME)
 	private Level level;
 
-	/**
-	 * Question type (it can be {@link InputOutputType.TEXT}
-	 * or {@link InputOutputType.IMAGE}.
-	 */
+	/** Type of question. */
 	@Attribute(required = true)
 	@DatabaseField(canBeNull = false)
-	private InputOutputType questionType;
+	private QuestionType questionType;
 
 	/** Question element. */
 	@Element
@@ -87,7 +85,7 @@ public class Exercise {
 	/** Type of answer. */
 	@Attribute(required = true)
 	@DatabaseField(canBeNull = false)
-	private InputOutputType answerType;
+	private AnswerType answerType;
 
 	/** Answers list */
 	@ElementList
@@ -134,11 +132,11 @@ public class Exercise {
 		this.level = level;
 	}
 
-	public InputOutputType getQuestionType() {
+	public QuestionType getQuestionType() {
 		return questionType;
 	}
 
-	public void setQuestionType(InputOutputType questionType) {
+	public void setQuestionType(QuestionType questionType) {
 		this.questionType = questionType;
 	}
 
@@ -150,11 +148,11 @@ public class Exercise {
 		this.question = question;
 	}
 
-	public InputOutputType getAnswerType() {
+	public AnswerType getAnswerType() {
 		return answerType;
 	}
 
-	public void setAnswerType(InputOutputType answerType) {
+	public void setAnswerType(AnswerType answerType) {
 		this.answerType = answerType;
 	}
 

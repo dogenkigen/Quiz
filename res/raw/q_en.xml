@@ -3,8 +3,11 @@
 	    <level id="1" name="Europe">
 	        <scoring usingTip="-10" unsuccessfulAttempt="-10">100</scoring>
 		    <exercises>
-			    <exercise questionType="IMAGE" answerType="TEXT">
-			        <question>poland</question>
+			    <exercise questionType="TEXT_AND_IMAGE" answerType="TEXT">
+			        <question>
+						<image>poland</image>
+						<text>Which country is the flag</text>
+					</question>
 			        <tip>Country in central Europe...</tip>
 			        <answers>
 			            <answer valid="true">Poland</answer>
@@ -14,14 +17,18 @@
 			        </answers>
 			    </exercise>
 			    <exercise questionType="TEXT" answerType="TEXT_FIELD">
-			        <question>What is the name of Luxembourg capital?</question>
+			        <question>
+			            <text>What is the name of Luxembourg capital?</text>
+			        </question>
 			        <tip>Think!</tip>
 			        <answers>
 			            <answer valid="true">luxembourg</answer>
 			        </answers>
 			    </exercise>
 			    <exercise questionType="TEXT" answerType="IMAGE">
-			        <question>Point German flag.</question>
+			        <question>
+			            <text>Point German flag.</text>
+			        </question>
 			        <tip>Three colors...</tip>
 			        <answers>
 			            <answer>spain</answer>
@@ -36,14 +43,18 @@
 		    <scoring usingTip="-20" unsuccessfulAttempt="-20">200</scoring>
 		    <exercises>
 			    <exercise questionType="IMAGE" answerType="TEXT_FIELD">
-			        <question>india</question>
+			        <question>
+			            <image>india</image>
+			        </question>
 			        <tip>The second-most populous country in thw world.</tip>
 			        <answers>
 			            <answer valid="true">india</answer>
 			        </answers>
 			    </exercise>
   				<exercise questionType="TEXT" answerType="TEXT">
-			        <question>What is the name of China capital</question>
+			        <question>
+			            <text>What is the name of China capital</text>
+			        </question>
 			        <tip>Name starts on B.</tip>
 			        <answers>
 			            <answer>Tokio</answer>
@@ -53,7 +64,9 @@
 			        </answers>
 			    </exercise>
 			    <exercise questionType="TEXT" answerType="IMAGE">
-			        <question>Point Uzbekistan flag.</question>
+			        <question>
+			            <text>Point Uzbekistan flag.</text>
+			        </question>
 			        <tip>It contains blue color.</tip>
 			        <answers>
 			            <answer valid="true">uzbekistan</answer>
@@ -68,14 +81,18 @@
 		    <scoring usingTip="-30" unsuccessfulAttempt="-30">300</scoring>
 		    <exercises>
 			    <exercise questionType="IMAGE" answerType="TEXT_FIELD">
-			        <question>somalia</question>
+			        <question>
+			            <image>somalia</image>
+			        </question>
 			        <tip>This country has no government.</tip>
 			        <answers>
 			            <answer valid="true">somalia</answer>
 			        </answers>
 			    </exercise>
   				<exercise questionType="TEXT" answerType="TEXT">
-			        <question>What is the name of Egypt capital</question>
+			        <question>
+			            <text>What is the name of Egypt capital</text>
+			        </question>
 			        <tip>Name starts on C.</tip>
 			        <answers>
 			            <answer>Johanesburg</answer>
@@ -85,7 +102,9 @@
 			        </answers>
 			    </exercise>
 			    <exercise questionType="TEXT" answerType="IMAGE">
-			        <question>Point RPA flag.</question>
+			        <question>
+			            <text>Point RPA flag.</text>
+			        </question>
 			        <tip>It contains blue color.</tip>
 			        <answers>
 			            <answer>somalia</answer>

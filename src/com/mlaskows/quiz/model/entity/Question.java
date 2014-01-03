@@ -22,8 +22,8 @@
 
 package com.mlaskows.quiz.model.entity;
 
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
-import org.simpleframework.xml.Text;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -44,10 +44,15 @@ public class Question {
 	@DatabaseField(generatedId = true)
 	private int id;
 
-	/** Question value. */
-	@Text(required = true)
-	@DatabaseField(canBeNull = false)
-	private String value;
+	/** Question image. */
+	@Element(required = false)
+	@DatabaseField
+	private String image;
+
+	/** Question text. */
+	@Element(required = false)
+	@DatabaseField
+	private String text;
 
 	public int getId() {
 		return id;
@@ -57,17 +62,25 @@ public class Question {
 		this.id = id;
 	}
 
-	public String getValue() {
-		return value;
+	public String getImage() {
+		return image;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	@Override
 	public String toString() {
-		return "Question [id=" + id + ", value=" + value + "]";
+		return "Question [id=" + id + ", image=" + image + ", text=" + text + "]";
 	}
 
 }

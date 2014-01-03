@@ -20,30 +20,35 @@
             android:contentDescription="@string/tip"
             android:src="@drawable/tip" />
 
-        <TextView
-            android:id="@+id/textQuestion"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/exercise_question_text_margin_top"
-            android:gravity="center"
-            android:text="@string/question"
-            android:textSize="@dimen/exercise_question_font_size"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/imageQuestion"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/exercise_question_image_margin_top"
-            android:contentDescription="@string/question_image"
-            android:src="@android:drawable/alert_dark_frame"
-            android:visibility="gone" />
+            android:layout_marginTop="@dimen/exercise_question_margin_top" >
+
+            <TextView
+                android:id="@+id/textQuestion"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="@string/question"
+                android:textSize="@dimen/exercise_question_font_size"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/imageQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:contentDescription="@string/question_image"
+                android:layout_marginTop="@dimen/exercise_question_image_margin_top"
+                android:src="@android:drawable/alert_dark_frame"
+                android:visibility="gone" />
+        </RelativeLayout>
     </RelativeLayout>
 
-<TableLayout
+    <TableLayout
         android:id="@+id/tableAnswerImageB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,15 +64,15 @@
 
             <ImageButton
                 android:id="@+id/imgButtonAns0"
-                android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns1"
-                android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
         </TableRow>
 
         <TableRow
@@ -76,15 +81,15 @@
 
             <ImageButton
                 android:id="@+id/imgButtonAns2"
-                android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
 
             <ImageButton
                 android:id="@+id/imgButtonAns3"
-                android:contentDescription="@string/answer"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer" />
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
         </TableRow>
     </TableLayout>
 
@@ -102,14 +107,14 @@
 
             <Button
                 android:id="@+id/txtButtonAns0"
-                android:background="@drawable/button_main"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_main"
                 android:text="@string/answer" />
 
             <Button
                 android:id="@+id/txtButtonAns1"
-                android:background="@drawable/button_main"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_main"
                 android:text="@string/answer" />
         </TableRow>
 
@@ -119,14 +124,14 @@
 
             <Button
                 android:id="@+id/txtButtonAns2"
-                android:background="@drawable/button_main"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_main"
                 android:text="@string/answer" />
 
             <Button
                 android:id="@+id/txtButtonAns3"
-                android:background="@drawable/button_main"
                 android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:background="@drawable/button_main"
                 android:text="@string/answer" />
         </TableRow>
     </TableLayout>
@@ -140,8 +145,7 @@
         android:layout_marginBottom="@dimen/exercise_navigation_buttons_margin"
         android:layout_marginLeft="@dimen/exercise_navigation_buttons_margin"
         android:background="@drawable/button_main"
-        android:text="@string/back"
-        />
+        android:text="@string/back" />
 
     <Button
         android:id="@+id/buttonNext"
@@ -152,8 +156,7 @@
         android:layout_marginBottom="@dimen/exercise_navigation_buttons_margin"
         android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
         android:background="@drawable/button_main"
-        android:text="@string/next"
-         />
+        android:text="@string/next" />
 
     <EditText
         android:id="@+id/inputAnswer"

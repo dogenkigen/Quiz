@@ -62,7 +62,8 @@ import com.mlaskows.quiz.model.entity.Exercise;
 import com.mlaskows.quiz.model.entity.Level;
 import com.mlaskows.quiz.model.entity.Question;
 import com.mlaskows.quiz.model.entity.Scoring;
-import com.mlaskows.quiz.model.enums.InputOutputType;
+import com.mlaskows.quiz.model.enums.AnswerType;
+import com.mlaskows.quiz.model.enums.QuestionType;
 import com.mlaskows.quiz.utility.ImageUtility;
 
 /**
@@ -188,29 +189,56 @@ public class ExerciseActivity extends RoboActivity {
 	 * @param type
 	 *            type of question
 	 */
-	@SuppressWarnings("deprecation")
-	private void displayQuestion(Question question, InputOutputType type) {
-		if (InputOutputType.TEXT.equals(type)) {
-			// Text type question
-			TextView tv = (TextView) findViewById(R.id.textQuestion);
-			tv.setVisibility(View.VISIBLE);
-			tv.setText(question.getValue());
-		} else if (InputOutputType.IMAGE.equals(type)) {
-			// Image type question
-			ImageView iv = (ImageView) findViewById(R.id.imageQuestion);
-			iv.setVisibility(View.VISIBLE);
-			try {
-				Field field = R.drawable.class.getField(question.getValue());
-				Drawable drawable = getResources().getDrawable(field.getInt(null));
-				TypedValue typedValue = new TypedValue();
-				getResources().getValue(R.dimen.exercise_question_image_scale_factor, typedValue, true);
-				iv.setImageDrawable(ImageUtility.resizeDrawable(drawable, display.getHeight() * display.getWidth()
-						* typedValue.getFloat()));
-			} catch (Exception e) {
-				// Pass this exception
-				throw new RuntimeException(e);
-			}
+	private void displayQuestion(Question question, QuestionType type) {
+		switch (type) {
+		case IMAGE:
+			displayQuestionImage(question.getImage());
+			break;
+		case TEXT:
+			displayQuestionText(question.getText());
+			break;
+		case TEXT_AND_IMAGE:
+			displayQuestionImage(question.getImage());
+			displayQuestionText(question.getText());
+			break;
+		default:
+			return;
 		}
+	}
+
+	/**
+	 * Displays image for question.
+	 * 
+	 * @param image
+	 *            path to image
+	 */
+	@SuppressWarnings("deprecation")
+	private void displayQuestionImage(String image) {
+		ImageView iv = (ImageView) findViewById(R.id.imageQuestion);
+		iv.setVisibility(View.VISIBLE);
+		try {
+			Field field = R.drawable.class.getField(image);
+			Drawable drawable = getResources().getDrawable(field.getInt(null));
+			TypedValue typedValue = new TypedValue();
+			getResources().getValue(R.dimen.exercise_question_image_scale_factor, typedValue, true);
+			iv.setImageDrawable(ImageUtility.resizeDrawable(drawable, display.getHeight() * display.getWidth()
+					* typedValue.getFloat()));
+		} catch (Exception e) {
+			// Pass this exception
+			throw new RuntimeException(e);
+		}
+	}
+
+	/**
+	 * Displays text for question.
+	 * 
+	 * @param text
+	 *            question text content
+	 */
+	private void displayQuestionText(String text) {
+		TextView tv = (TextView) findViewById(R.id.textQuestion);
+		tv.setVisibility(View.VISIBLE);
+		tv.setText(text);
 	}
 
 	/**
@@ -224,7 +252,8 @@ public class ExerciseActivity extends RoboActivity {
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
 	 */
-	private void displayAnswers(Collection<Answer> answers, InputOutputType type) throws NoSuchFieldException,
+	@SuppressWarnings("deprecation")
+	private void displayAnswers(Collection<Answer> answers, AnswerType type) throws NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
 		View view = null;
 		List<Answer> answeList = new ArrayList<Answer>(answers);
@@ -271,7 +300,7 @@ public class ExerciseActivity extends RoboActivity {
 	 */
 	private boolean validateAnswer() {
 		String ansString = null;
-		if (InputOutputType.TEXT_FIELD.equals(exercise.getAnswerType())) {
+		if (AnswerType.TEXT_FIELD.equals(exercise.getAnswerType())) {
 			ansString = ((EditText) findViewById(R.id.inputAnswer)).getText().toString();
 		} else {
 			View pressedButton = getPressedButton();
@@ -325,10 +354,10 @@ public class ExerciseActivity extends RoboActivity {
 					level.setScore(scoring.getValue());
 					lvlDao.update(level);
 
-				} else if (!(((InputOutputType.TEXT.equals(exercise.getAnswerType()) || InputOutputType.IMAGE
-						.equals(exercise.getAnswerType())) && getPressedButton() == null) || (InputOutputType.TEXT_FIELD
-						.equals(exercise.getAnswerType()) && "".equals(((EditText) findViewById(R.id.inputAnswer))
-						.getText().toString())))) {
+				} else if (!(((AnswerType.TEXT.equals(exercise.getAnswerType()) || AnswerType.IMAGE.equals(exercise
+						.getAnswerType())) && getPressedButton() == null) || (AnswerType.TEXT_FIELD.equals(exercise
+						.getAnswerType()) && ""
+						.equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString())))) {
 					/*
 					 * Above if statement is evaluated, when answer
 					 * validation returned false. This statement 
