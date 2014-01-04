@@ -3,5 +3,5 @@
     <color name="app_background">#FFFFFF</color>
     <color name="button_normal">#9cba3f</color><!-- #ABABAB -->
     <color name="button_pressed">#c1dc6e</color><!-- #d1d6da -->
-    <color name="button_image_pressed">#a1e86d</color>
+    <color name="button_image_pressed">#c1dc6e</color><!-- #a1e86d -->
 </resources>
