@@ -24,4 +24,7 @@
     <string name="title_activity_score">ScoreActivity</string>
     <string name="wrong_answer">Wrong answer!</string>
 
+    <!-- Do not change during translation -->
+    <string name="exercise_answers_buttons_weight">6</string>
+
 </resources>

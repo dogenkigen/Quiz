@@ -1,12 +1,50 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
     tools:context=".ExerciseActivity" >
+
+    <!-- android:background="@color/black" -->
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_weight="10" >
+
+        <!-- android:background="@color/red" -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/imageQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/question_image"
+                    android:src="@android:drawable/alert_dark_frame"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/question"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/imgButtonTip"
@@ -14,164 +52,230 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/exercise_tip_button"
-            android:layout_marginTop="@dimen/exercise_tip_button"
             android:background="@drawable/button_image_tip"
             android:contentDescription="@string/tip"
             android:src="@drawable/tip" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/exercise_question_margin_top" >
-
-            <TextView
-                android:id="@+id/textQuestion"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:gravity="center"
-                android:text="@string/question"
-                android:textSize="@dimen/exercise_question_font_size"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/imageQuestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:contentDescription="@string/question_image"
-                android:layout_marginTop="@dimen/exercise_question_image_margin_top"
-                android:src="@android:drawable/alert_dark_frame"
-                android:visibility="gone" />
-        </RelativeLayout>
     </RelativeLayout>
 
-    <TableLayout
-        android:id="@+id/tableAnswerImageB"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/layoutInputAnswer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/exercise_answer_buttons_table_margin"
-        android:layout_marginRight="@dimen/exercise_answer_buttons_table_margin"
-        android:stretchColumns="*"
+        android:layout_weight="8"
         android:visibility="gone" >
 
-        <TableRow
+        <EditText
+            android:id="@+id/inputAnswer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <ImageButton
-                android:id="@+id/imgButtonAns0"
-                android:padding="@dimen/exercise_answer_image_buttons_padding"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer"
-                android:contentDescription="@string/answer" />
-
-            <ImageButton
-                android:id="@+id/imgButtonAns1"
-                android:padding="@dimen/exercise_answer_image_buttons_padding"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer"
-                android:contentDescription="@string/answer" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <ImageButton
-                android:id="@+id/imgButtonAns2"
-                android:padding="@dimen/exercise_answer_image_buttons_padding"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer"
-                android:contentDescription="@string/answer" />
-
-            <ImageButton
-                android:id="@+id/imgButtonAns3"
-                android:padding="@dimen/exercise_answer_image_buttons_padding"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
-                android:background="@drawable/button_image_answer"
-                android:contentDescription="@string/answer" />
-        </TableRow>
-    </TableLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ems="10" />
+    </RelativeLayout>
 
     <TableLayout
         android:id="@+id/tableAnswerTextB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:stretchColumns="*"
+        android:layout_weight="@string/exercise_answers_buttons_weight"
         android:visibility="gone" >
+
+        <!-- android:background="@color/blue" -->
 
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:color/transparent" >
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/txtButtonAns0"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="44"
                 android:background="@drawable/button_main"
                 android:text="@string/answer" />
 
+            <RelativeLayout
+                android:id="@+id/placeholder1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:background="@android:color/transparent" >
+            </RelativeLayout>
+
             <Button
                 android:id="@+id/txtButtonAns1"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="44"
                 android:background="@drawable/button_main"
                 android:text="@string/answer" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:color/transparent" >
+            </RelativeLayout>
         </TableRow>
 
         <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:color/transparent" >
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/txtButtonAns2"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="44"
                 android:background="@drawable/button_main"
                 android:text="@string/answer" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                android:background="@android:color/transparent" >
+            </RelativeLayout>
 
             <Button
                 android:id="@+id/txtButtonAns3"
-                android:layout_margin="@dimen/exercise_answer_buttons_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="44"
                 android:background="@drawable/button_main"
                 android:text="@string/answer" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@android:color/transparent" >
+            </RelativeLayout>
         </TableRow>
     </TableLayout>
 
-    <Button
-        android:id="@+id/buttonBack"
-        android:layout_width="wrap_content"
+    <TableLayout
+        android:id="@+id/tableAnswerImageB"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="@dimen/exercise_navigation_buttons_margin"
-        android:layout_marginLeft="@dimen/exercise_navigation_buttons_margin"
-        android:background="@drawable/button_main"
-        android:text="@string/back" />
-
-    <Button
-        android:id="@+id/buttonNext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/exercise_navigation_buttons_margin"
-        android:layout_marginRight="@dimen/exercise_navigation_buttons_margin"
-        android:background="@drawable/button_main"
-        android:text="@string/next" />
-
-    <EditText
-        android:id="@+id/inputAnswer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:ems="15"
+        android:layout_weight="@string/exercise_answers_buttons_weight"
         android:visibility="gone" >
 
-        <!-- <requestFocus /> -->
-    </EditText>
+        <!-- android:background="@color/blue" -->
 
-</RelativeLayout>
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical" >
+
+            <ImageButton
+                android:id="@+id/imgButtonAns0"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
+
+            <ImageButton
+                android:id="@+id/imgButtonAns1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical" >
+
+            <ImageButton
+                android:id="@+id/imgButtonAns2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
+
+            <ImageButton
+                android:id="@+id/imgButtonAns3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_image_answer"
+                android:contentDescription="@string/answer" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:baselineAligned="false" >
+
+        <!-- android:background="@color/green" -->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/buttonBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_main"
+                android:text="@string/back" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ads"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical" >
+        </LinearLayout>
+        <!-- android:background="@color/black" -->
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/buttonNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/button_main"
+                android:text="@string/next" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

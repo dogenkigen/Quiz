@@ -1,7 +1,14 @@
 <resources>
+
     <color name="black_overlay">#66000000</color>
     <color name="app_background">#FFFFFF</color>
-    <color name="button_normal">#9cba3f</color><!-- #ABABAB -->
-    <color name="button_pressed">#c1dc6e</color><!-- #d1d6da -->
-    <color name="button_image_pressed">#c1dc6e</color><!-- #a1e86d -->
+    <color name="button_normal">#9cba3f</color> <!-- #ABABAB -->
+    <color name="button_pressed">#c1dc6e</color> <!-- #d1d6da -->
+    <color name="button_image_pressed">#c1dc6e</color> <!-- #a1e86d -->
+
+    <color name="red">#ff0404</color>
+    <color name="green">#0cff00</color>
+    <color name="blue">#0030ff</color>
+    <color name="black">#000000</color>
+
 </resources>

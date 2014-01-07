@@ -284,7 +284,7 @@ public class ExerciseActivity extends RoboActivity {
 			}
 			break;
 		case TEXT_FIELD:
-			view = findViewById(R.id.inputAnswer);
+			view = findViewById(R.id.layoutInputAnswer);
 			break;
 		default:
 			return;
