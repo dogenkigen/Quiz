@@ -39,17 +39,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
@@ -107,6 +110,10 @@ public class ExerciseActivity extends RoboActivity {
 	@InjectView(R.id.buttonBack)
 	private Button buttonBack;
 
+	/** Answer input field. */
+	@InjectView(R.id.inputAnswer)
+	private EditText inputAnswer;
+
 	/** Tip button */
 	@InjectView(R.id.imgButtonTip)
 	private ImageButton imgButtonTip;
@@ -156,6 +163,7 @@ public class ExerciseActivity extends RoboActivity {
 			// This level is solved. Show score.
 			Bundle bundle = new Bundle();
 			bundle.putInt("score", level.getScore());
+			bundle.putInt("level_id", level.getId());
 			Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
 			intent.putExtras(bundle);
 			startActivity(intent);
@@ -338,6 +346,38 @@ public class ExerciseActivity extends RoboActivity {
 	}
 
 	/**
+	 * Try to go to next exercise.
+	 */
+	private void tryGoNext() {
+		if (validateAnswer()) {
+			// Correct answer
+			exercise.setSolved(true);
+			exerciseDao.update(exercise);
+			level.setScore(scoring.getValue());
+			lvlDao.update(level);
+
+		} else if (!(((AnswerType.TEXT.equals(exercise.getAnswerType()) || AnswerType.IMAGE.equals(exercise
+				.getAnswerType())) && getPressedButton() == null) || (AnswerType.TEXT_FIELD.equals(exercise
+				.getAnswerType()) && "".equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString())))) {
+			/*
+			 * Above if statement is evaluated, when answer
+			 * validation returned false. This statement 
+			 * checks if there is "no answer" situation. 
+			 * If not, wrong answer was given.
+			 */
+			// FIXME don't update scoring! update exercise
+			scoring.setValue(scoring.getValue() + scoring.getUnsuccessfulAttempt());
+			scoringDao.update(scoring);
+			Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wrong_answer), Toast.LENGTH_SHORT);
+			toast.show();
+			return;
+		}
+		final Bundle bundle = new Bundle();
+		bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
+		openExerciseActivity(bundle);
+	}
+
+	/**
 	 * Initialize buttons.
 	 */
 	private void initButtons() {
@@ -346,34 +386,7 @@ public class ExerciseActivity extends RoboActivity {
 
 			@Override
 			public void onClick(View v) {
-
-				if (validateAnswer()) {
-					// Correct answer
-					exercise.setSolved(true);
-					exerciseDao.update(exercise);
-					level.setScore(scoring.getValue());
-					lvlDao.update(level);
-
-				} else if (!(((AnswerType.TEXT.equals(exercise.getAnswerType()) || AnswerType.IMAGE.equals(exercise
-						.getAnswerType())) && getPressedButton() == null) || (AnswerType.TEXT_FIELD.equals(exercise
-						.getAnswerType()) && ""
-						.equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString())))) {
-					/*
-					 * Above if statement is evaluated, when answer
-					 * validation returned false. This statement 
-					 * checks if there is "no answer" situation. 
-					 * If not, wrong answer was given.
-					 */
-					scoring.setValue(scoring.getValue() + scoring.getUnsuccessfulAttempt());
-					scoringDao.update(scoring);
-					Toast toast = Toast.makeText(getApplicationContext(), getString(R.string.wrong_answer),
-							Toast.LENGTH_SHORT);
-					toast.show();
-					return;
-				}
-				final Bundle bundle = new Bundle();
-				bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
-				openExerciseActivity(bundle);
+				tryGoNext();
 			}
 		});
 
@@ -389,6 +402,22 @@ public class ExerciseActivity extends RoboActivity {
 			}
 
 		});
+
+		/*
+		 * Next button in soft keyboard while
+		 * editing answer input text. 
+		 */
+		inputAnswer.setOnEditorActionListener(new OnEditorActionListener() {
+
+				@Override
+				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+					if (actionId == EditorInfo.IME_ACTION_NEXT) {
+						tryGoNext();
+						return true;
+					}
+					return false;
+				}
+			});
 
 		// Display tip
 		imgButtonTip.setOnClickListener(new OnClickListener() {
@@ -413,13 +442,6 @@ public class ExerciseActivity extends RoboActivity {
 	 */
 	@Override
 	public void onBackPressed() {
-		openLevelsActivity();
-	}
-
-	/**
-	 * Opens {@link LevelsActivity} screen.
-	 */
-	private void openLevelsActivity() {
 		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);

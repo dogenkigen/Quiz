@@ -23,13 +23,22 @@
 package com.mlaskows.quiz.activity;
 
 import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
 import com.mlaskows.quiz.R;
+import com.mlaskows.quiz.model.dao.ExerciseDao;
+import com.mlaskows.quiz.model.dao.LevelDao;
+import com.mlaskows.quiz.model.entity.Exercise;
+import com.mlaskows.quiz.model.entity.Level;
 
 /**
  * This Activity displays level score.
@@ -38,6 +47,21 @@ import com.mlaskows.quiz.R;
  * 
  */
 public class ScoreActivity extends RoboActivity {
+
+	/** Reset level button. */
+	@InjectView(R.id.buttonReset)
+	private Button buttonReset;
+
+	/** Level DAO. */
+	@Inject
+	private LevelDao levelDao;
+
+	/** Exercise DAO */
+	@Inject
+	private ExerciseDao exerciseDao;
+
+	/** The level. */
+	private Level level;
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -56,6 +80,8 @@ public class ScoreActivity extends RoboActivity {
 		int score = b.getInt("score");
 		TextView tv = (TextView) findViewById(R.id.scoreText);
 		tv.setText(tv.getText() + "\n" + score);
+		level = levelDao.queryForId(b.getInt("level_id"));
+		initButtons();
 	}
 
 	/* (non-Javadoc)
@@ -66,6 +92,31 @@ public class ScoreActivity extends RoboActivity {
 		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
+	}
+
+	/**
+	 * Initialize buttons.
+	 */
+	private void initButtons() {
+		// Reset level
+		buttonReset.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				level.setScore(0);
+				for (Exercise exercise : level.getExercises()) {
+					exercise.setTipUsed(false);
+					exercise.setSolved(false);
+					exerciseDao.update(exercise);
+				}
+				levelDao.update(level);
+				Bundle bundle = new Bundle();
+				bundle.putInt("level_id", level.getId());
+				Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+		});
 	}
 
 }

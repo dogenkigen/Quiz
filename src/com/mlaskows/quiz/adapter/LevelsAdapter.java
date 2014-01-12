@@ -24,6 +24,7 @@ package com.mlaskows.quiz.adapter;
 
 import java.util.List;
 
+import roboguice.RoboGuice;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -37,8 +38,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
 import com.mlaskows.quiz.R;
 import com.mlaskows.quiz.activity.ExerciseActivity;
+import com.mlaskows.quiz.model.dao.LevelDao;
 import com.mlaskows.quiz.model.entity.Level;
 
 /**
@@ -58,6 +61,10 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 	/** Resource id. */
 	private int resource;
 
+	/** DAO for level. */
+	@Inject
+	private LevelDao levelDao;
+
 	/**
 	 * {@link LevelsAdapter} constructor
 	 * 
@@ -73,6 +80,9 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		this.context = context;
 		this.levels = levels;
 		this.resource = resource;
+		/* Inject manually since only RoboActivity can
+		do it by itself. */
+		RoboGuice.injectMembers(context, this);
 	}
 
 	/* (non-Javadoc)
@@ -85,12 +95,16 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		LevelHolder holder = null;
 
 		// Determine if level should be locked.
-		boolean unlocked = false;
-		if (position < 1) {
-			unlocked = true;
-		} else {
-			if (levels.get(position - 1).getProgress() == 100) {
-				unlocked = true;
+		if (!levels.get(position).isUnlocked()) {
+			if (position < 1) {
+				levels.get(position).setUnlocked(true);
+			} else {
+				if (levels.get(position - 1).getProgress() == 100) {
+					levels.get(position).setUnlocked(true);
+				}
+			}
+			if (levels.get(position).isUnlocked()) {
+				levelDao.update(levels.get(position));
 			}
 		}
 
@@ -105,7 +119,7 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 			// Set custom background for row
 			row.setBackgroundDrawable((getContext().getResources().getDrawable(R.drawable.button_main)));
 			// Set listener
-			row.setOnClickListener(new OnClickRow(position + 1, unlocked));
+			row.setOnClickListener(new OnClickRow(position + 1, levels.get(position).isUnlocked()));
 		} else {
 			holder = (LevelHolder) row.getTag();
 		}
@@ -113,7 +127,7 @@ public class LevelsAdapter extends ArrayAdapter<Level> {
 		// Set level info
 		Level level = levels.get(position);
 		holder.getTxtTitle().setText(level.getName());
-		if (unlocked) {
+		if (levels.get(position).isUnlocked()) {
 			holder.getLocked().setImageResource(R.drawable.open);
 		}
 		holder.getProgressBar().setProgress(level.getProgress());

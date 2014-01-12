@@ -1,15 +1,52 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:baselineAligned="false"
+    android:gravity="center"
+    android:orientation="horizontal"
     tools:context=".ScoreActivity" >
 
-    <TextView
-        android:id="@+id/scoreText"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:textSize="@dimen/score_font_size"
-        android:text="@string/score" />
+    <FrameLayout
+        android:id="@+id/placeholder_left"
+        android:layout_width="0px"
+        android:layout_height="1dip"
+        android:layout_weight="1" >
+    </FrameLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="@string/score"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <Button
+            android:id="@+id/buttonReset"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_marginTop="@dimen/button_margin"
+            android:layout_weight="1"
+            android:background="@drawable/button_main"
+            android:text="@string/reset_level" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/placeholder_right"
+        android:layout_width="0px"
+        android:layout_height="1dip"
+        android:layout_weight="1" >
+    </FrameLayout>
+
+</LinearLayout>

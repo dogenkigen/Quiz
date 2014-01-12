@@ -48,6 +48,8 @@ import com.mlaskows.quiz.model.enums.QuestionType;
 @DatabaseTable(daoClass = ExerciseDao.class)
 public class Exercise {
 
+	// TODO add wrong answers count!
+
 	public static final String LEVEL_ID_FIELD_NAME = "level_id";
 	public static final String QUESTION_ID_FIELD_NAME = "question_id";
 

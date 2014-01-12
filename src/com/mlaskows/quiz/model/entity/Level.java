@@ -75,6 +75,10 @@ public class Level {
 	@DatabaseField
 	private int score;
 
+	/** Is level unlocked. */
+	@DatabaseField(canBeNull = false)
+	private boolean unlocked;
+
 	public int getId() {
 		return id;
 	}
@@ -113,6 +117,14 @@ public class Level {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+
+	public boolean isUnlocked() {
+		return unlocked;
+	}
+
+	public void setUnlocked(boolean unlocked) {
+		this.unlocked = unlocked;
 	}
 
 	/**
@@ -177,7 +189,8 @@ public class Level {
 
 	@Override
 	public String toString() {
-		return "Level [id=" + id + ", name=" + name + ", scoring=" + scoring + ", exercises=" + exercises + "]";
+		return "Level [id=" + id + ", name=" + name + ", scoring=" + scoring + ", exercises=" + exercises
+				+ ", unlocked=" + unlocked + "]";
 	}
 
 }
