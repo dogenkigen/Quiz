@@ -24,6 +24,10 @@
     <string name="title_activity_score">ScoreActivity</string>
     <string name="wrong_answer">Wrong answer!</string>
     <string name="reset_level">Reset level</string>
+    <string name="exit_dialog_header">Exit</string>
+    <string name="exit_dialog_text">Are you sure you want to exit?</string>
+    <string name="positive_ans">Yes</string>
+    <string name="negative_ans">No</string>
 
     <!-- Do not change during translation -->
     <string name="exercise_answers_buttons_weight">6</string>
