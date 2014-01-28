@@ -22,6 +22,10 @@
 
 package com.mlaskows.quiz;
 
+import org.acra.ACRA;
+import org.acra.ReportField;
+import org.acra.annotation.ReportsCrashes;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -31,6 +35,10 @@ import android.content.Context;
  * @author Maciej Laskowski
  * 
  */
+@ReportsCrashes(formKey = "", 
+				mailTo = "mlaskowsk@gmail.com", 
+				customReportContent = { ReportField.ANDROID_VERSION, ReportField.BRAND, ReportField.PHONE_MODEL, ReportField.STACK_TRACE, ReportField.LOGCAT },
+				logcatArguments = {"-t", "1000", "-v", "time"})
 public class QuizApplication extends Application {
 
 	/** Application context. */
@@ -43,6 +51,7 @@ public class QuizApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		QuizApplication.context = getApplicationContext();
+		ACRA.init(this);
 	}
 
 	/**

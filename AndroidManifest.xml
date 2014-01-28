@@ -8,10 +8,12 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name="QuizApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:name="com.mlaskows.quiz.QuizApplication"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
