@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 import android.content.Intent;
@@ -44,8 +43,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,7 +73,7 @@ import com.mlaskows.quiz.utility.ImageUtility;
  * @author Maciej Laskowski
  * 
  */
-public class ExerciseActivity extends RoboActivity {
+public class ExerciseActivity extends FullScreenActivity {
 
 	/** Exercise's level. */
 	private Level level;
@@ -144,9 +141,6 @@ public class ExerciseActivity extends RoboActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Set full screen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_exercise);
 		display = getWindowManager().getDefaultDisplay();
 		initButtons();

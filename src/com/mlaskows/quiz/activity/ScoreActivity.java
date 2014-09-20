@@ -22,14 +22,11 @@
 
 package com.mlaskows.quiz.activity;
 
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -46,47 +43,35 @@ import com.mlaskows.quiz.model.entity.Level;
  * @author Maciej Laskowski
  * 
  */
-public class ScoreActivity extends RoboActivity {
+public class ScoreActivity extends FullScreenActivity {
 
-	/** Reset level button. */
 	@InjectView(R.id.buttonReset)
-	private Button buttonReset;
+	private Button levelResetButton;
 
-	/** Level DAO. */
 	@Inject
 	private LevelDao levelDao;
 
-	/** Exercise DAO */
 	@Inject
 	private ExerciseDao exerciseDao;
 
-	/** The level. */
 	private Level level;
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// Set full screen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_score);
+		displayScore();
+		initButtons();
+	}
 
-		// Display score.
+	private void displayScore() {
 		Bundle b = getIntent().getExtras();
 		int score = b.getInt("score");
 		TextView tv = (TextView) findViewById(R.id.scoreText);
 		tv.setText(tv.getText() + "\n" + score);
 		level = levelDao.queryForId(b.getInt("level_id"));
-		initButtons();
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
@@ -94,12 +79,9 @@ public class ScoreActivity extends RoboActivity {
 		startActivity(intent);
 	}
 
-	/**
-	 * Initialize buttons.
-	 */
 	private void initButtons() {
 		// Reset level
-		buttonReset.setOnClickListener(new OnClickListener() {
+		levelResetButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

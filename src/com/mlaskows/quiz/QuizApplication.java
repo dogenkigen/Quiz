@@ -44,9 +44,6 @@ public class QuizApplication extends Application {
 	/** Application context. */
 	private static Context context;
 
-	/* (non-Javadoc)
-	 * @see android.app.Application#onCreate()
-	 */
 	@Override
 	public void onCreate() {
 		super.onCreate();

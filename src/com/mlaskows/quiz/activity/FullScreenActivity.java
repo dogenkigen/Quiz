@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Maciej Laskowski. All rights reserved.
+ * Copyright (c) 2014, Maciej Laskowski. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -19,53 +19,29 @@
  * Please contact mlaskowsk@gmail.com if you need additional information
  * or have any questions.
  */
-
 package com.mlaskows.quiz.activity;
 
-import java.util.List;
-
-import android.content.Intent;
+import roboguice.activity.RoboActivity;
 import android.os.Bundle;
-import android.widget.ListView;
-
-import com.google.inject.Inject;
-import com.mlaskows.quiz.R;
-import com.mlaskows.quiz.adapter.LevelsAdapter;
-import com.mlaskows.quiz.model.dao.LevelDao;
-import com.mlaskows.quiz.model.entity.Level;
+import android.view.Window;
+import android.view.WindowManager;
 
 /**
- * Activity with levels list.
  * 
  * @author Maciej Laskowski
- * 
+ *
  */
-public class LevelsActivity extends FullScreenActivity {
-
-	/** DAO for Level. */
-	@Inject
-	private LevelDao lvlDao;
-
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
+public class FullScreenActivity extends RoboActivity {
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_levels);
-		List<Level> levels = lvlDao.queryForAll();
-		LevelsAdapter adapter = new LevelsAdapter(this, R.layout.list_item_row, levels);
-		ListView listView = (ListView) findViewById(R.id.listLevels);
-		listView.setAdapter(adapter);
+		setFullScreen();
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
-	@Override
-	public void onBackPressed() {
-		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
+	private void setFullScreen() {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
+
 }

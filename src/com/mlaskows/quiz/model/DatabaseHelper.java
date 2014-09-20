@@ -67,8 +67,7 @@ import com.mlaskows.quiz.model.entity.Scoring;
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-	/** Name of the database file for application */
-	private static final String DATABASE_NAME = "quizes.sqlite";
+	private static final String DATABASE_FILE_NAME = "quizes.sqlite";
 
 	/**
 	 * Any time changes are made to database objects, may
@@ -76,79 +75,41 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	 */
 	private static final int DATABASE_VERSION = 1;
 
-	/** Instance. */
 	private static DatabaseHelper instance = new DatabaseHelper(QuizApplication.getContext());
 
-	/** Application context. */
-	private Context context;
+	private Context applicationContext;
 
-	/** Level DAO */
 	@Inject
 	private LevelDao levelDao;
 
-	/** Exercise DAO */
 	@Inject
 	private ExerciseDao exerciseDao;
 
-	/** Question DAO */
 	@Inject
 	private QuestionDao questionDao;
 
-	/** Answer DAO */
 	@Inject
 	private AnswerDao answerDao;
 
-	/** Scoring DAO */
 	@Inject
 	private ScoringDao scoringDao;
 
-	/** Application name. */
 	@InjectResource(R.string.app_name)
 	private String applicationName;
 
 	public DatabaseHelper(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		this.context = context;
+		super(context, DATABASE_FILE_NAME, null, DATABASE_VERSION);
+		this.applicationContext = context;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase,
-	 * com.j256.ormlite.support.ConnectionSource)
-	 */
 	@Override
 	public void onCreate(SQLiteDatabase db, ConnectionSource cs) {
 		try {
-			// Create DB
-			TableUtils.createTable(cs, Level.class);
-			TableUtils.createTable(cs, Exercise.class);
-			TableUtils.createTable(cs, Question.class);
-			TableUtils.createTable(cs, Answer.class);
-			TableUtils.createTable(cs, Scoring.class);
+			createDataBase(cs);
 			// Inject manually since only RoboActivity can
 			// do it by itself.
-			RoboGuice.injectMembers(context, this);
-
-			/* Load content from XML to database.
-			 * Children first than parents. 
-			 */
-			Quiz quiz = loadXml();
-			for (Level level : quiz.getLevels()) {
-				for (Exercise exercise : level.getExercises()) {
-					exercise.setLevel(level);
-					questionDao.create(exercise.getQuestion());
-					questionDao.refresh(exercise.getQuestion());
-					exerciseDao.create(exercise);
-					for (Answer answer : exercise.getAnswers()) {
-						answer.setExercise(exercise);
-						answerDao.create(answer);
-					}
-				}
-				Scoring scoring = level.getScoring();
-				scoring.setLevel(level);
-				scoringDao.create(scoring);
-				levelDao.create(level);
-			}
+			RoboGuice.injectMembers(applicationContext, this);
+			loadContentToDataBase();
 		} catch (SQLException e) {
 			Log.e(applicationName, "Can't create database!", e);
 			throw new RuntimeException(e);
@@ -160,11 +121,35 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper#onUpgrade(android.database.sqlite.SQLiteDatabase,
-	 * com.j256.ormlite.support.ConnectionSource, int, int)
-	 */
+	private void loadContentToDataBase() throws Exception, java.sql.SQLException {
+		Quiz quiz = new XmlDataLoader(applicationContext).loadXml();
+		// Children first than parents.
+		for (Level level : quiz.getLevels()) {
+			for (Exercise exercise : level.getExercises()) {
+				exercise.setLevel(level);
+				questionDao.create(exercise.getQuestion());
+				questionDao.refresh(exercise.getQuestion());
+				exerciseDao.create(exercise);
+				for (Answer answer : exercise.getAnswers()) {
+					answer.setExercise(exercise);
+					answerDao.create(answer);
+				}
+			}
+			Scoring scoring = level.getScoring();
+			scoring.setLevel(level);
+			scoringDao.create(scoring);
+			levelDao.create(level);
+		}
+	}
+
+	private void createDataBase(ConnectionSource cs) throws java.sql.SQLException {
+		TableUtils.createTable(cs, Level.class);
+		TableUtils.createTable(cs, Exercise.class);
+		TableUtils.createTable(cs, Question.class);
+		TableUtils.createTable(cs, Answer.class);
+		TableUtils.createTable(cs, Scoring.class);
+	}
+
 	@Override
 	public void onUpgrade(SQLiteDatabase db, ConnectionSource cs, int oldVersion, int newVersion) {
 		try {
@@ -194,34 +179,4 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static ConnectionSource getConnectionSrc() {
 		return instance.getConnectionSource();
 	}
-
-	/**
-	 * Loads XML with quiz and returns {@link Quiz} object.
-	 * 
-	 * @return quiz object
-	 * @throws Exception
-	 *             when deserialization fails
-	 */
-	private Quiz loadXml() throws Exception {
-		// Get resources
-		Resources resources = context.getResources();
-		// Determine locale
-		Locale locale = resources.getConfiguration().locale;
-		String code = locale.getLanguage();
-		// Get XML name using reflection
-		Field field = null;
-		String prefix = context.getString(R.string.xml_prefix);
-		try {
-			field = R.raw.class.getField(prefix + code);
-		} catch (NoSuchFieldException e) {
-			// If there is no language available use default
-			field = R.raw.class.getField(prefix + context.getString(R.string.default_language));
-		}
-		// Create InputSream from XML resource
-		InputStream source = resources.openRawResource(field.getInt(null));
-		// Parse XML
-		Serializer serializer = new Persister();
-		return serializer.read(Quiz.class, source);
-	}
-
 }

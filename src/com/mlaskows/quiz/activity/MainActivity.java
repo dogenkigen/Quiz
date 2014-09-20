@@ -22,7 +22,6 @@
 
 package com.mlaskows.quiz.activity;
 
-import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,8 +31,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.mlaskows.quiz.R;
@@ -44,7 +41,7 @@ import com.mlaskows.quiz.R;
  * @author Maciej Laskowski
  * 
  */
-public class MainActivity extends RoboActivity {
+public class MainActivity extends FullScreenActivity {
 
 	/** Start button. */
 	@InjectView(R.id.buttonStart)
@@ -64,9 +61,6 @@ public class MainActivity extends RoboActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Set full screen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_main);
 		initButtons();
 	}
