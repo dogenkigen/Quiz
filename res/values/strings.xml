@@ -32,5 +32,7 @@
     <!-- Do not change during translation -->
     <string name="exercise_answers_buttons_weight">6</string>
     <string name="level_id">level_id</string>
+    <string name="back_pressed">back_pressed</string>
+    <string name="previous_exercise_id">previous_exercise_id</string>
 
 </resources>

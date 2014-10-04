@@ -55,6 +55,8 @@ import android.widget.Toast;
 
 import com.google.inject.Inject;
 import com.mlaskows.quiz.R;
+import com.mlaskows.quiz.activity.util.ActivityStarter;
+import com.mlaskows.quiz.activity.util.BundleBuilder;
 import com.mlaskows.quiz.model.dao.ExerciseDao;
 import com.mlaskows.quiz.model.dao.LevelDao;
 import com.mlaskows.quiz.model.dao.ScoringDao;
@@ -68,8 +70,8 @@ import com.mlaskows.quiz.model.enums.QuestionType;
 import com.mlaskows.quiz.utility.ImageUtility;
 
 /**
- * This Activity displays exercise with {@link Question} and
- * its {@link Answer}s.
+ * This Activity displays exercise with {@link Question} and its {@link Answer}
+ * s.
  * 
  * @author Maciej Laskowski
  * 
@@ -82,7 +84,7 @@ public class ExerciseActivity extends FullScreenActivity {
 
 	/** DAO for Level. */
 	@Inject
-	private LevelDao lvlDao;
+	private LevelDao levelDao;
 
 	/** Displayed exercise. */
 	private Exercise exercise;
@@ -128,18 +130,6 @@ public class ExerciseActivity extends FullScreenActivity {
 	@InjectResource(R.string.error)
 	private String errorString;
 
-	/** Previous exercise id flag. */
-	private static final String PREVIOUS_EXERCISE_ID = "previous_exercise_id";
-
-	/** Level id flag. */
-	private static final String LEVEL_ID = "level_id";
-
-	/** Back pressed flag. */
-	private static final String BACK_PRESSED = "back_pressed";
-
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -148,20 +138,17 @@ public class ExerciseActivity extends FullScreenActivity {
 
 		// Get levelId from Bundle
 		Bundle b = getIntent().getExtras();
-		int levelId = b.getInt(LEVEL_ID);
-		int previousExerciseId = b.getInt(PREVIOUS_EXERCISE_ID);
-		boolean backPressed = b.getBoolean(BACK_PRESSED);
+		int levelId = b.getInt(getString(R.string.level_id));
+		int previousExerciseId = b.getInt(getString(R.string.previous_exercise_id));
+		boolean backPressed = b.getBoolean(getString(R.string.back_pressed));
 
-		level = lvlDao.queryForId(levelId);
+		level = levelDao.queryForId(levelId);
 		exercise = level.getUnsolvedInCycle(previousExerciseId, !backPressed);
 		if (exercise == null) {
 			// This level is solved. Show score.
-			Bundle bundle = new Bundle();
-			bundle.putInt("score", level.getScore());
-			bundle.putInt("level_id", level.getId());
-			Intent intent = new Intent(getApplicationContext(), ScoreActivity.class);
-			intent.putExtras(bundle);
-			startActivity(intent);
+			Bundle bundle = new BundleBuilder().withInteger(getString(R.string.score), level.getScore())
+					.withInteger(getString(R.string.level_id), level.getId()).build();
+			ActivityStarter.start(this, bundle, ScoreActivity.class);
 			return;
 		}
 		scoring = level.getScoring();
@@ -298,8 +285,7 @@ public class ExerciseActivity extends FullScreenActivity {
 	/**
 	 * Checks if selected/typed answer is valid.
 	 * 
-	 * @return <i>true</i> if selected/typed answer is
-	 *         valid.
+	 * @return <i>true</i> if selected/typed answer is valid.
 	 */
 	private boolean validateAnswer() {
 		String ansString = null;
@@ -349,15 +335,14 @@ public class ExerciseActivity extends FullScreenActivity {
 			exercise.setSolved(true);
 			exerciseDao.update(exercise);
 			level.setScore(scoring.getValue());
-			lvlDao.update(level);
+			levelDao.update(level);
 
 		} else if (!(((AnswerType.TEXT.equals(exercise.getAnswerType()) || AnswerType.IMAGE.equals(exercise
 				.getAnswerType())) && getPressedButton() == null) || (AnswerType.TEXT_FIELD.equals(exercise
 				.getAnswerType()) && "".equals(((EditText) findViewById(R.id.inputAnswer)).getText().toString())))) {
 			/*
-			 * Above if statement is evaluated, when answer
-			 * validation returned false. This statement 
-			 * checks if there is "no answer" situation. 
+			 * Above if statement is evaluated, when answer validation returned
+			 * false. This statement checks if there is "no answer" situation.
 			 * If not, wrong answer was given.
 			 */
 			// FIXME don't update scoring! update exercise
@@ -367,9 +352,10 @@ public class ExerciseActivity extends FullScreenActivity {
 			toast.show();
 			return;
 		}
-		final Bundle bundle = new Bundle();
-		bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
-		openExerciseActivity(bundle);
+		final Bundle bundle = new BundleBuilder()
+				.withInteger(getString(R.string.previous_exercise_id), exercise.getId())
+				.withInteger(getString(R.string.level_id), level.getId()).build();
+		ActivityStarter.start(this, bundle, ExerciseActivity.class);
 	}
 
 	/**
@@ -390,29 +376,28 @@ public class ExerciseActivity extends FullScreenActivity {
 
 			@Override
 			public void onClick(View v) {
-				Bundle bundle = new Bundle();
-				bundle.putBoolean(BACK_PRESSED, true);
-				bundle.putInt(PREVIOUS_EXERCISE_ID, exercise.getId());
-				openExerciseActivity(bundle);
+				Bundle bundle = new BundleBuilder().withBoolean(getString(R.string.back_pressed), true)
+						.withInteger(getString(R.string.previous_exercise_id), exercise.getId())
+						.withInteger(getString(R.string.level_id), level.getId()).build();
+				ActivityStarter.start(ExerciseActivity.this, bundle, ExerciseActivity.class);
 			}
 
 		});
 
 		/*
-		 * Next button in soft keyboard while
-		 * editing answer input text. 
+		 * Next button in soft keyboard while editing answer input text.
 		 */
 		inputAnswer.setOnEditorActionListener(new OnEditorActionListener() {
 
-				@Override
-				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-					if (actionId == EditorInfo.IME_ACTION_NEXT) {
-						tryGoNext();
-						return true;
-					}
-					return false;
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					tryGoNext();
+					return true;
 				}
-			});
+				return false;
+			}
+		});
 
 		// Display tip
 		imgButtonTip.setOnClickListener(new OnClickListener() {
@@ -432,40 +417,14 @@ public class ExerciseActivity extends FullScreenActivity {
 		});
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
-	@Override
-	public void onBackPressed() {
-		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
-	}
-
-	/**
-	 * Opens {@link ExerciseActivity} screen.
-	 * 
-	 * @param bundle
-	 *            parameters for new Activity
-	 */
-	private void openExerciseActivity(Bundle bundle) {
-		if (bundle == null) {
-			bundle = new Bundle();
-		}
-		bundle.putInt(LEVEL_ID, level.getId());
-		Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
-		intent.putExtras(bundle);
-		startActivity(intent);
-	}
-
 	/**
 	 * OnTouchListener for answers.
 	 */
 	class AnswerListener implements OnTouchListener {
 		@Override
 		public boolean onTouch(View view, MotionEvent event) {
-			/* If pressed button is already pressed, release it
-			 * and exit.
+			/*
+			 * If pressed button is already pressed, release it and exit.
 			 */
 			if (event.getAction() == MotionEvent.ACTION_DOWN && view.equals(getPressedButton())) {
 				view.setPressed(false);
@@ -473,12 +432,19 @@ public class ExerciseActivity extends FullScreenActivity {
 			} else if (event.getAction() == MotionEvent.ACTION_UP && getPressedButton() == null) {
 				return true;
 			}
-			/* If some answer is already pressed, release it.*/
+			/* If some answer is already pressed, release it. */
 			if (getPressedButton() != null) {
 				getPressedButton().setPressed(false);
 			}
 			view.setPressed(true);
 			return true;
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(getApplicationContext(), LevelsActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 }
