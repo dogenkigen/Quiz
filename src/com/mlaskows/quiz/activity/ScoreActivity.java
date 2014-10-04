@@ -54,16 +54,23 @@ public class ScoreActivity extends FullScreenActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_score);
-		displayScore();
+		Bundle bundle = getIntent().getExtras();
+		setLevel(bundle.getInt(getString(R.string.level_id)));
+		setScoreOnTextView(bundle.getInt("score"));
 		initButtons();
 	}
 
-	private void displayScore() {
-		Bundle b = getIntent().getExtras();
-		int score = b.getInt("score");
+	private void setLevel(Integer levelId) {
+		level = levelDao.queryForId(levelId);
+	}
+
+	private void setScoreOnTextView(int score) {
 		TextView tv = (TextView) findViewById(R.id.scoreText);
 		tv.setText(tv.getText() + "\n" + score);
-		level = levelDao.queryForId(b.getInt("level_id"));
+	}
+
+	private void initButtons() {
+		levelResetButton.setOnClickListener(new LevelResetListener(this, level));
 	}
 
 	@Override
@@ -73,8 +80,5 @@ public class ScoreActivity extends FullScreenActivity {
 		startActivity(intent);
 	}
 
-	private void initButtons() {
-		levelResetButton.setOnClickListener(new LevelResetListener(this, level));
-	}
 
 }

@@ -22,19 +22,12 @@
 
 package com.mlaskows.quiz.model;
 
-import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import roboguice.RoboGuice;
 import roboguice.inject.InjectResource;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
