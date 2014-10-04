@@ -43,21 +43,16 @@ import com.mlaskows.quiz.R;
  */
 public class MainActivity extends FullScreenActivity {
 
-	/** Start button. */
 	@InjectView(R.id.buttonStart)
 	private Button buttonStart;
 
-	/** More games button. */
 	@InjectView(R.id.buttonMoreGames)
 	private Button buttonMoreGames;
 
-	/** Exit button */
 	@InjectView(R.id.buttonExit)
 	private Button buttonExit;
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,9 +60,6 @@ public class MainActivity extends FullScreenActivity {
 		initButtons();
 	}
 
-	/**
-	 * Initialize buttons.
-	 */
 	private void initButtons() {
 		// Start game
 		buttonStart.setOnClickListener(new OnClickListener() {
@@ -102,20 +94,11 @@ public class MainActivity extends FullScreenActivity {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
 	@Override
 	public void onBackPressed() {
-		//finish();
 		createExitDialog().show();
 	}
 
-	/**
-	 * Creates exit dialog element.
-	 * 
-	 * @return exit dialog element
-	 */
 	private Dialog createExitDialog() {
 		return new AlertDialog.Builder(this).setTitle(getString(R.string.exit_dialog_header))
 				.setMessage(getString(R.string.exit_dialog_text))

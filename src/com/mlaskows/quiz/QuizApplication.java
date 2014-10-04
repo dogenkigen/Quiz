@@ -35,13 +35,11 @@ import android.content.Context;
  * @author Maciej Laskowski
  * 
  */
-@ReportsCrashes(formKey = "", 
-				mailTo = "mlaskowsk@gmail.com", 
-				customReportContent = { ReportField.ANDROID_VERSION, ReportField.BRAND, ReportField.PHONE_MODEL, ReportField.STACK_TRACE, ReportField.LOGCAT },
-				logcatArguments = {"-t", "1000", "-v", "time"})
+@ReportsCrashes(formKey = "", mailTo = "mlaskowsk@gmail.com", customReportContent = { ReportField.ANDROID_VERSION,
+		ReportField.BRAND, ReportField.PHONE_MODEL, ReportField.STACK_TRACE, ReportField.LOGCAT }, logcatArguments = {
+		"-t", "1000", "-v", "time" })
 public class QuizApplication extends Application {
 
-	/** Application context. */
 	private static Context context;
 
 	@Override
