@@ -25,16 +25,13 @@ package com.mlaskows.quiz.activity;
 import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.inject.Inject;
 import com.mlaskows.quiz.R;
-import com.mlaskows.quiz.model.dao.ExerciseDao;
+import com.mlaskows.quiz.activity.clicklistener.LevelResetListener;
 import com.mlaskows.quiz.model.dao.LevelDao;
-import com.mlaskows.quiz.model.entity.Exercise;
 import com.mlaskows.quiz.model.entity.Level;
 
 /**
@@ -50,9 +47,6 @@ public class ScoreActivity extends FullScreenActivity {
 
 	@Inject
 	private LevelDao levelDao;
-
-	@Inject
-	private ExerciseDao exerciseDao;
 
 	private Level level;
 
@@ -80,25 +74,7 @@ public class ScoreActivity extends FullScreenActivity {
 	}
 
 	private void initButtons() {
-		// Reset level
-		levelResetButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				level.setScore(0);
-				for (Exercise exercise : level.getExercises()) {
-					exercise.setTipUsed(false);
-					exercise.setSolved(false);
-					exerciseDao.update(exercise);
-				}
-				levelDao.update(level);
-				Bundle bundle = new Bundle();
-				bundle.putInt("level_id", level.getId());
-				Intent intent = new Intent(getApplicationContext(), ExerciseActivity.class);
-				intent.putExtras(bundle);
-				startActivity(intent);
-			}
-		});
+		levelResetButton.setOnClickListener(new LevelResetListener(this, level));
 	}
 
 }

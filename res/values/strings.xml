@@ -31,5 +31,6 @@
 
     <!-- Do not change during translation -->
     <string name="exercise_answers_buttons_weight">6</string>
+    <string name="level_id">level_id</string>
 
 </resources>

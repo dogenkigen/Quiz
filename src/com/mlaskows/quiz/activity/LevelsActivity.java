@@ -42,26 +42,23 @@ import com.mlaskows.quiz.model.entity.Level;
  */
 public class LevelsActivity extends FullScreenActivity {
 
-	/** DAO for Level. */
 	@Inject
 	private LevelDao lvlDao;
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_levels);
+		setUpAdapter();
+	}
+
+	private void setUpAdapter() {
 		List<Level> levels = lvlDao.queryForAll();
 		LevelsAdapter adapter = new LevelsAdapter(this, R.layout.list_item_row, levels);
 		ListView listView = (ListView) findViewById(R.id.listLevels);
 		listView.setAdapter(adapter);
 	}
 
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onBackPressed()
-	 */
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(getApplicationContext(), MainActivity.class);
