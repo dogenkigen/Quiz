@@ -22,6 +22,7 @@
 
 package com.mlaskows.quiz.activity;
 
+import roboguice.inject.ContentView;
 import roboguice.inject.InjectView;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import com.mlaskows.quiz.model.entity.Level;
  * @author Maciej Laskowski
  * 
  */
+@ContentView(R.layout.activity_score)
 public class ScoreActivity extends FullScreenActivity {
 
 	@InjectView(R.id.buttonReset)
@@ -53,10 +55,9 @@ public class ScoreActivity extends FullScreenActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_score);
 		Bundle bundle = getIntent().getExtras();
 		setLevel(bundle.getInt(getString(R.string.level_id)));
-		setScoreOnTextView(bundle.getInt("score"));
+		setScoreOnTextView(bundle.getInt(getString(R.string.score)));
 		initButtons();
 	}
 

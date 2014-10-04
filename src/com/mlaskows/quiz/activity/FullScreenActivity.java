@@ -22,25 +22,21 @@
 package com.mlaskows.quiz.activity;
 
 import roboguice.activity.RoboActivity;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.Window;
 import android.view.WindowManager;
 
 /**
+ * Base {@link Activity} for all full screen Activities in application.
  * 
  * @author Maciej Laskowski
  *
  */
 public class FullScreenActivity extends RoboActivity {
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setFullScreen();
-	}
-
-	private void setFullScreen() {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 	}
 

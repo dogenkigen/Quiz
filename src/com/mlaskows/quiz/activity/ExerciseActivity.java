@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import roboguice.inject.ContentView;
 import roboguice.inject.InjectResource;
 import roboguice.inject.InjectView;
 import android.content.Intent;
@@ -73,6 +74,7 @@ import com.mlaskows.quiz.utility.ImageUtility;
  * @author Maciej Laskowski
  * 
  */
+@ContentView(R.layout.activity_exercise)
 public class ExerciseActivity extends FullScreenActivity {
 
 	/** Exercise's level. */
@@ -141,7 +143,6 @@ public class ExerciseActivity extends FullScreenActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_exercise);
 		display = getWindowManager().getDefaultDisplay();
 		initButtons();
 
